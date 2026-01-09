@@ -463,8 +463,12 @@ class ExecutionEngine:
             launch_args = []
             if disable_private_network_access:
                 launch_args.extend([
-                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
+                    # Disable Private Network Access preflight checks and permission prompt
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults,BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessPermissionPrompt",
                     "--enable-features=PrivateNetworkAccessNonSecureContextsAllowed",
+                    # Additional flags to prevent permission prompts
+                    "--disable-site-isolation-trials",
+                    "--allow-running-insecure-content",
                 ])
                 self._log("[runner] Private Network Access checks disabled")
 
