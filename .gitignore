@@ -37,6 +37,9 @@ artifacts/
 # Environment
 .env
 .env.local
+data/
+ 
+
 
 # Logs
 *.log
