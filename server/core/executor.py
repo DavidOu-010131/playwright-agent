@@ -637,6 +637,8 @@ class ExecutionEngine:
                 launch_options = {
                     **context_options,
                     "args": launch_args if launch_args else None,
+                    "no_viewport": True,  # Behave more like a real browser
+                    "slow_mo": 100,  # Add slight delay between actions
                 }
                 if browser_channel:
                     launch_options["channel"] = browser_channel
