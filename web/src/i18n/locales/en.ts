@@ -54,6 +54,13 @@ export default {
       description: 'Description',
       descriptionPlaceholder: 'Enter project description',
       defaultTimeout: 'Default Timeout (ms)',
+      browserChannel: 'Browser Type',
+      browserChannelDesc: 'Select the browser to use for running tests',
+      browserOptions: {
+        chromium: 'Chromium (Bundled)',
+        chrome: 'Chrome (Local)',
+        msedge: 'Edge (Local)',
+      },
       createDescription: 'Create a new project to organize your tests',
     },
     environments: {

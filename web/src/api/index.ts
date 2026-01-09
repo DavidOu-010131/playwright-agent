@@ -16,6 +16,7 @@ export interface Project {
   name: string;
   description?: string;
   default_timeout: number;
+  browser_channel?: string;
   environments: Environment[];
   created_at: string;
   updated_at: string;
@@ -25,6 +26,7 @@ export interface ProjectCreate {
   name: string;
   description?: string;
   default_timeout?: number;
+  browser_channel?: string;
   environments?: Environment[];
 }
 

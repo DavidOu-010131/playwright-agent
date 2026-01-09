@@ -352,6 +352,7 @@ class ExecutionEngine:
         artifact_root: Optional[Path] = None,
         project_id: Optional[str] = None,
         scenario_id: Optional[str] = None,
+        browser_channel: Optional[str] = None,
     ) -> RunResult:
         ui_map = ui_map or {}
         ui_maps_by_name = ui_maps_by_name or {}
@@ -372,11 +373,17 @@ class ExecutionEngine:
 
         self._log(f"[runner] Starting run {run_id}, goal: {goal}")
         self._log(f"[runner] Steps: {len(steps)}, artifacts -> {artifact_dir}")
+        if browser_channel:
+            self._log(f"[runner] Using browser channel: {browser_channel}")
 
         start_time = asyncio.get_event_loop().time()
 
         async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=not headed)
+            # Launch browser with optional channel (chrome, msedge, or None for bundled Chromium)
+            launch_options = {"headless": not headed}
+            if browser_channel:
+                launch_options["channel"] = browser_channel
+            browser = await p.chromium.launch(**launch_options)
 
             # Configure context with optional video recording
             context_options = {}

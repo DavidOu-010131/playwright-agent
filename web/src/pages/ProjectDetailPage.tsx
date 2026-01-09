@@ -15,6 +15,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -54,17 +61,21 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editTimeout, setEditTimeout] = useState<number>(5000);
+  const [editBrowserChannel, setEditBrowserChannel] = useState<string>('');
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
   const [editingScenarioId, setEditingScenarioId] = useState<string | null>(null);
 
-  // Sync editTimeout with project data
+  // Sync edit states with project data
   useEffect(() => {
     if (project?.default_timeout !== undefined) {
       setEditTimeout(project.default_timeout);
     }
-  }, [project?.default_timeout]);
+    if (project?.browser_channel !== undefined) {
+      setEditBrowserChannel(project.browser_channel || '');
+    }
+  }, [project?.default_timeout, project?.browser_channel]);
 
   if (projectLoading) {
     return (
@@ -418,6 +429,40 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                         });
                       }}
                       disabled={editTimeout === project.default_timeout}
+                    >
+                      <Save className="h-4 w-4 mr-1" />
+                      {t.common.save}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Browser Channel */}
+                <div className="space-y-2">
+                  <Label>{t.project.form.browserChannel}</Label>
+                  <p className="text-sm text-muted-foreground">{t.project.form.browserChannelDesc}</p>
+                  <div className="flex items-center gap-2">
+                    <Select
+                      value={editBrowserChannel || 'chromium'}
+                      onValueChange={(value) => setEditBrowserChannel(value === 'chromium' ? '' : value)}
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder={t.project.form.browserOptions.chromium} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="chromium">{t.project.form.browserOptions.chromium}</SelectItem>
+                        <SelectItem value="chrome">{t.project.form.browserOptions.chrome}</SelectItem>
+                        <SelectItem value="msedge">{t.project.form.browserOptions.msedge}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        updateProject.mutate({
+                          id: projectId,
+                          data: { browser_channel: editBrowserChannel }
+                        });
+                      }}
+                      disabled={editBrowserChannel === (project.browser_channel || '')}
                     >
                       <Save className="h-4 w-4 mr-1" />
                       {t.common.save}

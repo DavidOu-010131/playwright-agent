@@ -54,6 +54,13 @@ export default {
       description: '描述',
       descriptionPlaceholder: '输入项目描述',
       defaultTimeout: '默认超时时间 (ms)',
+      browserChannel: '浏览器类型',
+      browserChannelDesc: '选择执行测试时使用的浏览器',
+      browserOptions: {
+        chromium: 'Chromium (软件包自带)',
+        chrome: 'Chrome (本机安装)',
+        msedge: 'Edge (本机安装)',
+      },
       createDescription: '创建新项目来组织您的测试',
     },
     environments: {

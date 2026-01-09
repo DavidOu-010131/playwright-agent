@@ -18,6 +18,7 @@ DATA_DIR = Path(__file__).parent.parent.parent / "data"
 UI_MAPS_DIR = DATA_DIR / "ui_maps"
 SCENARIOS_DIR = DATA_DIR / "scenarios"
 RUNS_DIR = DATA_DIR / "runs"
+PROJECTS_DIR = DATA_DIR / "projects"
 RUNS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -74,6 +75,15 @@ def _load_scenario(scenario_id: str) -> dict:
     path = SCENARIOS_DIR / f"{scenario_id}.json"
     if not path.exists():
         raise HTTPException(status_code=404, detail=f"Scenario '{scenario_id}' not found")
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _load_project(project_id: str) -> Optional[dict]:
+    """Load project data by ID."""
+    path = PROJECTS_DIR / f"{project_id}.json"
+    if not path.exists():
+        return None
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -195,8 +205,13 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     # Load all UI Maps for the project (keyed by name)
     project_id = scenario.get("project_id")
     ui_maps_by_name = {}
+    browser_channel = None
     if project_id:
         ui_maps_by_name = _load_project_ui_maps(project_id)
+        # Load project to get browser_channel setting
+        project = _load_project(project_id)
+        if project:
+            browser_channel = project.get("browser_channel")
 
     steps = scenario.get("steps", [])
 
@@ -218,6 +233,7 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         record_video=request.record_video,
         project_id=project_id,
         scenario_id=scenario_id,
+        browser_channel=browser_channel,
     )
 
     _save_run(result)
@@ -496,8 +512,13 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
         scenario = _load_scenario(scenario_id)
         project_id = scenario.get("project_id")
         ui_maps_by_name = {}
+        browser_channel = None
         if project_id:
             ui_maps_by_name = _load_project_ui_maps(project_id)
+            # Load project to get browser_channel setting
+            project = _load_project(project_id)
+            if project:
+                browser_channel = project.get("browser_channel")
 
         steps = scenario.get("steps", [])
 
@@ -538,6 +559,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             record_video=record_video,
             project_id=project_id,
             scenario_id=scenario_id,
+            browser_channel=browser_channel,
         )
 
         _save_run(result)
