@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Trash2, ChevronLeft, ChevronUp, ChevronDown, AlertCircle, SkipForward } from 'lucide-react';
+import { Plus, Trash2, ChevronLeft, ChevronUp, ChevronDown, AlertCircle, SkipForward, Pencil, Check, X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useScenario, useUpdateScenario } from '../hooks/useScenario';
 import { useUIMaps } from '../hooks/useUIMap';
@@ -87,6 +87,10 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [editTimeout, setEditTimeout] = useState('');
   const [showEditOptions, setShowEditOptions] = useState(false);
 
+  // Scenario name editing
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editName, setEditName] = useState('');
+
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -151,6 +155,31 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if (!confirm(t.common.deleteConfirm)) return;
     const newSteps = scenario.steps.filter((_, i) => i !== index);
     updateScenario.mutate({ id: scenarioId, data: { steps: newSteps } });
+  };
+
+  const startEditName = () => {
+    setEditName(scenario.name);
+    setIsEditingName(true);
+  };
+
+  const saveEditName = () => {
+    if (!editName.trim() || editName.trim() === scenario.name) {
+      setIsEditingName(false);
+      return;
+    }
+    updateScenario.mutate(
+      { id: scenarioId, data: { name: editName.trim() } },
+      {
+        onSuccess: () => {
+          setIsEditingName(false);
+        },
+      }
+    );
+  };
+
+  const cancelEditName = () => {
+    setIsEditingName(false);
+    setEditName('');
   };
 
   const startEditStep = (index: number, step: Step) => {
@@ -241,7 +270,33 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <div className="flex-1">
-          <h1 className="text-xl font-semibold">{scenario.name}</h1>
+          {isEditingName ? (
+            <div className="flex items-center gap-2">
+              <Input
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="h-8 text-lg font-semibold max-w-xs"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveEditName();
+                  if (e.key === 'Escape') cancelEditName();
+                }}
+              />
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={saveEditName}>
+                <Check className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={cancelEditName}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-semibold">{scenario.name}</h1>
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={startEditName}>
+                <Pencil className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
           <p className="text-sm text-muted-foreground">
             {scenario.steps?.length || 0} steps
           </p>

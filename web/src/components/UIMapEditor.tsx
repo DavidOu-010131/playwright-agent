@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Trash2, ChevronLeft } from 'lucide-react';
+import { Plus, Trash2, ChevronLeft, Pencil, Check, X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useUIMap, useUpdateUIMap, useAddElement, useDeleteElement } from '../hooks/useUIMap';
 import type { ElementLocator } from '../api';
@@ -38,6 +38,10 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
   const [editPrimary, setEditPrimary] = useState('');
   const [editFallbacks, setEditFallbacks] = useState('');
   const [editDescription, setEditDescription] = useState('');
+
+  // UI Map name editing
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editName, setEditName] = useState('');
 
   if (isLoading) {
     return (
@@ -84,6 +88,31 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
     }
   };
 
+  const startEditName = () => {
+    setEditName(uiMap.name);
+    setIsEditingName(true);
+  };
+
+  const saveEditName = () => {
+    if (!editName.trim() || editName.trim() === uiMap.name) {
+      setIsEditingName(false);
+      return;
+    }
+    updateUIMap.mutate(
+      { id: uiMapId, data: { name: editName.trim() } },
+      {
+        onSuccess: () => {
+          setIsEditingName(false);
+        },
+      }
+    );
+  };
+
+  const cancelEditName = () => {
+    setIsEditingName(false);
+    setEditName('');
+  };
+
   const startEditElement = (name: string, element: ElementLocator) => {
     setEditingElement(name);
     setEditPrimary(element.primary);
@@ -120,8 +149,34 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <div>
-          <h1 className="text-xl font-semibold">{uiMap.name}</h1>
+        <div className="flex-1">
+          {isEditingName ? (
+            <div className="flex items-center gap-2">
+              <Input
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="h-8 text-lg font-semibold max-w-xs"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveEditName();
+                  if (e.key === 'Escape') cancelEditName();
+                }}
+              />
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={saveEditName}>
+                <Check className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={cancelEditName}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-semibold">{uiMap.name}</h1>
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={startEditName}>
+                <Pencil className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
           <p className="text-sm text-muted-foreground">
             {elements.length} {t.uiMap.elements.title.toLowerCase()}
           </p>
