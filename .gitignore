@@ -1,3 +1,9 @@
+# Claude Code
+.claude/
+
+# Data (runtime generated)
+data/
+
 # Python
 __pycache__/
 *.py[cod]

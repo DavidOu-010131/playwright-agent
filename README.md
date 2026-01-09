@@ -1,40 +1,104 @@
-# Python Playwright Agent POC
+# Playwright Agent
 
-最小可运行的 Python 版 Playwright + DSL Agent 验证，内置本地静态页面示例，无需外网即可跑通。
+AI 自动化测试平台，基于 Python Playwright + DSL 的浏览器自动化执行引擎，配合 React 前端进行可视化管理。
+
+## 功能特性
+
+- **项目管理**: 创建项目，配置多环境（dev/test/prod）
+- **UI Map 管理**: 定义页面元素选择器，支持主选择器 + 备用选择器
+- **场景管理**: 可视化编辑测试步骤，支持步骤选项（失败时继续、可选步骤、超时设置）
+- **实时执行**: WebSocket 实时推送执行状态和截图
+- **执行历史**: 查看历史运行记录、步骤详情、网络请求日志
+- **视频录制**: 可选录制测试执行视频
+- **国际化**: 支持中英文切换
+
+## 技术栈
+
+**后端**
+- Python 3.10+
+- FastAPI + WebSocket
+- Playwright (浏览器自动化)
+
+**前端**
+- React 18 + TypeScript
+- Vite
+- TanStack Query
+- shadcn/ui + Tailwind CSS
 
 ## 快速开始
-1. 准备环境（建议 Python 3.10+，虚拟环境可选）：
-   ```bash
-   pip install -r requirements.txt
-   python -m playwright install
-   ```
-2. 运行示例场景（默认无头模式，会在 `artifacts/` 下生成截图）：
-   ```bash
-   python agent_runner.py samples/scenario.json samples/ui_map.yaml
-   ```
-   若想看真实浏览器窗口，加 `--headed`；指定截图目录可用 `--artifacts my_run/`。
 
-## 目录与文件
-- `agent_runner.py`：读取 DSL（JSON 场景 + YAML UI Map），执行 `goto/click/type/wait_for/assert_text`，每步截图并日志输出。
-- `samples/sample_page.html`：本地示例页面，包含输入框、发送按钮、消息列表，用于离线验证。
-- `samples/ui_map.yaml`：元素定位信息，包含主定位与兜底选择器。
-- `samples/scenario.json`：示例场景：打开页面、输入「Hello Playwright」、点击发送、断言消息出现。
-- `requirements.txt`：依赖列表。
+### 后端
 
-## DSL 说明（最小子集）
-- 支持动作：`goto`（url）、`click`（target）、`type`（target,value）、`fill`、`wait_for`（可见）、`assert_text`（包含指定文本）。
-- URL 若非 `http/https/file`，视为相对路径，自动解析为 `file://<绝对路径>` 方便本地文件。
-- UI Map 结构：
-  ```yaml
-  elements:
-    send_button:
-      primary: "[data-test='send-btn']"
-      fallbacks:
-        - "#send-btn"
-  ```
-- 每步可选 `timeout`（毫秒），否则使用默认 `--timeout`（5000ms）。
+```bash
+# 安装依赖
+pip install -r requirements.txt
+python -m playwright install
 
-## 可能的下一步扩展
-- 增加更多动作（下拉选择、文件上传、网络拦截等）。
-- 为 LLM 生成 DSL 加入系统提示与 few-shot 示例。
-- 引入运行报告汇总（步骤结果、控制台日志、trace）并返回给 LLM 分析。
+# 启动服务
+cd server
+uvicorn main:app --reload --port 8000
+```
+
+### 前端
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+访问 http://localhost:5173
+
+## 项目结构
+
+```
+├── server/                 # 后端服务
+│   ├── api/               # API 路由
+│   │   ├── project.py     # 项目管理
+│   │   ├── ui_map.py      # UI Map 管理
+│   │   ├── scenario.py    # 场景管理
+│   │   └── runner.py      # 执行器 WebSocket
+│   ├── core/
+│   │   └── executor.py    # Playwright 执行引擎
+│   └── main.py            # FastAPI 入口
+├── web/                    # 前端
+│   └── src/
+│       ├── components/    # 组件
+│       ├── pages/         # 页面
+│       ├── hooks/         # 自定义 Hooks
+│       ├── api/           # API 客户端
+│       └── i18n/          # 国际化
+├── samples/               # 示例文件
+└── requirements.txt
+```
+
+## DSL 动作
+
+| Action | 说明 | 参数 |
+|--------|------|------|
+| `goto` | 跳转页面 | `url` |
+| `click` | 点击元素 | `target` |
+| `fill` | 填充输入框 | `target`, `value` |
+| `type` | 逐字输入 | `target`, `value` |
+| `wait_for` | 等待元素可见 | `target` |
+| `assert_text` | 断言文本 | `target`, `value` |
+| `hover` | 悬停 | `target` |
+| `dblclick` | 双击 | `target` |
+| `select` | 下拉选择 | `target`, `value` |
+| `press` | 按键 | `target`, `value` |
+| `scroll` | 滚动到可见 | `target` |
+| `wait` | 等待指定时间 | `value` (ms) |
+| `run_js` | 执行 JavaScript | `value` |
+| `screenshot` | 截图 | - |
+
+## 步骤选项
+
+每个步骤可配置以下选项：
+
+- **失败时继续** (`continue_on_error`): 该步骤失败后继续执行后续步骤
+- **可选步骤** (`optional`): 该步骤失败不会将整个运行标记为失败
+- **超时时间** (`timeout`): 自定义该步骤的超时时间（毫秒）
+
+## License
+
+MIT
