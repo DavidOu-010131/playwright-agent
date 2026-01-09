@@ -41,6 +41,7 @@ export interface UIMap {
   id: string;
   name: string;
   project_id?: string;
+  description?: string;
   elements: Record<string, ElementLocator>;
   created_at: string;
   updated_at: string;
@@ -49,6 +50,7 @@ export interface UIMap {
 export interface UIMapCreate {
   name: string;
   project_id?: string;
+  description?: string;
   elements?: Record<string, ElementLocator>;
 }
 

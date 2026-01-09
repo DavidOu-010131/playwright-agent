@@ -91,6 +91,10 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [isEditingName, setIsEditingName] = useState(false);
   const [editName, setEditName] = useState('');
 
+  // Scenario description editing
+  const [isEditingDesc, setIsEditingDesc] = useState(false);
+  const [editDesc, setEditDesc] = useState('');
+
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -180,6 +184,32 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const cancelEditName = () => {
     setIsEditingName(false);
     setEditName('');
+  };
+
+  const startEditDesc = () => {
+    setEditDesc(scenario.description || '');
+    setIsEditingDesc(true);
+  };
+
+  const saveEditDesc = () => {
+    const newDesc = editDesc.trim();
+    if (newDesc === (scenario.description || '')) {
+      setIsEditingDesc(false);
+      return;
+    }
+    updateScenario.mutate(
+      { id: scenarioId, data: { description: newDesc || undefined } },
+      {
+        onSuccess: () => {
+          setIsEditingDesc(false);
+        },
+      }
+    );
+  };
+
+  const cancelEditDesc = () => {
+    setIsEditingDesc(false);
+    setEditDesc('');
   };
 
   const startEditStep = (index: number, step: Step) => {
@@ -297,7 +327,37 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
               </Button>
             </div>
           )}
-          <p className="text-sm text-muted-foreground">
+          {isEditingDesc ? (
+            <div className="flex items-center gap-2 mt-1">
+              <Input
+                value={editDesc}
+                onChange={(e) => setEditDesc(e.target.value)}
+                className="h-7 text-sm max-w-md"
+                placeholder={t.common.description}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveEditDesc();
+                  if (e.key === 'Escape') cancelEditDesc();
+                }}
+              />
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={saveEditDesc}>
+                <Check className="h-3.5 w-3.5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={cancelEditDesc}>
+                <X className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-sm text-muted-foreground">
+                {scenario.description || t.common.noData}
+              </p>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={startEditDesc}>
+                <Pencil className="h-3 w-3" />
+              </Button>
+            </div>
+          )}
+          <p className="text-xs text-muted-foreground mt-1">
             {scenario.steps?.length || 0} steps
           </p>
         </div>

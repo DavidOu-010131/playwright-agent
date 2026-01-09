@@ -73,6 +73,7 @@ async def create_ui_map(ui_map: UIMapCreate):
         "id": ui_map_id,
         "name": ui_map.name,
         "project_id": ui_map.project_id,
+        "description": ui_map.description,
         "elements": {k: v.model_dump() for k, v in ui_map.elements.items()},
         "created_at": now,
         "updated_at": now,
@@ -92,6 +93,8 @@ async def update_ui_map(ui_map_id: str, ui_map: UIMapUpdate):
         data["name"] = ui_map.name
     if ui_map.project_id is not None:
         data["project_id"] = ui_map.project_id
+    if ui_map.description is not None:
+        data["description"] = ui_map.description
     if ui_map.elements is not None:
         data["elements"] = {k: v.model_dump() for k, v in ui_map.elements.items()}
     data["updated_at"] = datetime.now().isoformat()

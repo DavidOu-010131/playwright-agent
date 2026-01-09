@@ -11,12 +11,14 @@ class ElementLocator(BaseModel):
 class UIMapCreate(BaseModel):
     name: str = Field(..., description="UI Map name (e.g., 'login_page')")
     project_id: Optional[str] = Field(None, description="Project ID this UI Map belongs to")
+    description: Optional[str] = Field(None, description="UI Map description")
     elements: dict[str, ElementLocator] = Field(default_factory=dict)
 
 
 class UIMapUpdate(BaseModel):
     name: Optional[str] = None
     project_id: Optional[str] = None
+    description: Optional[str] = None
     elements: Optional[dict[str, ElementLocator]] = None
 
 
@@ -24,6 +26,7 @@ class UIMapResponse(BaseModel):
     id: str
     name: str
     project_id: Optional[str] = None
+    description: Optional[str] = None
     elements: dict[str, ElementLocator]
     created_at: str
     updated_at: str

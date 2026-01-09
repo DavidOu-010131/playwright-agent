@@ -43,6 +43,10 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [editName, setEditName] = useState('');
 
+  // UI Map description editing
+  const [isEditingDesc, setIsEditingDesc] = useState(false);
+  const [editDesc, setEditDesc] = useState('');
+
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -113,6 +117,32 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
     setEditName('');
   };
 
+  const startEditDesc = () => {
+    setEditDesc(uiMap.description || '');
+    setIsEditingDesc(true);
+  };
+
+  const saveEditDesc = () => {
+    const newDesc = editDesc.trim();
+    if (newDesc === (uiMap.description || '')) {
+      setIsEditingDesc(false);
+      return;
+    }
+    updateUIMap.mutate(
+      { id: uiMapId, data: { description: newDesc || undefined } },
+      {
+        onSuccess: () => {
+          setIsEditingDesc(false);
+        },
+      }
+    );
+  };
+
+  const cancelEditDesc = () => {
+    setIsEditingDesc(false);
+    setEditDesc('');
+  };
+
   const startEditElement = (name: string, element: ElementLocator) => {
     setEditingElement(name);
     setEditPrimary(element.primary);
@@ -177,7 +207,37 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
               </Button>
             </div>
           )}
-          <p className="text-sm text-muted-foreground">
+          {isEditingDesc ? (
+            <div className="flex items-center gap-2 mt-1">
+              <Input
+                value={editDesc}
+                onChange={(e) => setEditDesc(e.target.value)}
+                className="h-7 text-sm max-w-md"
+                placeholder={t.common.description}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveEditDesc();
+                  if (e.key === 'Escape') cancelEditDesc();
+                }}
+              />
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={saveEditDesc}>
+                <Check className="h-3.5 w-3.5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={cancelEditDesc}>
+                <X className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-sm text-muted-foreground">
+                {uiMap.description || t.common.noData}
+              </p>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={startEditDesc}>
+                <Pencil className="h-3 w-3" />
+              </Button>
+            </div>
+          )}
+          <p className="text-xs text-muted-foreground mt-1">
             {elements.length} {t.uiMap.elements.title.toLowerCase()}
           </p>
         </div>

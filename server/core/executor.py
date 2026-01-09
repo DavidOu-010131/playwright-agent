@@ -252,6 +252,22 @@ class ExecutionEngine:
 
             screenshot_path = artifact_dir / f"{index:02d}_{action}.png"
             await page.screenshot(path=screenshot_path, full_page=True)
+
+            # Wait for all pending network requests to complete (including streaming)
+            wait_start = asyncio.get_event_loop().time()
+            max_wait = 30  # Maximum wait time in seconds
+            while self._pending_requests:
+                elapsed = asyncio.get_event_loop().time() - wait_start
+                if elapsed > max_wait:
+                    pending_count = len(self._pending_requests)
+                    self._log(f"Network wait timeout ({max_wait}s), {pending_count} requests still pending")
+                    break
+                await asyncio.sleep(0.1)
+            else:
+                elapsed = asyncio.get_event_loop().time() - wait_start
+                if elapsed > 0.2:  # Only log if we actually waited
+                    self._log(f"All network requests completed ({elapsed:.1f}s)")
+
             duration = int((asyncio.get_event_loop().time() - start_time) * 1000)
 
             self._log(f"Completed successfully in {duration}ms")
