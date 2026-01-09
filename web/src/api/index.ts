@@ -17,7 +17,6 @@ export interface Project {
   description?: string;
   default_timeout: number;
   browser_channel?: string;
-  disable_private_network_access?: boolean;
   environments: Environment[];
   created_at: string;
   updated_at: string;
@@ -28,7 +27,6 @@ export interface ProjectCreate {
   description?: string;
   default_timeout?: number;
   browser_channel?: string;
-  disable_private_network_access?: boolean;
   environments?: Environment[];
 }
 

@@ -61,9 +61,6 @@ export default {
         chrome: 'Chrome (Local)',
         msedge: 'Edge (Local)',
       },
-      disablePrivateNetworkAccess: 'Disable Private Network Access checks',
-      disablePrivateNetworkAccessDesc: 'Allow browser to access local network resources without preflight checks',
-      autoGrantPermission: 'Local network permissions will be auto-configured (no GUI required)',
       createDescription: 'Create a new project to organize your tests',
     },
     environments: {

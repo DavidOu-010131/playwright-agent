@@ -206,14 +206,12 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     project_id = scenario.get("project_id")
     ui_maps_by_name = {}
     browser_channel = None
-    disable_private_network_access = False
     if project_id:
         ui_maps_by_name = _load_project_ui_maps(project_id)
         # Load project to get browser settings
         project = _load_project(project_id)
         if project:
             browser_channel = project.get("browser_channel")
-            disable_private_network_access = project.get("disable_private_network_access", False)
 
     steps = scenario.get("steps", [])
 
@@ -225,10 +223,8 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     if not steps:
         raise HTTPException(status_code=400, detail="Scenario has no steps to execute")
 
-    # Auto-use .browser-profile when disable_private_network_access is enabled
-    browser_user_data_dir = None
-    if disable_private_network_access:
-        browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
+    # Always use .browser-profile for persistent browser context
+    browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
 
     engine = ExecutionEngine()
     result = await engine.run(
@@ -241,7 +237,6 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         project_id=project_id,
         scenario_id=scenario_id,
         browser_channel=browser_channel,
-        disable_private_network_access=disable_private_network_access,
         browser_user_data_dir=browser_user_data_dir,
     )
 
@@ -524,14 +519,12 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
         project_id = scenario.get("project_id")
         ui_maps_by_name = {}
         browser_channel = None
-        disable_private_network_access = False
         if project_id:
             ui_maps_by_name = _load_project_ui_maps(project_id)
             # Load project to get browser settings
             project = _load_project(project_id)
             if project:
                 browser_channel = project.get("browser_channel")
-                disable_private_network_access = project.get("disable_private_network_access", False)
 
         steps = scenario.get("steps", [])
 
@@ -545,10 +538,8 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             await websocket.close()
             return
 
-        # Auto-use .browser-profile when disable_private_network_access is enabled
-        browser_user_data_dir = None
-        if disable_private_network_access:
-            browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
+        # Always use .browser-profile for persistent browser context
+        browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
 
         # Send initial info
         await websocket.send_json({
@@ -578,7 +569,6 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             project_id=project_id,
             scenario_id=scenario_id,
             browser_channel=browser_channel,
-            disable_private_network_access=disable_private_network_access,
             browser_user_data_dir=browser_user_data_dir,
         )
 
