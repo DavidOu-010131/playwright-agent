@@ -240,4 +240,12 @@ export default {
     title: '测试报告',
     comingSoon: '即将实现...',
   },
+
+  // Documentation
+  docs: {
+    title: '文档',
+    noDocs: '暂无文档',
+    selectDoc: '选择一个文档',
+    description: '通过指南和示例学习如何使用 Playwright Agent。',
+  },
 };

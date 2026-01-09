@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from server.api import ui_map, runner, project, scenario
+from server.api import ui_map, runner, project, scenario, docs
 
 app = FastAPI(
     title="Playwright Agent API",
@@ -28,6 +28,7 @@ app.include_router(project.router, prefix="/api/projects", tags=["Projects"])
 app.include_router(ui_map.router, prefix="/api/ui-map", tags=["UI Map"])
 app.include_router(scenario.router, prefix="/api/scenarios", tags=["Scenarios"])
 app.include_router(runner.router, prefix="/api/runner", tags=["Runner"])
+app.include_router(docs.router, prefix="/api/docs", tags=["Documentation"])
 
 
 @app.get("/api/health")

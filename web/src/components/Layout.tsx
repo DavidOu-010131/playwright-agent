@@ -7,6 +7,7 @@ import {
   Sun,
   Moon,
   Sparkles,
+  BookOpen,
 } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
@@ -27,10 +28,11 @@ import { Separator } from '@/components/ui/separator';
 interface LayoutProps {
   selectedProjectId: string | null;
   onSelectProject: (id: string | null) => void;
+  onShowDocs: () => void;
   children: React.ReactNode;
 }
 
-export default function Layout({ selectedProjectId, onSelectProject, children }: LayoutProps) {
+export default function Layout({ selectedProjectId, onSelectProject, onShowDocs, children }: LayoutProps) {
   const { t, locale, toggleLocale } = useI18n();
   const { theme, toggleMode } = useTheme();
   const { data: projects, isLoading } = useProjects();
@@ -143,6 +145,14 @@ export default function Layout({ selectedProjectId, onSelectProject, children }:
 
         {/* Footer - Settings */}
         <div className="p-3 space-y-1">
+          <Button
+            variant="ghost"
+            className="w-full justify-start h-9"
+            onClick={onShowDocs}
+          >
+            <BookOpen className="h-4 w-4 mr-2" />
+            <span className="text-sm">{t.docs.title}</span>
+          </Button>
           <Button
             variant="ghost"
             className="w-full justify-start h-9"

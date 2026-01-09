@@ -214,3 +214,22 @@ export const scenarioApi = {
 };
 
 export default api;
+
+// Documentation types
+export interface DocFile {
+  name: string;
+  title: string;
+}
+
+export interface DocContent {
+  name: string;
+  title: string;
+  content: string;
+}
+
+// Documentation API
+export const docsApi = {
+  list: () => api.get<DocFile[]>('/docs').then((res) => res.data),
+
+  get: (name: string) => api.get<DocContent>(`/docs/${name}`).then((res) => res.data),
+};

@@ -5,6 +5,7 @@ import { ThemeProvider } from './theme';
 import Layout from './components/Layout';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import EmptyState from './pages/EmptyState';
+import DocsPage from './pages/DocsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,13 +16,29 @@ const queryClient = new QueryClient({
   },
 });
 
+type ViewMode = 'projects' | 'docs';
+
 function AppContent() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('projects');
+
+  const handleShowDocs = () => {
+    setViewMode('docs');
+  };
+
+  const handleBackFromDocs = () => {
+    setViewMode('projects');
+  };
+
+  if (viewMode === 'docs') {
+    return <DocsPage onBack={handleBackFromDocs} />;
+  }
 
   return (
     <Layout
       selectedProjectId={selectedProjectId}
       onSelectProject={setSelectedProjectId}
+      onShowDocs={handleShowDocs}
     >
       {selectedProjectId ? (
         <ProjectDetailPage projectId={selectedProjectId} />

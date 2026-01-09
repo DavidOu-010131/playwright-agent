@@ -240,4 +240,12 @@ export default {
     title: 'Test Reports',
     comingSoon: 'Coming soon...',
   },
+
+  // Documentation
+  docs: {
+    title: 'Documentation',
+    noDocs: 'No documentation available',
+    selectDoc: 'Select a document',
+    description: 'Learn how to use Playwright Agent with guides and examples.',
+  },
 };
