@@ -206,12 +206,14 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     project_id = scenario.get("project_id")
     ui_maps_by_name = {}
     browser_channel = None
+    disable_private_network_access = False
     if project_id:
         ui_maps_by_name = _load_project_ui_maps(project_id)
-        # Load project to get browser_channel setting
+        # Load project to get browser settings
         project = _load_project(project_id)
         if project:
             browser_channel = project.get("browser_channel")
+            disable_private_network_access = project.get("disable_private_network_access", False)
 
     steps = scenario.get("steps", [])
 
@@ -234,6 +236,7 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         project_id=project_id,
         scenario_id=scenario_id,
         browser_channel=browser_channel,
+        disable_private_network_access=disable_private_network_access,
     )
 
     _save_run(result)
@@ -515,12 +518,14 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
         project_id = scenario.get("project_id")
         ui_maps_by_name = {}
         browser_channel = None
+        disable_private_network_access = False
         if project_id:
             ui_maps_by_name = _load_project_ui_maps(project_id)
-            # Load project to get browser_channel setting
+            # Load project to get browser settings
             project = _load_project(project_id)
             if project:
                 browser_channel = project.get("browser_channel")
+                disable_private_network_access = project.get("disable_private_network_access", False)
 
         steps = scenario.get("steps", [])
 
@@ -562,6 +567,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             project_id=project_id,
             scenario_id=scenario_id,
             browser_channel=browser_channel,
+            disable_private_network_access=disable_private_network_access,
         )
 
         _save_run(result)

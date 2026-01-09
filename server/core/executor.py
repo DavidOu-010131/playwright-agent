@@ -356,6 +356,7 @@ class ExecutionEngine:
         project_id: Optional[str] = None,
         scenario_id: Optional[str] = None,
         browser_channel: Optional[str] = None,
+        disable_private_network_access: bool = False,
     ) -> RunResult:
         ui_map = ui_map or {}
         ui_maps_by_name = ui_maps_by_name or {}
@@ -386,6 +387,12 @@ class ExecutionEngine:
             launch_options = {"headless": not headed}
             if browser_channel:
                 launch_options["channel"] = browser_channel
+            # Add Chrome args to disable Private Network Access checks if requested
+            if disable_private_network_access:
+                launch_options["args"] = [
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
+                ]
+                self._log("[runner] Private Network Access checks disabled")
             browser = await p.chromium.launch(**launch_options)
 
             # Configure context with optional video recording

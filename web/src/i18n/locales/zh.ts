@@ -61,6 +61,8 @@ export default {
         chrome: 'Chrome (本机安装)',
         msedge: 'Edge (本机安装)',
       },
+      disablePrivateNetworkAccess: '禁用私有网络访问检查',
+      disablePrivateNetworkAccessDesc: '允许浏览器访问本地网络资源，无需预检请求',
       createDescription: '创建新项目来组织您的测试',
     },
     environments: {

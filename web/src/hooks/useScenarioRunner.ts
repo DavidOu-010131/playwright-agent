@@ -92,6 +92,7 @@ export function useScenarioRunner() {
           const initialSteps: StepProgress[] = data.steps.map((step: any, index: number) => ({
             index,
             action: step.action,
+            name: step.name,
             status: 'pending' as const,
             selector: step.target || step.url,
           }));
@@ -110,6 +111,7 @@ export function useScenarioRunner() {
             i === data.step.index ? {
               ...s,
               status: data.step.status as 'success' | 'failed',
+              name: data.step.name,
               selector: data.step.selector,
               error: data.step.error,
               duration_ms: data.step.duration_ms,

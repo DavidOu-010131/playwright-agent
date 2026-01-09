@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -62,6 +63,7 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [editDescription, setEditDescription] = useState('');
   const [editTimeout, setEditTimeout] = useState<number>(5000);
   const [editBrowserChannel, setEditBrowserChannel] = useState<string>('');
+  const [editDisablePrivateNetworkAccess, setEditDisablePrivateNetworkAccess] = useState<boolean>(false);
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
@@ -75,7 +77,10 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
     if (project?.browser_channel !== undefined) {
       setEditBrowserChannel(project.browser_channel || '');
     }
-  }, [project?.default_timeout, project?.browser_channel]);
+    if (project?.disable_private_network_access !== undefined) {
+      setEditDisablePrivateNetworkAccess(project.disable_private_network_access);
+    }
+  }, [project?.default_timeout, project?.browser_channel, project?.disable_private_network_access]);
 
   if (projectLoading) {
     return (
@@ -467,6 +472,29 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                       <Save className="h-4 w-4 mr-1" />
                       {t.common.save}
                     </Button>
+                  </div>
+                </div>
+
+                {/* Disable Private Network Access */}
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="disable-private-network"
+                    checked={editDisablePrivateNetworkAccess}
+                    onCheckedChange={(checked) => {
+                      setEditDisablePrivateNetworkAccess(checked as boolean);
+                      updateProject.mutate({
+                        id: projectId,
+                        data: { disable_private_network_access: checked as boolean }
+                      });
+                    }}
+                  />
+                  <div className="grid gap-0.5">
+                    <label htmlFor="disable-private-network" className="text-sm font-medium cursor-pointer">
+                      {t.project.form.disablePrivateNetworkAccess}
+                    </label>
+                    <p className="text-xs text-muted-foreground">
+                      {t.project.form.disablePrivateNetworkAccessDesc}
+                    </p>
                   </div>
                 </div>
 

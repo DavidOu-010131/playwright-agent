@@ -24,6 +24,7 @@ class ProjectCreate(BaseModel):
     description: Optional[str] = None
     default_timeout: int = Field(default=5000, description="Default timeout in ms")
     browser_channel: Optional[str] = Field(default=None, description="Browser channel: None=bundled Chromium, 'chrome'=local Chrome, 'msedge'=local Edge")
+    disable_private_network_access: bool = Field(default=False, description="Disable Private Network Access checks for local network access")
     environments: list[Environment] = Field(default_factory=list)
 
 
@@ -32,6 +33,7 @@ class ProjectUpdate(BaseModel):
     description: Optional[str] = None
     default_timeout: Optional[int] = None
     browser_channel: Optional[str] = None
+    disable_private_network_access: Optional[bool] = None
     environments: Optional[list[Environment]] = None
 
 
@@ -41,6 +43,7 @@ class ProjectResponse(BaseModel):
     description: Optional[str]
     default_timeout: int
     browser_channel: Optional[str] = None
+    disable_private_network_access: bool = False
     environments: list[Environment]
     created_at: str
     updated_at: str
@@ -103,6 +106,7 @@ async def create_project(project: ProjectCreate):
         "description": project.description,
         "default_timeout": project.default_timeout,
         "browser_channel": project.browser_channel,
+        "disable_private_network_access": project.disable_private_network_access,
         "environments": [env.model_dump() for env in project.environments],
         "created_at": now,
         "updated_at": now,
@@ -127,6 +131,8 @@ async def update_project(project_id: str, project: ProjectUpdate):
     if project.browser_channel is not None:
         # Allow empty string to reset to default (bundled Chromium)
         data["browser_channel"] = project.browser_channel if project.browser_channel else None
+    if project.disable_private_network_access is not None:
+        data["disable_private_network_access"] = project.disable_private_network_access
     if project.environments is not None:
         data["environments"] = [env.model_dump() for env in project.environments]
     data["updated_at"] = datetime.now().isoformat()
