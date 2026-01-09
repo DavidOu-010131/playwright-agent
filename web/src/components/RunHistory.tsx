@@ -24,6 +24,7 @@ interface NetworkRequestInfo {
 interface StepDetail {
   index: number;
   action: string;
+  name?: string;
   status: string;
   selector?: string;
   error?: string;
@@ -349,6 +350,9 @@ export default function RunHistory({ projectId }: RunHistoryProps) {
                       <Badge variant="outline" className="font-mono">
                         {step.action}
                       </Badge>
+                      {step.name && (
+                        <span className="font-medium text-sm">{step.name}</span>
+                      )}
                       <span className="flex-1 text-sm truncate text-muted-foreground">
                         {step.selector}
                       </span>

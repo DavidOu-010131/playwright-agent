@@ -149,6 +149,10 @@ export default {
       name: 'Scenario Name',
       namePlaceholder: 'e.g., User Login Flow',
     },
+    step: {
+      name: 'Step Name',
+      namePlaceholder: 'e.g., Click login button',
+    },
     stepOptions: {
       title: 'Step Options',
       continueOnError: 'Continue on error',

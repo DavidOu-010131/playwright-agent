@@ -31,11 +31,14 @@ class UIMapResponse(BaseModel):
 
 # Scenario schemas
 class Step(BaseModel):
+    name: Optional[str] = Field(None, description="Step name for display purposes")
     action: str = Field(..., description="Action type: goto, click, dblclick, type, fill, hover, focus, check, uncheck, select, press, scroll, wait_for, assert_text, run_js, screenshot, wait")
     target: Optional[str] = Field(None, description="Element name from UI Map or CSS selector")
     url: Optional[str] = Field(None, description="URL for goto action")
     value: Optional[str] = Field(None, description="Value for type/fill/assert_text/run_js/select/press/wait actions")
     timeout: Optional[int] = Field(None, description="Custom timeout in ms")
+    continue_on_error: Optional[bool] = Field(None, description="Continue executing if this step fails")
+    optional: Optional[bool] = Field(None, description="If fails, don't mark the whole run as failed")
 
 
 class ScenarioCreate(BaseModel):

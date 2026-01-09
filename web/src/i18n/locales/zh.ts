@@ -149,6 +149,10 @@ export default {
       name: '场景名称',
       namePlaceholder: '如: 用户登录流程',
     },
+    step: {
+      name: '步骤名称',
+      namePlaceholder: '如: 点击登录按钮',
+    },
     stepOptions: {
       title: '步骤选项',
       continueOnError: '失败时继续',

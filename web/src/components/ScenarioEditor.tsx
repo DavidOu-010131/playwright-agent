@@ -66,6 +66,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const updateScenario = useUpdateScenario();
 
   const [showAddStep, setShowAddStep] = useState(false);
+  const [newStepName, setNewStepName] = useState('');
   const [newAction, setNewAction] = useState('click');
   const [newTarget, setNewTarget] = useState('');
   const [newUrl, setNewUrl] = useState('');
@@ -76,6 +77,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [showNewOptions, setShowNewOptions] = useState(false);
 
   const [editingStep, setEditingStep] = useState<number | null>(null);
+  const [editStepName, setEditStepName] = useState('');
   const [editAction, setEditAction] = useState('');
   const [editTarget, setEditTarget] = useState('');
   const [editUrl, setEditUrl] = useState('');
@@ -117,6 +119,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if (!actionConfig) return;
 
     const step: Step = { action: newAction };
+    if (newStepName.trim()) step.name = newStepName.trim();
     if (actionConfig.needsTarget && newTarget) step.target = newTarget;
     if (actionConfig.needsUrl && newUrl) step.url = newUrl;
     if (actionConfig.needsValue && newValue) step.value = newValue;
@@ -130,6 +133,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
       {
         onSuccess: () => {
           setShowAddStep(false);
+          setNewStepName('');
           setNewAction('click');
           setNewTarget('');
           setNewUrl('');
@@ -151,6 +155,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
 
   const startEditStep = (index: number, step: Step) => {
     setEditingStep(index);
+    setEditStepName(step.name || '');
     setEditAction(step.action);
     setEditTarget(step.target || '');
     setEditUrl(step.url || '');
@@ -167,6 +172,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if (!actionConfig) return;
 
     const step: Step = { action: editAction };
+    if (editStepName.trim()) step.name = editStepName.trim();
     if (actionConfig.needsTarget && editTarget) step.target = editTarget;
     if (actionConfig.needsUrl && editUrl) step.url = editUrl;
     if (actionConfig.needsValue && editValue) step.value = editValue;
@@ -260,6 +266,14 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                 <CardContent className="py-3 px-4">
                   {editingStep === index ? (
                     <div className="space-y-3">
+                      <div className="space-y-1">
+                        <Label className="text-xs">{t.scenario.step.name}</Label>
+                        <Input
+                          value={editStepName}
+                          onChange={(e) => setEditStepName(e.target.value)}
+                          placeholder={t.scenario.step.namePlaceholder}
+                        />
+                      </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                           <Label className="text-xs">Action</Label>
@@ -385,6 +399,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                       </div>
                       <span className="text-muted-foreground text-sm w-6">{index + 1}.</span>
                       <Badge variant="outline">{step.action}</Badge>
+                      {step.name && <span className="font-medium text-sm">{step.name}</span>}
                       <div className="flex-1 text-sm flex items-center gap-2">
                         {step.url && <span className="text-muted-foreground">{step.url}</span>}
                         {step.target && <code className="bg-muted px-1 rounded">{step.target}</code>}
@@ -444,6 +459,14 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
             <DialogDescription>{t.scenario.addStepDescription}</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>{t.scenario.step.name}</Label>
+              <Input
+                value={newStepName}
+                onChange={(e) => setNewStepName(e.target.value)}
+                placeholder={t.scenario.step.namePlaceholder}
+              />
+            </div>
             <div className="space-y-2">
               <Label>Action *</Label>
               <Select value={newAction} onValueChange={setNewAction}>

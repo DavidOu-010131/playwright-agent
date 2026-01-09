@@ -13,6 +13,7 @@ export interface StepProgress {
   index: number;
   action: string;
   status: 'pending' | 'running' | 'success' | 'failed';
+  name?: string;
   selector?: string;
   error?: string;
   duration_ms?: number;

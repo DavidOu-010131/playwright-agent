@@ -358,6 +358,9 @@ export default function RunnerPanel({ project, scenarios }: RunnerPanelProps) {
                             <Badge variant="outline" className="font-mono">
                               {step.action}
                             </Badge>
+                            {step.name && (
+                              <span className="font-medium text-sm">{step.name}</span>
+                            )}
                             <span className="flex-1 text-sm truncate text-muted-foreground">
                               {step.selector}
                             </span>

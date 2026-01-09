@@ -93,6 +93,7 @@ export interface QuickRunRequest {
 
 // Scenario types
 export interface Step {
+  name?: string;
   action: string;
   target?: string;
   url?: string;

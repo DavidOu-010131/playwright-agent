@@ -15,6 +15,7 @@ class StepResult:
     index: int
     action: str
     status: str  # "success", "failed", "skipped"
+    name: Optional[str] = None
     selector: Optional[str] = None
     screenshot: Optional[str] = None
     error: Optional[str] = None
@@ -258,6 +259,7 @@ class ExecutionEngine:
                 index=index,
                 action=action,
                 status="success",
+                name=step.get("name"),
                 selector=used_selector,
                 screenshot=str(screenshot_path),
                 duration_ms=duration,
@@ -278,6 +280,7 @@ class ExecutionEngine:
                 index=index,
                 action=action,
                 status="failed",
+                name=step.get("name"),
                 error=str(exc),
                 screenshot=str(error_shot) if error_shot.exists() else None,
                 duration_ms=duration,
