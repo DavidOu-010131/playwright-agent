@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -8,6 +9,72 @@ from dataclasses import dataclass, field, asdict
 
 from playwright.async_api import TimeoutError as PlaywrightTimeoutError
 from playwright.async_api import async_playwright, expect, Page, Request, Response
+
+
+def _setup_browser_permissions(user_data_dir: str, origins: list[str] = None):
+    """
+    Pre-configure Chrome permissions in the user data directory.
+    This allows granting local network access without GUI interaction.
+
+    Args:
+        user_data_dir: Path to Chrome user data directory
+        origins: List of origins to grant permissions for.
+                 If None, grants wildcard permissions.
+    """
+    prefs_dir = Path(user_data_dir) / "Default"
+    prefs_dir.mkdir(parents=True, exist_ok=True)
+    prefs_file = prefs_dir / "Preferences"
+
+    # Load existing preferences or create new
+    prefs = {}
+    if prefs_file.exists():
+        try:
+            with prefs_file.open("r", encoding="utf-8") as f:
+                prefs = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            prefs = {}
+
+    # Ensure nested structure exists
+    if "profile" not in prefs:
+        prefs["profile"] = {}
+    if "content_settings" not in prefs["profile"]:
+        prefs["profile"]["content_settings"] = {}
+    if "exceptions" not in prefs["profile"]["content_settings"]:
+        prefs["profile"]["content_settings"]["exceptions"] = {}
+
+    exceptions = prefs["profile"]["content_settings"]["exceptions"]
+
+    # Permission setting value: 1 = allow, 2 = block
+    permission_value = {"setting": 1, "last_modified": str(int(datetime.now().timestamp() * 1000))}
+
+    # Set up local_network permission (for "Access local network" prompt)
+    if "local_network" not in exceptions:
+        exceptions["local_network"] = {}
+
+    # Grant permission for specified origins or use wildcard
+    if origins:
+        for origin in origins:
+            # Chrome uses origin pattern like "https://example.com,*"
+            exceptions["local_network"][f"{origin},*"] = permission_value
+    else:
+        # Wildcard pattern to allow all origins
+        exceptions["local_network"]["*,*"] = permission_value
+
+    # Also set "private_network_access" if it exists
+    if "private_network_access" not in exceptions:
+        exceptions["private_network_access"] = {}
+
+    if origins:
+        for origin in origins:
+            exceptions["private_network_access"][f"{origin},*"] = permission_value
+    else:
+        exceptions["private_network_access"]["*,*"] = permission_value
+
+    # Write back preferences
+    with prefs_file.open("w", encoding="utf-8") as f:
+        json.dump(prefs, f, ensure_ascii=False, indent=2)
+
+    return True
 
 
 @dataclass
@@ -357,6 +424,7 @@ class ExecutionEngine:
         scenario_id: Optional[str] = None,
         browser_channel: Optional[str] = None,
         disable_private_network_access: bool = False,
+        browser_user_data_dir: Optional[str] = None,
     ) -> RunResult:
         ui_map = ui_map or {}
         ui_maps_by_name = ui_maps_by_name or {}
@@ -383,47 +451,61 @@ class ExecutionEngine:
         start_time = asyncio.get_event_loop().time()
 
         async with async_playwright() as p:
-            # Launch browser with optional channel (chrome, msedge, or None for bundled Chromium)
-            launch_options = {"headless": not headed}
-            if browser_channel:
-                launch_options["channel"] = browser_channel
-            # Add Chrome args to disable Private Network Access checks if requested
-            if disable_private_network_access:
-                launch_options["args"] = [
-                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
-                    "--enable-features=PrivateNetworkAccessNonSecureContextsAllowed",
-                ]
-                self._log("[runner] Private Network Access permission will be auto-granted")
-            browser = await p.chromium.launch(**launch_options)
-
-            # Configure context with optional video recording
-            context_options = {}
+            # Configure context options for video recording
+            context_options = {"headless": not headed}
             if record_video:
                 video_dir = artifact_dir / "videos"
                 video_dir.mkdir(exist_ok=True)
                 context_options["record_video_dir"] = str(video_dir)
                 context_options["record_video_size"] = {"width": 1280, "height": 720}
 
-            context = await browser.new_context(**context_options)
-
-            # Auto-grant local network permission via CDP if requested
+            # Build launch args
+            launch_args = []
             if disable_private_network_access:
-                try:
-                    cdp = await context.new_cdp_session(await context.new_page())
-                    await cdp.send("Browser.setPermission", {
-                        "permission": {"name": "local-network"},
-                        "setting": "granted"
-                    })
-                    await cdp.detach()
-                    # Close the temporary page
-                    pages = context.pages
-                    if pages:
-                        await pages[0].close()
-                    self._log("[runner] Local network permission granted via CDP")
-                except Exception as e:
-                    self._log(f"[runner] Could not grant permission via CDP: {e}")
+                launch_args.extend([
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
+                    "--enable-features=PrivateNetworkAccessNonSecureContextsAllowed",
+                ])
+                self._log("[runner] Private Network Access checks disabled")
 
-            page = await context.new_page()
+            # Use persistent context if user_data_dir is specified
+            if browser_user_data_dir:
+                self._log(f"[runner] Using persistent browser profile: {browser_user_data_dir}")
+
+                # Pre-configure browser permissions for local network access
+                if disable_private_network_access:
+                    try:
+                        _setup_browser_permissions(browser_user_data_dir)
+                        self._log("[runner] Pre-configured local network permissions in browser profile")
+                    except Exception as e:
+                        self._log(f"[runner] Warning: Failed to setup browser permissions: {e}")
+
+                launch_options = {
+                    **context_options,
+                    "args": launch_args if launch_args else None,
+                }
+                if browser_channel:
+                    launch_options["channel"] = browser_channel
+                # Remove None values
+                launch_options = {k: v for k, v in launch_options.items() if v is not None}
+
+                context = await p.chromium.launch_persistent_context(
+                    browser_user_data_dir,
+                    **launch_options
+                )
+                browser = None  # No separate browser object in persistent context mode
+                page = context.pages[0] if context.pages else await context.new_page()
+            else:
+                # Standard launch mode
+                launch_options = {"headless": not headed}
+                if browser_channel:
+                    launch_options["channel"] = browser_channel
+                if launch_args:
+                    launch_options["args"] = launch_args
+
+                browser = await p.chromium.launch(**launch_options)
+                context = await browser.new_context(**{k: v for k, v in context_options.items() if k != "headless"})
+                page = await context.new_page()
 
             self._setup_network_monitoring(page)
 

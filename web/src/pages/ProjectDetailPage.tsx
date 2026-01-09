@@ -495,6 +495,11 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                     <p className="text-xs text-muted-foreground">
                       {t.project.form.disablePrivateNetworkAccessDesc}
                     </p>
+                    {editDisablePrivateNetworkAccess && (
+                      <p className="text-xs text-green-600 dark:text-green-400">
+                        {t.project.form.autoGrantPermission}
+                      </p>
+                    )}
                   </div>
                 </div>
 

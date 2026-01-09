@@ -34,6 +34,10 @@ artifacts/
 *.png
 *.webm
 
+# Browser profiles (for persistent context)
+.browser-profile/
+browser_data/
+
 # Environment
 .env
 .env.local

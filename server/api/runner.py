@@ -225,6 +225,11 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     if not steps:
         raise HTTPException(status_code=400, detail="Scenario has no steps to execute")
 
+    # Auto-use .browser-profile when disable_private_network_access is enabled
+    browser_user_data_dir = None
+    if disable_private_network_access:
+        browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
+
     engine = ExecutionEngine()
     result = await engine.run(
         steps=steps,
@@ -237,6 +242,7 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         scenario_id=scenario_id,
         browser_channel=browser_channel,
         disable_private_network_access=disable_private_network_access,
+        browser_user_data_dir=browser_user_data_dir,
     )
 
     _save_run(result)
@@ -539,6 +545,11 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             await websocket.close()
             return
 
+        # Auto-use .browser-profile when disable_private_network_access is enabled
+        browser_user_data_dir = None
+        if disable_private_network_access:
+            browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
+
         # Send initial info
         await websocket.send_json({
             "type": "start",
@@ -568,6 +579,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             scenario_id=scenario_id,
             browser_channel=browser_channel,
             disable_private_network_access=disable_private_network_access,
+            browser_user_data_dir=browser_user_data_dir,
         )
 
         _save_run(result)
