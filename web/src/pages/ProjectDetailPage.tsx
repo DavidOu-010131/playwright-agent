@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -34,6 +35,13 @@ import {
 interface ProjectDetailPageProps {
   projectId: string;
 }
+
+// Common browser arguments that can be toggled
+const COMMON_BROWSER_ARGS = {
+  startMaximized: '--start-maximized',
+  disableAutomation: '--disable-blink-features=AutomationControlled',
+  disableInfobars: '--disable-infobars',
+} as const;
 
 export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   const { t } = useI18n();
@@ -64,6 +72,11 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [editTimeout, setEditTimeout] = useState<number>(5000);
   const [editBrowserChannel, setEditBrowserChannel] = useState<string>('');
   const [editBrowserArgs, setEditBrowserArgs] = useState<string>('');
+  const [browserArgOptions, setBrowserArgOptions] = useState({
+    startMaximized: false,
+    disableAutomation: false,
+    disableInfobars: false,
+  });
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
@@ -90,7 +103,18 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
       setEditBrowserChannel(project.browser_channel || '');
     }
     if (project?.browser_args !== undefined) {
-      setEditBrowserArgs((project.browser_args || []).join('\n'));
+      const args = project.browser_args || [];
+      // Parse common args from the list
+      const options = {
+        startMaximized: args.includes(COMMON_BROWSER_ARGS.startMaximized),
+        disableAutomation: args.includes(COMMON_BROWSER_ARGS.disableAutomation),
+        disableInfobars: args.includes(COMMON_BROWSER_ARGS.disableInfobars),
+      };
+      setBrowserArgOptions(options);
+      // Filter out common args to get custom args only
+      const commonArgsValues = Object.values(COMMON_BROWSER_ARGS);
+      const customArgs = args.filter((arg: string) => !commonArgsValues.includes(arg as any));
+      setEditBrowserArgs(customArgs.join('\n'));
     }
   }, [project?.default_timeout, project?.browser_channel, project?.browser_args]);
 
@@ -516,35 +540,113 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                 </div>
 
                 {/* Browser Launch Arguments */}
-                <div className="space-y-2">
-                  <Label>{t.project.form.browserArgs}</Label>
-                  <p className="text-sm text-muted-foreground">{t.project.form.browserArgsDesc}</p>
-                  <div className="flex items-start gap-2">
+                <div className="space-y-4">
+                  <div>
+                    <Label>{t.project.form.browserArgs}</Label>
+                    <p className="text-sm text-muted-foreground">{t.project.form.browserArgsDesc}</p>
+                  </div>
+
+                  {/* Common Options */}
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">{(t.project.form as any).browserArgsOptions?.title || 'Common Options'}</Label>
+
+                    {/* Start Maximized */}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="startMaximized"
+                        checked={browserArgOptions.startMaximized}
+                        onCheckedChange={(checked) =>
+                          setBrowserArgOptions((prev) => ({ ...prev, startMaximized: !!checked }))
+                        }
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <label htmlFor="startMaximized" className="text-sm font-medium cursor-pointer">
+                          {(t.project.form as any).browserArgsOptions?.startMaximized || 'Start Maximized'}
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          {(t.project.form as any).browserArgsOptions?.startMaximizedDesc || 'Open browser window maximized'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Hide Automation */}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="disableAutomation"
+                        checked={browserArgOptions.disableAutomation}
+                        onCheckedChange={(checked) =>
+                          setBrowserArgOptions((prev) => ({ ...prev, disableAutomation: !!checked }))
+                        }
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <label htmlFor="disableAutomation" className="text-sm font-medium cursor-pointer">
+                          {(t.project.form as any).browserArgsOptions?.disableAutomation || 'Hide Automation'}
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          {(t.project.form as any).browserArgsOptions?.disableAutomationDesc || 'Hide browser automation detection flags'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Disable Infobars */}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="disableInfobars"
+                        checked={browserArgOptions.disableInfobars}
+                        onCheckedChange={(checked) =>
+                          setBrowserArgOptions((prev) => ({ ...prev, disableInfobars: !!checked }))
+                        }
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <label htmlFor="disableInfobars" className="text-sm font-medium cursor-pointer">
+                          {(t.project.form as any).browserArgsOptions?.disableInfobars || 'Disable Infobars'}
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          {(t.project.form as any).browserArgsOptions?.disableInfobarsDesc || 'Disable Chrome infobars'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Custom Arguments */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">{(t.project.form as any).browserArgsOptions?.customArgs || 'Custom Arguments'}</Label>
+                    <p className="text-xs text-muted-foreground">
+                      {(t.project.form as any).browserArgsOptions?.customArgsDesc || 'Additional arguments (one per line)'}
+                    </p>
                     <textarea
-                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[400px] font-mono"
+                      className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[400px] font-mono"
                       placeholder={t.project.form.browserArgsPlaceholder}
                       value={editBrowserArgs}
                       onChange={(e) => setEditBrowserArgs(e.target.value)}
-                      rows={4}
+                      rows={3}
                     />
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        const args = editBrowserArgs
-                          .split('\n')
-                          .map((s) => s.trim())
-                          .filter((s) => s.length > 0);
-                        updateProject.mutate({
-                          id: projectId,
-                          data: { browser_args: args }
-                        });
-                      }}
-                      disabled={editBrowserArgs === (project.browser_args || []).join('\n')}
-                    >
-                      <Save className="h-4 w-4 mr-1" />
-                      {t.common.save}
-                    </Button>
                   </div>
+
+                  {/* Save Button */}
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      // Combine common args and custom args
+                      const args: string[] = [];
+                      if (browserArgOptions.startMaximized) args.push(COMMON_BROWSER_ARGS.startMaximized);
+                      if (browserArgOptions.disableAutomation) args.push(COMMON_BROWSER_ARGS.disableAutomation);
+                      if (browserArgOptions.disableInfobars) args.push(COMMON_BROWSER_ARGS.disableInfobars);
+                      // Add custom args
+                      const customArgs = editBrowserArgs
+                        .split('\n')
+                        .map((s) => s.trim())
+                        .filter((s) => s.length > 0);
+                      args.push(...customArgs);
+                      updateProject.mutate({
+                        id: projectId,
+                        data: { browser_args: args }
+                      });
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-1" />
+                    {t.common.save}
+                  </Button>
                 </div>
 
                 {/* Environments */}
