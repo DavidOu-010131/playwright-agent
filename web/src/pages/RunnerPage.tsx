@@ -21,6 +21,16 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 type Step = { action: string; target?: string; url?: string; value?: string };
 
+type RunHistoryItem = {
+  run_id: string;
+  status: string;
+  goal: string;
+  project_id?: string;
+  scenario_id?: string;
+  start_time: string;
+  total_duration_ms: number;
+};
+
 export default function RunnerPage() {
   const { t } = useI18n();
   const [selectedProjectId, setSelectedProjectId] = useState<string>('');
@@ -40,9 +50,9 @@ export default function RunnerPage() {
   const { data: projects } = useProjects();
   const { data: uiMaps } = useUIMaps(selectedProjectId || undefined);
   const { data: selectedUIMap } = useUIMap(selectedUIMapId || '');
-  const { data: runHistory, refetch: refetchHistory } = useQuery({
-    queryKey: ['run-history'],
-    queryFn: runnerApi.list,
+  const { data: runHistory, refetch: refetchHistory } = useQuery<RunHistoryItem[]>({
+    queryKey: ['run-history', selectedProjectId],
+    queryFn: () => runnerApi.list(selectedProjectId || undefined),
   });
 
   const selectedProject = useMemo(

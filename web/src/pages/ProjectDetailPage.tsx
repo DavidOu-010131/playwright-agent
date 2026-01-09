@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Map, PlayCircle, FileText, Settings, Plus, Trash2, Edit2, Save, X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useProject, useUpdateProject, useAddEnvironment, useDeleteEnvironment } from '../hooks/useProject';
@@ -53,10 +53,18 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [editingProject, setEditingProject] = useState(false);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [editTimeout, setEditTimeout] = useState<number>(5000);
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
   const [editingScenarioId, setEditingScenarioId] = useState<string | null>(null);
+
+  // Sync editTimeout with project data
+  useEffect(() => {
+    if (project?.default_timeout !== undefined) {
+      setEditTimeout(project.default_timeout);
+    }
+  }, [project?.default_timeout]);
 
   if (projectLoading) {
     return (
@@ -390,17 +398,40 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                 <CardTitle>{t.project.settings.title}</CardTitle>
                 <CardDescription>{t.project.settings.description}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                {/* Default Timeout */}
                 <div className="space-y-2">
                   <Label>{t.project.form.defaultTimeout}</Label>
-                  <Input type="number" defaultValue={project.default_timeout} />
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={editTimeout}
+                      onChange={(e) => setEditTimeout(Number(e.target.value))}
+                      className="max-w-[200px]"
+                    />
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        updateProject.mutate({
+                          id: projectId,
+                          data: { default_timeout: editTimeout }
+                        });
+                      }}
+                      disabled={editTimeout === project.default_timeout}
+                    >
+                      <Save className="h-4 w-4 mr-1" />
+                      {t.common.save}
+                    </Button>
+                  </div>
                 </div>
+
+                {/* Environments */}
                 <div className="space-y-2">
                   <Label>{t.project.environments.title}</Label>
                   {project.environments && project.environments.length > 0 ? (
                     <div className="space-y-2">
                       {project.environments.map((env, idx) => (
-                        <div key={idx} className="flex items-center justify-between gap-2 p-2 border rounded group">
+                        <div key={idx} className="flex items-center justify-between gap-2 p-3 border rounded group">
                           <div>
                             <span className="font-medium">{env.name}</span>
                             <span className="text-muted-foreground text-sm ml-2">{env.base_url}</span>

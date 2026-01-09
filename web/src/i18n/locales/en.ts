@@ -188,6 +188,8 @@ export default {
     historyTab: 'History',
     networkRequests: 'Network Requests',
     noNetworkRequests: 'No network requests',
+    logs: 'Logs',
+    noLogs: 'No logs',
     steps: {
       title: 'Execution Steps',
       add: 'Add Step',

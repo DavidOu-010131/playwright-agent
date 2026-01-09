@@ -216,6 +216,8 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         timeout=request.timeout,
         headed=request.headed,
         record_video=request.record_video,
+        project_id=project_id,
+        scenario_id=scenario_id,
     )
 
     _save_run(result)
@@ -270,19 +272,24 @@ async def get_run_result(run_id: str):
 
 
 @router.get("/list")
-async def list_runs(scenario_id: Optional[str] = None):
-    """List recent runs, optionally filtered by scenario_id."""
+async def list_runs(project_id: Optional[str] = None, scenario_id: Optional[str] = None):
+    """List recent runs, optionally filtered by project_id or scenario_id."""
     runs = []
     for run_id, data in _run_results.items():
-        # Filter by scenario_id if provided (extract from goal which contains scenario name/id)
+        # Filter by project_id if provided
+        if project_id:
+            if data.get("project_id") != project_id:
+                continue
+        # Filter by scenario_id if provided
         if scenario_id:
-            goal = data.get("goal", "")
-            if scenario_id not in goal:
+            if data.get("scenario_id") != scenario_id:
                 continue
         runs.append({
             "run_id": data["run_id"],
             "status": data["status"],
             "goal": data.get("goal", ""),
+            "project_id": data.get("project_id"),
+            "scenario_id": data.get("scenario_id"),
             "start_time": data.get("start_time"),
             "end_time": data.get("end_time"),
             "total_duration_ms": data.get("total_duration_ms", 0),
@@ -465,6 +472,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             "duration_ms": result.duration_ms,
             "screenshot": result.screenshot,
             "network_requests": network_data,
+            "logs": result.logs,
         }
         steps_progress.append(step_data)
         # Send step end notification
@@ -528,6 +536,8 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             timeout=timeout,
             headed=headed,
             record_video=record_video,
+            project_id=project_id,
+            scenario_id=scenario_id,
         )
 
         _save_run(result)
@@ -553,6 +563,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
                         "error": s.error,
                         "duration_ms": s.duration_ms,
                         "screenshot": s.screenshot,
+                        "logs": s.logs,
                         "network_requests": [
                             {
                                 "url": req.url,

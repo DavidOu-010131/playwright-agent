@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { CheckCircle, XCircle, Clock, ChevronRight, ChevronDown, ChevronUp, Image, RefreshCw, Loader2, Globe } from 'lucide-react';
+import { CheckCircle, XCircle, Clock, ChevronRight, ChevronDown, ChevronUp, Image, RefreshCw, Loader2, Globe, Terminal } from 'lucide-react';
 import { runnerApi } from '../api';
 import { useI18n } from '../i18n';
 import { Button } from '@/components/ui/button';
@@ -30,12 +30,15 @@ interface StepDetail {
   duration_ms?: number;
   screenshot?: string;
   network_requests?: NetworkRequestInfo[];
+  logs?: string[];
 }
 
 interface RunSummary {
   run_id: string;
   status: string;
   goal: string;
+  project_id?: string;
+  scenario_id?: string;
   start_time?: string;
   end_time?: string;
   total_duration_ms: number;
@@ -52,7 +55,11 @@ interface RunDetail {
   video_path?: string;
 }
 
-export default function RunHistory() {
+interface RunHistoryProps {
+  projectId?: string;
+}
+
+export default function RunHistory({ projectId }: RunHistoryProps) {
   const { t } = useI18n();
   const [selectedRunId, setSelectedRunId] = useState<string | null>(null);
   const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
@@ -60,8 +67,8 @@ export default function RunHistory() {
   const [expandedStepIndex, setExpandedStepIndex] = useState<number | null>(null);
 
   const { data: runs, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ['runs'],
-    queryFn: () => runnerApi.list() as Promise<RunSummary[]>,
+    queryKey: ['runs', projectId],
+    queryFn: () => runnerApi.list(projectId) as Promise<RunSummary[]>,
     refetchInterval: 30000,
   });
 
@@ -202,6 +209,27 @@ export default function RunHistory() {
     );
   };
 
+  const renderLogs = (logs?: string[]) => {
+    if (!logs || logs.length === 0) {
+      return (
+        <div className="text-sm text-muted-foreground py-2 text-center">
+          {t.runner.noLogs}
+        </div>
+      );
+    }
+
+    return (
+      <div className="border rounded-md bg-muted/20 font-mono text-xs">
+        {logs.map((log, idx) => (
+          <div key={idx} className="px-3 py-1.5 border-b last:border-b-0 text-muted-foreground hover:bg-muted/30">
+            <span className="text-muted-foreground/60 mr-2">[{idx + 1}]</span>
+            {log}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center text-muted-foreground">
@@ -268,7 +296,7 @@ export default function RunHistory() {
 
       {/* Run Detail Dialog */}
       <Dialog open={!!selectedRunId} onOpenChange={handleDialogClose}>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {runDetail && getStatusIcon(runDetail.status)}
@@ -358,14 +386,26 @@ export default function RunHistory() {
                       )}
                     </div>
 
-                    {/* Network Requests Panel (Expanded) */}
+                    {/* Step Details Panel (Expanded) */}
                     {expandedStepIndex === index && (
-                      <div className="px-4 pb-3 bg-muted/10">
-                        <div className="flex items-center gap-2 py-2 text-sm font-medium">
-                          <Globe className="h-4 w-4" />
-                          Network Requests ({step.network_requests?.length || 0})
+                      <div className="px-4 pb-3 bg-muted/10 space-y-3">
+                        {/* Logs */}
+                        <div>
+                          <div className="flex items-center gap-2 py-2 text-sm font-medium">
+                            <Terminal className="h-4 w-4" />
+                            {t.runner.logs} ({step.logs?.length || 0})
+                          </div>
+                          {renderLogs(step.logs)}
                         </div>
-                        {renderNetworkRequests(step.network_requests)}
+
+                        {/* Network Requests */}
+                        <div>
+                          <div className="flex items-center gap-2 py-2 text-sm font-medium">
+                            <Globe className="h-4 w-4" />
+                            {t.runner.networkRequests} ({step.network_requests?.length || 0})
+                          </div>
+                          {renderNetworkRequests(step.network_requests)}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -391,12 +431,12 @@ export default function RunHistory() {
 
       {/* Screenshot Preview Dialog */}
       <Dialog open={!!selectedScreenshot} onOpenChange={() => setSelectedScreenshot(null)}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-6xl max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>{t.runner.screenshotPreview}</DialogTitle>
           </DialogHeader>
           {selectedScreenshot && (
-            <div className="max-h-[70vh] overflow-auto">
+            <div className="max-h-[80vh] overflow-auto">
               <img
                 src={getScreenshotUrl(selectedScreenshot)}
                 alt="Step screenshot"
@@ -409,12 +449,12 @@ export default function RunHistory() {
 
       {/* Video Preview Dialog */}
       <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-6xl max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>{t.runner.history.video}</DialogTitle>
           </DialogHeader>
           {selectedVideo && (
-            <div className="max-h-[70vh] overflow-auto">
+            <div className="max-h-[80vh] overflow-auto">
               <video
                 src={getScreenshotUrl(selectedVideo)}
                 controls

@@ -20,6 +20,7 @@ class StepResult:
     error: Optional[str] = None
     duration_ms: int = 0
     network_requests: list["NetworkRequest"] = field(default_factory=list)
+    logs: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -38,6 +39,8 @@ class RunResult:
     run_id: str
     status: str  # "running", "completed", "failed"
     goal: str = ""
+    project_id: Optional[str] = None
+    scenario_id: Optional[str] = None
     steps: list[StepResult] = field(default_factory=list)
     network_requests: list[NetworkRequest] = field(default_factory=list)
     start_time: Optional[str] = None
@@ -72,11 +75,13 @@ class ExecutionEngine:
         self._cancelled = False
         self._pending_requests: dict[str, tuple[float, Request]] = {}
         self._step_network_requests: list[NetworkRequest] = []  # Per-step collection
+        self._step_logs: list[str] = []  # Per-step logs
 
     def cancel(self):
         self._cancelled = True
 
     def _log(self, message: str):
+        self._step_logs.append(message)
         if self.on_log:
             self.on_log(message)
 
@@ -113,25 +118,32 @@ class ExecutionEngine:
         step_timeout = int(step_timeout)
         start_time = asyncio.get_event_loop().time()
 
-        # Clear network requests for this step
+        # Clear network requests and logs for this step
         self._step_network_requests = []
+        self._step_logs = []
+
+        self._log(f"Executing action: {action}")
 
         try:
             if action == "goto":
                 target_url = resolve_local_url(step["url"])
+                self._log(f"Navigating to: {target_url}")
                 await page.goto(target_url, wait_until="load", timeout=step_timeout)
                 used_selector = target_url
             elif action == "run_js":
                 # Execute JavaScript code
                 js_code = step.get("value", "")
+                self._log(f"Executing JavaScript: {js_code[:100]}{'...' if len(js_code) > 100 else ''}")
                 await page.evaluate(js_code)
                 used_selector = "javascript"
             elif action == "screenshot":
                 # Just take screenshot without other action
+                self._log("Taking screenshot")
                 used_selector = "screenshot"
             elif action == "wait":
                 # Wait for specified time in ms
                 wait_ms = int(step.get("value", 1000))
+                self._log(f"Waiting for {wait_ms}ms")
                 await asyncio.sleep(wait_ms / 1000)
                 used_selector = f"wait:{wait_ms}ms"
             else:
@@ -152,6 +164,7 @@ class ExecutionEngine:
                                     if "primary" in spec:
                                         selectors.append(spec["primary"])
                                     selectors.extend(spec.get("fallbacks", []))
+                                    self._log(f"Resolved target '{target}' to selectors: {selectors}")
 
                     # Fallback: try legacy single ui_map lookup or use as direct selector
                     if not selectors:
@@ -160,9 +173,11 @@ class ExecutionEngine:
                             if "primary" in spec:
                                 selectors.append(spec["primary"])
                             selectors.extend(spec.get("fallbacks", []))
+                            self._log(f"Resolved target '{target}' from legacy UI Map: {selectors}")
                         else:
                             # Treat target as direct CSS selector
                             selectors.append(target)
+                            self._log(f"Using direct selector: {target}")
 
                 if not selectors and action not in ("run_js", "screenshot", "wait"):
                     raise ValueError(f"Target '{target}' not found and no selectors available")
@@ -237,6 +252,8 @@ class ExecutionEngine:
             await page.screenshot(path=screenshot_path, full_page=True)
             duration = int((asyncio.get_event_loop().time() - start_time) * 1000)
 
+            self._log(f"Completed successfully in {duration}ms")
+
             return StepResult(
                 index=index,
                 action=action,
@@ -245,10 +262,12 @@ class ExecutionEngine:
                 screenshot=str(screenshot_path),
                 duration_ms=duration,
                 network_requests=list(self._step_network_requests),
+                logs=list(self._step_logs),
             )
 
         except Exception as exc:
             duration = int((asyncio.get_event_loop().time() - start_time) * 1000)
+            self._log(f"Failed with error: {exc}")
             error_shot = artifact_dir / f"{index:02d}_{action}_error.png"
             try:
                 await page.screenshot(path=error_shot, full_page=True)
@@ -263,6 +282,7 @@ class ExecutionEngine:
                 screenshot=str(error_shot) if error_shot.exists() else None,
                 duration_ms=duration,
                 network_requests=list(self._step_network_requests),
+                logs=list(self._step_logs),
             )
 
     def _setup_network_monitoring(self, page: Page):
@@ -330,6 +350,8 @@ class ExecutionEngine:
         headed: bool = False,
         record_video: bool = True,
         artifact_root: Optional[Path] = None,
+        project_id: Optional[str] = None,
+        scenario_id: Optional[str] = None,
     ) -> RunResult:
         ui_map = ui_map or {}
         ui_maps_by_name = ui_maps_by_name or {}
@@ -342,6 +364,8 @@ class ExecutionEngine:
             run_id=run_id,
             status="running",
             goal=goal,
+            project_id=project_id,
+            scenario_id=scenario_id,
             start_time=datetime.now().isoformat(),
             artifact_dir=str(artifact_dir),
         )

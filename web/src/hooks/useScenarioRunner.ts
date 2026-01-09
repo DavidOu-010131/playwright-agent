@@ -18,6 +18,7 @@ export interface StepProgress {
   duration_ms?: number;
   screenshot?: string;
   network_requests?: NetworkRequestInfo[];
+  logs?: string[];
 }
 
 export interface RunConfig {
@@ -113,6 +114,7 @@ export function useScenarioRunner() {
               duration_ms: data.step.duration_ms,
               screenshot: data.step.screenshot,
               network_requests: data.step.network_requests,
+              logs: data.step.logs,
             } : s
           ));
           break;

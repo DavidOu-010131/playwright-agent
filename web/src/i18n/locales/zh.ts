@@ -188,6 +188,8 @@ export default {
     historyTab: '历史记录',
     networkRequests: '网络请求',
     noNetworkRequests: '无网络请求',
+    logs: '执行日志',
+    noLogs: '无日志',
     steps: {
       title: '执行步骤',
       add: '添加步骤',

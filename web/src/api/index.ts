@@ -181,8 +181,8 @@ export const runnerApi = {
   getResult: (runId: string) =>
     api.get<RunResult>(`/runner/result/${runId}`).then((res) => res.data),
 
-  list: () =>
-    api.get<Array<{ run_id: string; status: string; goal: string; start_time: string; total_duration_ms: number }>>('/runner/list').then((res) => res.data),
+  list: (projectId?: string) =>
+    api.get<Array<{ run_id: string; status: string; goal: string; project_id?: string; scenario_id?: string; start_time: string; total_duration_ms: number }>>('/runner/list', { params: projectId ? { project_id: projectId } : {} }).then((res) => res.data),
 
   cancel: (runId: string) =>
     api.post(`/runner/cancel/${runId}`).then((res) => res.data),
