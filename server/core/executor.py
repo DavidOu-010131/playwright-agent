@@ -390,7 +390,8 @@ class ExecutionEngine:
             # Add Chrome args to disable Private Network Access checks if requested
             if disable_private_network_access:
                 launch_options["args"] = [
-                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults,PrivateNetworkAccessPermissionPrompt,BlockInsecurePrivateNetworkRequests",
+                    "--disable-site-isolation-trials",
                 ]
                 self._log("[runner] Private Network Access checks disabled")
             browser = await p.chromium.launch(**launch_options)
