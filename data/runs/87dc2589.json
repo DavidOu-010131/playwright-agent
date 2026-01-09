@@ -1,0 +1,22 @@
+{
+  "run_id": "87dc2589",
+  "status": "failed",
+  "goal": "Scenario: Search Test",
+  "steps": [
+    {
+      "index": 0,
+      "action": "fill",
+      "status": "failed",
+      "selector": null,
+      "screenshot": "artifacts/20260109-084122_87dc2589/00_fill_error.png",
+      "error": "fill failed for selectors ['textarea#chat-textarea']: textarea#chat-textarea: timeout",
+      "duration_ms": 5012
+    }
+  ],
+  "network_requests": [],
+  "start_time": "2026-01-09T08:41:22.728923",
+  "end_time": "2026-01-09T08:41:28.876437",
+  "total_duration_ms": 6146,
+  "artifact_dir": "artifacts/20260109-084122_87dc2589",
+  "video_path": null
+}

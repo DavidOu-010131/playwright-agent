@@ -1,0 +1,19 @@
+{
+  "id": "3a483b48",
+  "name": "百度主界面",
+  "project_id": "f3942e18",
+  "elements": {
+    "搜索文本输入": {
+      "primary": "textarea#chat-textarea",
+      "fallbacks": [],
+      "description": null
+    },
+    "点击搜索按钮": {
+      "primary": "button#chat-submit-button",
+      "fallbacks": [],
+      "description": null
+    }
+  },
+  "created_at": "2026-01-08T16:16:33.347197",
+  "updated_at": "2026-01-08T16:19:41.759082"
+}

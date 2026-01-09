@@ -1,0 +1,2188 @@
+{
+  "run_id": "5833555d",
+  "status": "completed",
+  "goal": "Scenario: Search Test",
+  "steps": [
+    {
+      "index": 0,
+      "action": "goto",
+      "status": "success",
+      "selector": "https://www.baidu.com/",
+      "screenshot": "artifacts/20260109-101017_5833555d/00_goto.png",
+      "error": null,
+      "duration_ms": 6953,
+      "network_requests": [
+        {
+          "url": "https://www.baidu.com/",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 76,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/static/font/cosmic/pc/cos-icon_20cec29.css",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 53,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newfanyi-da0cea8f7e.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 35,
+          "request_size": 0,
+          "response_size": 4560,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newxueshuicon-a5314d5c83.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 36,
+          "request_size": 0,
+          "response_size": 2651,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newbaike-889054f349.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 68,
+          "request_size": 0,
+          "response_size": 2315,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newzhidao-da1cf444b0.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 67,
+          "request_size": 0,
+          "response_size": 2315,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newjiankang-f03b804b4b.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 78,
+          "request_size": 0,
+          "response_size": 2746,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 213,
+          "request_size": 0,
+          "response_size": 15444,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/PCfb_5bf082d29588c07f842ccde3f97243ea.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 214,
+          "request_size": 0,
+          "response_size": 24774,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/flexible/logo/pc/peak-result.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 214,
+          "request_size": 0,
+          "response_size": 7707,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/flexible/logo/pc/result.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 230,
+          "request_size": 0,
+          "response_size": 6617,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/aife/static/wenAI_1761814195000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 230,
+          "request_size": 0,
+          "response_size": 3833,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/yingxiaoicon-612169cc36.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 234,
+          "request_size": 0,
+          "response_size": 3378,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newzhibo-a6a0831ecd.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 235,
+          "request_size": 0,
+          "response_size": 4085,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/newyinyue-03ecd1e9b9.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 243,
+          "request_size": 0,
+          "response_size": 2263,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/topnav/chengpian-9981cd1fdb.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 242,
+          "request_size": 0,
+          "response_size": 3129,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/qrcode/qrcode@2x-daf987ad02.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 245,
+          "request_size": 0,
+          "response_size": 1265,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/img/qrcode/qrcode-hover@2x-f9b106a848.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 246,
+          "request_size": 0,
+          "response_size": 1285,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/css/ubase_sync-d600f57804.css?v=md5",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 237,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/flexible/logo/pc/result@2.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 256,
+          "request_size": 0,
+          "response_size": 12802,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/aife/static/more-menu_1756807326000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 264,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/aife/static/deep_research_1757501814000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 267,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/chat_tool/ai_music.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 275,
+          "request_size": 0,
+          "response_size": 1379,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/public/weixin_code/2025-06/eba505c38fe819615861ee2dc71991ac.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 283,
+          "request_size": 0,
+          "response_size": 1307,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/public/weixin_code/2025-06/052d054e8c1be4d25bd6e2bf899929de.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 283,
+          "request_size": 0,
+          "response_size": 1086,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/chat_tool/ai_codeing.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 282,
+          "request_size": 0,
+          "response_size": 1260,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/hot_search_x3_1747880381000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 281,
+          "request_size": 0,
+          "response_size": 6314,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/to-up-newer_1766568454000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 284,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/to-up-active_1764583314000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 285,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/public/weixin_code/2025-07/7a273a5ed7dda0ec2d2fcecee7a2779b.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 294,
+          "request_size": 0,
+          "response_size": 970,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/public/static/style-switch.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 322,
+          "request_size": 0,
+          "response_size": 2042,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/chat_tool/ai_reading.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 322,
+          "request_size": 0,
+          "response_size": 983,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/lib/esl-cf7161da9a.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 338,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/bundles/polyfill_9354efa.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 341,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/lib/jquery-1-edb203c114.10.2.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 345,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/bundles/es6-polyfill_388d059.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 345,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/hotsearch-4bcd986297.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 341,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/s_super_index-895c0c52f8.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 344,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/min_super-7b1d78110b.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 345,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/sbase-cf781c97b7.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 355,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://hectorstatic.baidu.com/cd37ed75a9387c5b.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 356,
+          "request_size": 0,
+          "response_size": 31694,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/global/js/all_async_search_b0f7a8d.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 411,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/amd_modules/tslib-c95383af0c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 45,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/plugins/every_cookie_4644b13.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 40,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/plugins/bzPopper_d8249c4.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 1,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/home/js/nu_instant_search_8ceda8d.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 3,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/plugins/swfobject_0178953.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 4,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/soutu/js/tu_15b7782.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 6,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman-san/app/ai-tools-panel/result_2d04a90.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 65,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman-san/app/chat-input/result_d06b9e3.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 65,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://sp1.baidu.com/-L-Xsjip0QIZ8tyhnq/v.gif?logactid=1234567890&showTab=10000&opType=showpv&mod=superman%3Alib&submod=index&superver=supernewplus&glogid=2150846188&type=2011&pid=315&isLogin=0&version=PCHome&terminal=PC&qid=0xc4247ece00334eec&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&super_frm=&from_login=&from_reg=&query=&curcard=2&curcardtab=&_r=0.8098643066421659",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 209,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://sp1.baidu.com/-L-Xsjip0QIZ8tyhnq/v.gif?logactid=1234567890&showTab=10000&opType=nodepv&mod=superman%3Alib&submod=index&superver=supernewplus&glogid=2150846188&type=2011&pid=315&isLogin=0&version=PCHome&terminal=PC&qid=0xc4247ece00334eec&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&super_frm=&from_login=&from_reg=&query=&curcard=2&curcardtab=&_r=0.532201237706104",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 222,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/font/iconfont-fa013548a9.woff2",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 161,
+          "request_size": 0,
+          "response_size": 20520,
+          "error": null
+        },
+        {
+          "url": "https://sp2.baidu.com/-L-Ysjip0QIZ8tyhnq/v.gif?mod=superman%3Acomponents&submod=hotsearch&utype=undefined&superver=supernewplus&portrait=undefined&logPortrait=undefined&glogid=2150846188&type=2011&pid=315&isLogin=0&version=PCHome&terminal=PC&qid=0xc4247ece00334eec&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&super_frm=&from_login=&from_reg=&query=&curcard=2&curcardtab=&_r=0.10177449612423928&m=superman%3Acomponents_hotsearchShow&showType=hotword&words=%5B%22%E4%B8%AD%E5%85%B1%E4%B8%AD%E5%A4%AE%E6%94%BF%E6%B2%BB%E5%B1%80%E5%B8%B8%E5%8A%A1%E5%A7%94%E5%91%98%E4%BC%9A%E5%8F%AC%E5%BC%80%E4%BC%9A%E8%AE%AE%22%2C%22%E8%81%94%E5%90%88%E5%9B%BD%E5%8F%91%E8%A8%80%E4%BA%BA%EF%BC%9A%E7%BE%8E%E5%9B%BD%E6%88%96%E5%A4%B1%E5%8E%BB%E8%81%94%E5%A4%A7%E6%8A%95%E7%A5%A8%E6%9D%83%22%2C%22%E4%B8%9C%E5%8C%97%E8%A7%84%E6%A8%A1%E6%9C%80%E5%A4%A7%E8%B7%A8%E6%B5%B7%E5%A4%A7%E6%A1%A5%E5%8F%96%E5%BE%97%E9%87%8D%E5%A4%A7%E7%AA%81%E7%A0%B4%22%2C%22%E9%AB%98%E6%A0%A1%E9%80%9A%E7%9F%A5%E9%AB%98%E6%95%B0%E6%88%90%E7%BB%A9%E5%B7%AE%E6%88%96%E8%AF%B7%E5%AE%B6%E9%95%BF%E9%99%AA%E8%AF%BB%22%2C%22%E5%96%9D%E6%B0%B4%E5%90%8E%E7%9A%845%E4%B8%AA%E5%BC%82%E5%B8%B8%20%E5%8F%AF%E8%83%BD%E6%98%AF%E8%BA%AB%E4%BD%93%E5%9C%A8%E6%B1%82%E6%95%91%22%2C%22%E5%8C%BB%E4%BF%9D%E4%B8%AA%E4%BA%BA%E8%B4%A6%E6%88%B7%E5%85%B1%E6%B5%8E%E8%8C%83%E5%9B%B4%E6%8B%93%E5%B1%95%E8%87%B3%E5%85%A8%E5%9B%BD%22%2C%222026%E5%B9%B4%E5%BC%80%E5%B9%B4%20%E8%BF%99%E4%BA%9B%E5%B0%8F%E5%8F%98%E5%8C%96%E4%BC%A0%E9%80%92%E7%A7%AF%E6%9E%81%E4%BF%A1%E5%8F%B7%22%2C%22%E5%A4%A7%E5%93%A5%E6%8D%A1%E5%88%B0%E6%89%8B%E6%9C%BA%E5%BD%95%E8%A7%86%E9%A2%91%E5%82%AC%E5%A4%B1%E4%B8%BB%E6%89%93%E7%94%B5%E8%AF%9D%22%2C%222299%E5%85%83%E6%B3%A2%E5%8F%B8%E7%99%BB%E7%BE%BD%E7%BB%92%E6%9C%8D%E5%85%85%E7%BB%92%E9%87%8F%E4%BB%8586%E5%85%8B%22%2C%22%E4%BC%8A%E6%9C%97%E5%A4%A7%E8%8C%83%E5%9B%B4%E6%96%AD%E7%BD%91%22%5D&pagenum=0",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 213,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619356%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22display%22%2C%22value%22%3A%22%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22have_hotsearch%22%3A%221%22%2C%22is_kuang_rec_disp%22%3A%221%22%2C%22search_kuang_status%22%3A%22default%22%2C%22aisou_btn%22%3A%220%22%2C%22kuang_rec_status%22%3A%221%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 235,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/placeholder-ef1014c7fe.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 36,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/soutu/css/soutu_new2_baa2298.css",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 71,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/guarantee-popper_784e0ad.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 86,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://hector.baidu.com/a.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 1530,
+          "error": null
+        },
+        {
+          "url": "https://gips2.baidu.com/it/u=1627277417,3307578141&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f526_253",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 78,
+          "request_size": 0,
+          "response_size": 49048,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619743%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22home_operate%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22ai_search%22%2C%22area%22%3A%22base%22%2C%22pos%22%3A1%2C%22content%22%3A%22%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%E5%B0%B1%E6%89%BE%E6%96%87%E5%BF%83%E5%8A%A9%E6%89%8B%20%F0%9F%91%89%22%2C%22function_list%22%3A%5B%22%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%E5%B0%B1%E6%89%BE%E6%96%87%E5%BF%83%E5%8A%A9%E6%89%8B%20%F0%9F%91%89%22%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 130,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619747%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22capsule_bub%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22photo_editing%22%2C%22area%22%3A%22base%22%2C%22pos%22%3A2%2C%22content%22%3A%22AI%E7%94%9F%E5%9B%BE%22%2C%22function_list%22%3A%5B%22AI%E7%94%9F%E5%9B%BE%22%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 127,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619749%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22capsule_bub%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22ai_ppt%22%2C%22area%22%3A%22base%22%2C%22pos%22%3A4%2C%22content%22%3A%22AI%20PPT%22%2C%22function_list%22%3A%5B%22AI%20PPT%22%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 126,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619748%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22capsule_bub%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22office_create%22%2C%22area%22%3A%22base%22%2C%22pos%22%3A3%2C%22content%22%3A%22AI%E5%86%99%E4%BD%9C%22%2C%22function_list%22%3A%5B%22AI%E5%86%99%E4%BD%9C%22%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 127,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619750%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22capsule_bub%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22ai_code%22%2C%22area%22%3A%22base%22%2C%22pos%22%3A5%2C%22content%22%3A%22AI%E7%BC%96%E7%A8%8B%22%2C%22function_list%22%3A%5B%22AI%E7%BC%96%E7%A8%8B%22%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 125,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/sugrec?&prod=pc_his&from=pc_web&json=1&imod=2&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&hisdata=%5B%5D&_t=1767924619793&req=2&usegosug=1&csor=0",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 83,
+          "request_size": 0,
+          "response_size": 89,
+          "error": null
+        },
+        {
+          "url": "https://gips0.baidu.com/it/u=14154217,3818936281&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f384_384",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 127,
+          "request_size": 0,
+          "response_size": 8630,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/quote_1750750338000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 78,
+          "request_size": 0,
+          "response_size": 1624,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_picture_create/03.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 101,
+          "request_size": 0,
+          "response_size": 342966,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_write/meeting_minutes.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 117,
+          "request_size": 0,
+          "response_size": 2072,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_write/work_summary.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 119,
+          "request_size": 0,
+          "response_size": 1423,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_picture_create/12.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 135,
+          "request_size": 0,
+          "response_size": 64843,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_picture_create/02.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 137,
+          "request_size": 0,
+          "response_size": 284232,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_picture_create/07.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 137,
+          "request_size": 0,
+          "response_size": 99590,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_write/lesson_plan.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 135,
+          "request_size": 0,
+          "response_size": 2576,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_write/paper.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 146,
+          "request_size": 0,
+          "response_size": 1993,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/185.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 136,
+          "request_size": 0,
+          "response_size": 19365,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/294.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 141,
+          "request_size": 0,
+          "response_size": 20199,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924619780%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22deepsearch_btn%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22%22%2C%22aisou_text%22%3A%22%E9%97%AEAI%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 209,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/166.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 148,
+          "request_size": 0,
+          "response_size": 19636,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/141.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 177,
+          "request_size": 0,
+          "response_size": 19122,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/80.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 179,
+          "request_size": 0,
+          "response_size": 20085,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/161.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 186,
+          "request_size": 0,
+          "response_size": 18357,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/chat/afx%202_1750155358000.mp4",
+          "method": "GET",
+          "status": 206,
+          "duration_ms": 50,
+          "request_size": 0,
+          "response_size": 580511,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/106.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 197,
+          "request_size": 0,
+          "response_size": 19488,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/27.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 195,
+          "request_size": 0,
+          "response_size": 19638,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/xiaochu.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 222,
+          "request_size": 0,
+          "response_size": 54123,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/shuiyin.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 230,
+          "request_size": 0,
+          "response_size": 47663,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/chat/afx%202_1750155358000.mp4",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 3,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/qingxi.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 346,
+          "request_size": 0,
+          "response_size": 48420,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/koutu.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 352,
+          "request_size": 0,
+          "response_size": 49400,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_reading/icon/pdf.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 353,
+          "request_size": 0,
+          "response_size": 3122,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_search/260.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 355,
+          "request_size": 0,
+          "response_size": 18804,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_reading/icon/word.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 383,
+          "request_size": 0,
+          "response_size": 2829,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_ppt/%E9%83%A8%E9%97%A8%E7%BB%A9%E6%95%88%E5%88%86%E6%9E%90%E5%B1%95%E7%A4%BAPPT.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 382,
+          "request_size": 0,
+          "response_size": 32643,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_ppt/%E7%94%9F%E6%88%90%E5%BC%8FAI%E7%9A%84%E4%BC%A6%E7%90%86%E9%A3%8E%E9%99%A9%E5%8D%9A%E5%BC%88PPT.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 385,
+          "request_size": 0,
+          "response_size": 45973,
+          "error": null
+        },
+        {
+          "url": "https://aisearch.cdn.bcebos.com/homepage/dashboard/ai_ppt/%E8%A1%8C%E6%94%BF%E5%B7%A5%E4%BD%9C%E6%89%A7%E8%A1%8C%E6%8A%A5%E5%91%8APPT.jpg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 385,
+          "request_size": 0,
+          "response_size": 49289,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924620036%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22kuang_rec%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22query%22%3A%22%E9%83%91%E9%92%A6%E6%96%87%E5%AE%A3%E5%B8%83%E9%80%80%E5%87%BA2026%E5%B9%B4%E6%BE%B3%E7%BD%91%22%2C%22str_sa%22%3A%22iph_igh_notyyc_gsnd%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 206,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/chat/afx%202_1750155358000.mp4",
+          "method": "GET",
+          "status": 206,
+          "duration_ms": 109,
+          "request_size": 0,
+          "response_size": 514975,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/super_load-8e02f19923.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 191,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/qrcode-f53fb19f9b.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 191,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/tips-e2ceadd14d.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 207,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/advert-374dc154df.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 210,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/login_guide-4fba3971ce.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 212,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/video-meet-7833028d86.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 213,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://hectorstatic.baidu.com/96c9c06653ba892e.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 186,
+          "request_size": 0,
+          "response_size": 26569,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/content-info-12dbf9fb6d.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 230,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/csaitab-log-a9c9cae804.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 226,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/top-right-operate/operate-b7693b0cc7.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 222,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/invoke-97e9694cb9.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 215,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/new-search-guide-bub-a65115eb7c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 215,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/aging-tools-d6d9fc5dee.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 224,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/ubase-dddde7cd4e.js?v=md5",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 828,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/js/components/guide_tips-d9e617f782.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 769,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/amd_modules/@baidu/video-meeting-1be7f62dac.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 775,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://passport.baidu.com/passApi/js/wrapper.js?cdnversion=1767924622686&_=1767924619138",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 809,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/aging-tools-pc_63487d8.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 88,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "blob:https://www.baidu.com/1a0a3b6d-7606-432e-a6e3-d91c5298e141",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 1422,
+          "request_size": 0,
+          "response_size": 4011,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924623438%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22csaitab%22%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 847,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/static/superman/css/ubase-89d6b96e41.css?v=md5",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 31,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://hector.baidu.com/static/h.gif?d=3c4e75773d6c6e646a53592637607219200d76773c66233f6a066c663c676b022214706d366464703c4b2e26366f66152103707b3a6671663c4b2e26366f66152103707b3e697570204b2e26366f66152103707b27676674240c20287b6e6a1328016f7f3d6c233f6a066c67366f7015291874772061637a2400767d3874701f3418186a366b6972260e672675236b1e24036c6a3670757f271a762675236b1e24036c6a367075612d1a766b2b6460526b4e6d70206b737c2405676a3d2328522802717b307d737a3c10726b3568670931056d72327c687c264b2e26366f771c28186176326666766a45206b37757611291f6b6a3a676f613d0720287b6e6a04350d6c6d3a7c687c261a76652b75265c65036c6a21696f60211d6b6b3762651e24096e3c7f2a6261271a714b2b686319292571713f6975762c4b2e262a626c1523196e7b212a2d313c1b77772d6460243e1c676d7124237a260d677c3c654032654020723c6b607f1b1d6d76386661526b4e717b207b687c263a766b2b606315654020783a666531644b7061296e7604021e7071212a2d313b1d70713a757102220841723c666431644b616b366a6d1514186d6c362a2d312707726b306f7015351e6369267865723c0c20287b656b1332016770275868703c1c7061106f54192418776c362a2d313b0163763c655704281e6379362a2d312e0c7667314d6504221e2032716f64671b0a70613c6f4015330d6b72202a2d31391c6776204d6b13260044713d7c7231644b716c367640193509616a3c7a7843210a69612b23285234046d691c78647d0e006e610968671b221e2032717b697c3f3a63723c476d1c223c6b7d386d7331644b6d7630666d1e060b6770274b6d663b1d67767b2d26062e09756e3c7a7531644b6d6a29606315341b636e7124237c261963633c736106220d6e3c7f2a62612d0d676a2d68651c2b09716d712423752d0761617b2d261c26196c7d3b5974763d0c20287b6e6a03241e6d723f7b6f72380a6a65376661526b4e6d70206b737c2405716a38716718260265773d6f233f6a066c63386c6100260861713d6664703c0c662675236b1e200d6f7b23696577211a616b376f61133309663c7f2a76762a026b700b647505221f76583a646440311a766134232852300960753a7c53763b066e723c4d6b13260044773f6d526a3b1d67690c5348526b4e6a3c7f2a5e7e290741652b65265c6533716e0c69726a260a20287b63600365402041306460603b2a636835426c1524072032715765762e006c6109736b00221e7677367b233f6a3661763c6070150400636d202a2d31170d6762306f61203503727b217c7831644b5d77297857152908203271577263313a676a3d447602281e2032716a6e77314b2e2637607219200d767b71242372243663762b23285234096e781c78647d6a45206d2a4841526b4e473c7f2a63771d1a67767b2d2612233d777b2171233f6a0b66512a64421131032032716a6555291f6d4b3723285225084177372a2d312a0d516d3d2328522508517b217e64611c006f617b2d2612233d6b7a712423712c1a766b32646a526b4e6e7134616f4c3b1c61673c7277526b4e714137676c72210720287b725b03221f71773c66233f6a365d6d37687034261863410c2a2d3117366377206f672f3418707f276d666a6a4520207b2d261a1619676c2a2a2d312c0c646d3764265c651e676f266173766a4520612a6d265c650571563a7c527225196e6d3766265c6505715d3f67727600066f61097361142e0f763c7f2a427c27026b617b2d2625173f203271575e612d1a76652b755b132802647721655e672104676b2c75265c65335d7d3c66677a3a045d70306c611f3218203271575e77211a636635645b193433656b3a6c6431644b5d5b3d68771125006741207f6063171d6d5b3c6c74043e4e2e3c0c577264211d616c066060141801636d382a2d311736677c2d646a14344e2e3c0c5760603b00656a7b2d262f181e676d272a2d31173666613a6e76113309203271575e63291b63697b2d262f1801676a326c6067294b2e26065e65072605767b212a2d3117366561376476113303703c7f2a5e4c2d11726b2b755704261e203271575e65290577612a2328521833707b326c233f6a365d7729736111234e2e3c0c5772633a0c6360187376113e1f203271575e723f086b707b2d262f180d71673d6b4676260c70652d6e76526b4e5d41327b787d2b2d67683c666504281e203271575e723b106c670f606805221f203271575e7e290267503c6c741c26186751316264703c4b2e26065e6d1d3703706a007c60616a45205b06686900281e765a366e6066241d20287b5e5b132b0d716d037a6865291d6742306468140009763c7f2a5e4c2b0563772a517619310d767b1561647f2c3a67707b2d262f180f707b327c64512107666d3766265c650d667a165e233f6a3663491a23285226005d7d71242372243661367b2d26136540204a326f5031644b452675236a03180f5d6e392a2d31261a5d677b2d2614280163773d2a2d312d1a616529644c240a20203271616f7a3c397061356e65146540206d367c69751806712675237103221e5d7d7124237a2600765438727726744e2e3c3a7b714c200068653a6a265c650b676a356d64772a08616f1d60701165402078366d6571290a69573c6d61133303703c7f2a67762d0d60653a6a4d132802517b3f6d6267271b20287b687712261f6728672a2d3117366165356d661124075d70326564606a45206d3c2328522e09343c7f2a7461244b2e262a6a6d1e0309647b212a2d312e0670693875401133092032716a60602d2a6a6537666125350020327164607d2f2a6a653766612535002032716965650b01636a3e6451022b4e2e3c35616d760b01636a3e6451022b4e2e3c227d6461313b6774356067156540207b2b7c427b290765610c7368526b4e6e7f3d6f677a241d67760d6874526b4e76773e6d677a241d67760d6874526b4e64773f6d556a380c566d292328522e027177376d5276291b616c0d6874526b4e684f266d736a795832366935334972553027613a34277b593b306c232852064e2e3c3a6668671a0c71713575471c2e0f69523c6f233f6a0f632675235b19291a6d7536576d7c2f006c2675236602281b717b212a2d312a1b6d732a647606221e71773c66233f6a0b706b2e7261023315727b7124237c3b4b2e2636727215351f6b713d2a2d31183b475b1a4e4a3e6540207d277f687d6a45206d3a6e60153309716a71242370271b672675237112244e2e3c315773762b4b2e262a62762f3509613c7f2a7376203670613a2328522f0d7176712423602d1d51713e4a610965402079367c42663a1a6d762d516b032e186b713d2a2d312b01636a3e6451022b4e2e3c236966761b1d63703c23285217284141125b585d0b4b2e263f6e761d181f777c3e617531644b6b6a3d647c2f2b056c75202a2d3121076661215e6b1e654020773d6c646b170664627b2d263d2800677d266464402d1b746d3a64265c652a2032715c6966260d67767b2d261d2800674d367a777a2b0c20287b5e7c1d26025d6d236d64776a45206d3466481f203f707d71242363291b63692a232852341e613c7f2a687e2f256d637b2d2607220e602c7124237a250e6e6b3e5e5b41705a3527613c3722715a34377b2d26192a0b6e7134575e227f5f353d6b3532417e5f342a7124237a250e6e6b3e5e5b41705a3527613c3722715a35317b2d26042201725a327c6031644b266636657d526b4e5d723c69654c3b1d63702c72265c65186d7f207c233f6a3620287b5e340875583b2b7124234c781130673f67265c651f6770375d63700406652675236d1d203f7779006d6f776a45206a36406d23320b517b3d6c233f6a1a7763116877332b056175006d6f776a4520772c664c19343f6a71245b647d2c4b2e26386843052e08674d3b6776402d0766267523771529084b6e27446e746a4520633c755505221e7b4d277a687d2f4b2e263a6961132c24716b34416f31644b616c3c626f383419654d3b677631644b4b693c557611240720327159747a2b024661356470156540204127717176270f20287b716503341c6d6c272a2d313d1971692a52701f350920327151584c1c394e5b1a4e4a360e2b2032715c445e182650450b58265c653c474c004152470d27562675237318220220437f2a6f723e0065652d6e76527d1720683666657c3a3a77667b3b26526b4e726c3c6c74703c3a77667b3b2642775c312e62383631644b746137656b02655620593c67667f2d494b6a3a2f265c650163660767747020396d6d377577527d4e323c7f2a7270200c667135686a17655620453c6a6b762b1d22573a69611432006b703455233f6a1c71612b4067042e1a636a3a676f31724b596b3b6b6113334c576d367a40703c0074652d686b1e1a4e2e3c346d6e7f270a6370306e6a527d4e5971316264703c494561366d6b1326186b713d55233f6a0d6d4a36755002260f693c6966747f2445207435746319291f2024082a233f6a4b2e267b2d26526b4e2032712a2d316a4520267523265c654e2e3c71242331644b20287b2328526540203c7f2a233f6a4b2e267b2d26521a4020733a656447311967777b3b262b280e687b307c215e2104675020716131351e63670e2a2d31380d64523064731535296c7f316464776a532062386d771565402069366a6a7a3c3d6769296e76113515516a3c7a60742d4b3826026e661a220f763e176d71612d0a63703c655704281e63793659747c3c085f267523731525076b6a036d7360211a766137755704281e6379362a3b311306606e3c6270500309726c366b60672d0d517036736517223d777127695c31644b6a652b657311350941713d6b74613a0c6c6720233e52734e2e3c30676e78210c476a38636815234e383c277a74766a4520652971471f23094c7f3e6d23296a246d7e306d68116540207f23784f72250c203e7b4f6104340f636e362a2d31291972523c73771928022024713d2f2368415a35683a243c2e02776673703925175f362d794074002b09557b31436867675c3133773232506f274a4a1e442d3324006961794661132c032b3e1b6d6077240c71771a69761f2a092d2f673b2f23665e363d602f3050140d647f21612e267b5e2c376f2328523700636a3567737e6a532048306f710867143a280c3e3531644b727636657113334e383c146d6278274b2e262c726102060b6770272a3b310506786d356d655f7242323e7b50302273494e6d37747c503f543441653c2833091972683c5661120c057631663b363d7b5f222c1249503d0b4022723a6364330f0c616f36282438220d6672367b7250201b6d693c2e354474423230643c382a665d2257386765022e43372d642632256a452068386f6305260b673c692a647d653c512675236811290b777f346d7231724b676a745457526b4e6d701f616f766a5320702b7461526b4e757b316c737a3e0c70266323700232092032716b6e7d260c6170306e6a527d4e5971316264703c494c612d766b022c256c783c7a6c723c006d6a042328522009765932656463290d712663236205290f76773c6621742d1d456534647411231f2a37737321482608766d2f642413280867437375233f6a03637238446a112500677a713223753d076170306e6a502d0d747f16666071240c662c70217f501c02636a3a7e64332b066661042179526b4e717b3d6c4376290a6d6a7b3b26163202616a3a676f333b0c6c601b64651328022a37737321482608766d2f642413280867437375233f6a1f6b662b607015655620782666626721066c242f686602261867367a287a33130763703077615024031d7b0e287c31644b756d37656b0704036c6a21676d60071f677635607d527d4e5971316264703c49556d37656b0704036c6a21676d60071f677635607d2d6540207a367873762b0876613d53711e0608436b307c687c262c6c6236736715342743703c66787e211d7b26632362112b1f673c7f2a7161271d67672d64603132086b7b3d6b6431724b596b3b6b6113334c526c3c7c64703c0c66452c656d15290f6743712423702400726636607614655620453c6a6b762b1d224735687412280d707a0e2a2d312b1b67603c6f70192600713c692a5a7c2a0367672d214702220867702761607f3b2a6d6a2d606d1e221e5f3c7f2a6a76310b6d652b65264a65376d7c396d62676822677d3b6e6502233120327165607d290e67607b3b262b280e687b307c215d291f6b6338756b020a0d6c7f346d6557291d63597b2d261d22086b7f176d777a2b0c712663235f1f2506677d27284c762c0063403c776d13221f5f3c7f2a7267271b63633c233e521c036074366b75331b1d6d763866613d26026379367a5c31644b71612b776d13223b6d6c386d7331724b596b3b6b6113334c517b217e68702d3e6d76326476332802767f3a666461154b2e262f687604320d6e553671637c291b662663235f1f2506677d2728577a3a1d7765354a61092503636c3755233f6a1e636f3c4d6b132c4e383c086763792d0a76240e606f150b0361750e2a2d312c0c746d3a6449152a0370677132232b6a4520712a64763120096c6a176975726a53205f36636e1524182250327e6874291d6d760c404011330d5f3c7f2a6d7c2b02712663235f1f2506677d27284d7c2b024f65376063153531203271646e742107203e7b5a6b122d09616a73466065210e63703673481f20056c437124237a2602203e7b5a6b122d09616a73416f78154b2e2634646019262f636e326a687f211d6b612a233e521c036074366b7533050c666d38426500260e6b723a7c68763b3420287b6561062e0f674e3c7b75663a0c203e7b5a6b122d09616a734c6465210a67543672700535095f3c7f2a697a2c4b3826026e661a220f763e1b41454e6a4520693c656d111409716d3a676f31724b596b3b6b6113334c4f7b376160402d1a716d366f59526b4e727b216568603b006d6a2a233e521c036074366b7533180c70693072771928027143712423633a0c7161377565042e036c3c692a5a7c2a0367672d215402221f67702769757a27075f26752377153505637271322348270b68613a752423221e6b7f3f55233f6a0e72717b3b262b280e687b307c2154183c5f2675237103254e383c086763792d0a76240c52462d65402066212a3b311306606e3c6270501f3e5167207c647e154b2e262a756b02260b675c266b6a763c1a203e7b5a6b122d09616a735b757c3a0865611b74671b22184f7f3d6966763a3420287b606031320f76773c66427c25196d6a3c6f7003655620782666626721066c243865450524186b713d4b6e7e38066c61377577586e4c793e08666067211f67243a6e60151a4c7f3c7f2a7366262866452c62701928022024716e747d2b1d6b6b37217605292d665f266b757a27072a2d797a242b290d7677256d2170270d6759797c265c650f63701f676077090d43713a756d1f292a6770306d65553a086f617b3b26163202616a3a676f332b086c4836606031232d777d27616e7d0e0c6c673c654202260167367a287a3313076370307761502403667b0e287c31644b61683c607631371c407f376f6431724b6471376270192802227d3f6d606109197246386563156f45226573536f723c00746179626b1422312263712423742d1d40652d7561023e4e383c357d6f703c006d6a79666104050d766a367a783b61497924026f65042e1a673e3067657615497f26752363153339717b214564772108203e7b67711e24186b713d2866763c3c71612b4c61142e0d2a37737321482608766d2f642413280867437375233f6a1b67752c6477040a254657126b62763b1a203e7b67711e24186b713d287376391c67772d4c4d340e2d617d367b723b61497924026f65042e1a673e3067657615497f26752376153619676d274564772108496120527d0333096f5f306b64603b4b38263f746a1333056d70737a64623d0c71701464601926276767007172672d0443673a6477036f45226573536f723c00746179626b1422312263712423602d1d43742943651420092024716e747d2b1d6b6b37217715332d726e116965742d412b2422215f1e26186b683628627c2c0c5f2424232852300960753a7c46763c3c71612b4c61142e0d2024716e747d2b1d6b6b3721731525076b6a146d75463b0c70493c656d116f45226573536f723c00746179626b142231226371242370240c637616736d172e0248713a666477090d4b6a2d6476153418456c3c7d71606a5320622c6f67042e036c3e306464723a26706d3e686a3a28056c7b3749655a261d67763c7270373503776e202028333349596a38756d06224c6171376d5c33354b2e263a7361113309436b307c687c26276d6a3a64264a650a7770307c687c264961763c6070150619616a3a676f5d270761617128240b67376c7f27617776680a6d603c5c240d654020743c616f522c206c703c736103332b7071267823296a0f776a3a756d1f294c68713a664077010776612b647704001e6d6b232028333349596a38756d06224c6171376d5c33354b2e2635646506222d66573d7c64612d1a76432b6e7100655620782666626721066c2435646506222d66573d7c64612d1a76432b6e71006f45226573536f723c00746179626b142231226371242366380d63703c4060392918676c367b75543a0677742a233e5221196c7d27616e7d681c72603875613123256c6a367a64603c2e706b2c7177586e4c793e08666067211f67243a6e60151a4c7f3c7f2a6576381b67673875611415097272326b645a263c504a7b3b26163202616a3a676f332c0c72763c6265042208507b236460702d206c510b4f2c59671722453d69757a3e0c22673665612d67112032716c64633a0c61652d64602515225671065a4d31724b6471376270192802227a367873762b0876613d54563e1303574c1f2028333349596a38756d06224c6171376d5c33354b2e263e647039291f767f3f6464771a0c6e652d646031371c713c692a6766260a766d366f241722184b70207c607f240c66563c6d65042208436e237b293a6812225f376070193109227d3c6c644e681420287b6661040e02767b216d72670f1b6d7129406031320f76773c6645723c08203e7b67711e24186b713d2866763c206c703c736103332b707126784077091c6170306e6a34261863367a287a3313076370307761502403667b0e287c31644b70613e687704221e526c3c7c6e7027054a6537656815354e383c357d6f703c006d6a797361172e1f767b2158737c3c06616b3549651e2300676c7b21216868326c652d687215670f6d7a3655216e6a452071377361172e1f767b2158737c3c06616b3549651e2300676c713223753d076170306e6a503202707b346172672d1b527636756b1328004a7f3d6c6d763a412b2422215f1e26186b683628627c2c0c5f242423795c65097a6a21692329334b6a763c67264a6504766a237b3b3c671e75737763651923192c7d3c652e31644b70613f647602221e2024712a2d31200871463c6965062e03703c696e607f3b0c2e26316077242819617671326772241a67287b626b1d370d76533c6c6431724b41570a30471f2a1c636a7124237727044a6d3d65611e6556647f3f7b643f6a1967763f233e52774033277f3931226a452060366257193d0920247139332b78453536692328522e1f4b701a6e7372250c203e3f60680322402077205b607e2d216d772d233e0435196732716172403d19726b2b754711291a636d713275613d0c2e2631607731232e6e71306323292e086e773c2d261328036977364d6f722a0567607b3b700232092e3c2364747421077126635a595c65056c7a367064770c2b203e2d7371156b4e717b207b687c263a766b2b6063156556766c266d2d31240661653552701f350d657b713275613d0c2e262d6869151d036c7b1c6e67602d1d203e6b3128522b0d6c79266966763b4b38263c6f2925144e2e3c3b6973773f0870611a6e6a13321e707b3d6b7831725d2e2634607c24281961760367687d3c1a203e692d260428196176167e647d3c4b3862386d77156b4e7671266b69403c0870707b3b62112b1f6732717f64712f05546137656102655620593c67667f2d494b6a3a2f245800036d793f6d2831644b75613b6668222202667b212a3b31092745481c212c3728036572362421453d0569653721355e7442323e7b5b767a2e1d516c38656102672867683a6b6433603a77662364761f6e4c2a2e2b383123782a32401c282d5c673f7577357c527b290d677679657619310970377124236324087662367369527d4e4e773d7d79333051345b6f35265c651f616c366d6f4021136726632335427f5c2e2961382d227a5132286e3334526b4e61713f6773572d19766c7b3b36446b4e72772b6d6d41291d6b6b7b3b355c650f6d723c7a4672251c762663237702200e2032716b6e7d3c1b63772d5176152109707b3d6b643172592e263f6e7613220841713f677331724b6c6b3764265c6504666c1e6765766a5320772d606a14261e663c7f2a627c24067077106f72153518677a71322331644b616c2b6e69151109706d3a676f31724b333568333542765e332c613a3322795b333568333541765d332f623930227958333568303540765d332c623930227958333568303541765d332f62393022795820287b6774527d4e647c323135207a50363460673d48760d612f366933232e5f30366f303040210d2032716e7150271a7650306c61527d58332866752d313c1072617b3b2611240f676d202a2d31381b6d602c6270527d4e727d006d60612b0150612a7468046511&t=1767924625147",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 59,
+          "request_size": 0,
+          "response_size": 43,
+          "error": null
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "action": "fill",
+      "status": "success",
+      "selector": "textarea#chat-textarea",
+      "screenshot": "artifacts/20260109-101017_5833555d/01_fill.png",
+      "error": null,
+      "duration_ms": 771,
+      "network_requests": [
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924625708%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22content_clear%22%2C%22ext%22%3A%7B%22status%22%3A%22default%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 9,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&imod=2&sugsid=63148,66593,66688,66805,66848,67050,67079,67044,67122,67132,67139,67147,67153,67178,67180,67224,67210,67228,67263,67232,67267,67244,67268,67273&wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&req=2&usegosug=1&csor=4&cb=jQuery110204795929225430945_1767924619139&_=1767924619140",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 127,
+          "request_size": 0,
+          "response_size": 870,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/aife/superman/search_1756192482000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 9,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/aife/superman/search-hover_1756192477000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 8,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/multimode/ai-icon_1759047619000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 55,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/multimode/ai-icon-bold_1759053952000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 57,
+          "request_size": 0,
+          "response_size": 1584,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924625974%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22sug_board%22%2C%22ext%22%3A%7B%22qid%22%3A%220xc4247ece00334eec%22%2C%22is_log%22%3A0%2C%22rsv_dl%22%3A%22%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 99,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924625998%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22no_ai_sug%22%2C%22ext%22%3A%7B%22qid%22%3A%220xc4247ece00334eec%22%2C%22is_log%22%3A0%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%2C%22rsv_dl%22%3A%22%22%2C%22sug_type%22%3A%22common%22%2C%22no_ai_sug_info%22%3A%5B%7B%22item_name%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%E8%81%94%E6%92%AD%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9%22%2C%22item_pos%22%3A2%7D%2C%7B%22item_name%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%E6%9C%80%E6%96%B0%E4%BA%8B%E4%BB%B6%22%2C%22item_pos%22%3A3%7D%2C%7B%22item_name%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%E6%91%98%E8%A6%81%22%2C%22item_pos%22%3A6%7D%5D%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 101,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "action": "click",
+      "status": "success",
+      "selector": "button#chat-submit-button",
+      "screenshot": "artifacts/20260109-101017_5833555d/02_click.png",
+      "error": null,
+      "duration_ms": 6148,
+      "network_requests": [
+        {
+          "url": "https://www.baidu.com/s?ie=utf-8&mod=11&isbd=1&isid=E39BF6A716354961&ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&fenlei=256&rsv_pq=0xc4247ece00334eec&rsv_t=e0985ceAofGdw3F6Oe89dVEOIx78Mx4oCOlN%2BN67Z%2FIBEQkUT9m8d1TWuG%2B%2B&rqlang=en&rsv_enter=1&rsv_dl=tb_pre&rsv_sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&_ss=1&clist=&hsug=&csor=4&pstg=5&_cr1=33607",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 516,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/@baidu/cosmic/tokens_3ae2fafa.css",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 129,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/@baidu/cosmic/index_13f0099d.css",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 130,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/global/img/icons_441e82f.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 133,
+          "request_size": 0,
+          "response_size": 17545,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/recommend/rs-icon_1730789535000.svg",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 134,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://gips0.baidu.com/it/u=4018076418,3686364026&fm=3030&app=3030&size=re3,2&q=75&n=0&g=4n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=8511A4749495A8731E9EDF930300E08B",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 129,
+          "request_size": 0,
+          "response_size": 1470,
+          "error": null
+        },
+        {
+          "url": "https://gips1.baidu.com/it/u=995162275,1020236518&fm=3030&app=3030&size=re3,2&q=75&n=0&g=4n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=A923CF1685A16D131450C4D6030040BB",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 141,
+          "request_size": 0,
+          "response_size": 2924,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=3559633474,660603035&fm=217&app=126&size=re3,2&q=75&n=0&g=4n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=0CD00BD042EED94F00838F910300308C",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 146,
+          "request_size": 0,
+          "response_size": 3580,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=3118579709,1433219002&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=3D14739460D58DDA16327D95030030A8",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 145,
+          "request_size": 0,
+          "response_size": 3478,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=3510164518,131719401&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=2DEBCF161F4A77435E54D36B03006074",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 141,
+          "request_size": 0,
+          "response_size": 1680,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=1595071411,993825586&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=A9164F9048204F0B781084D0030050BF",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 143,
+          "request_size": 0,
+          "response_size": 2600,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=1736068326,2526288030&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=7A9879855808B0D44D35C5850300A089",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 3406,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=2919235641,2878437256&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=BDA7039E5A235A9008AC3D44030080B8",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 122,
+          "request_size": 0,
+          "response_size": 3334,
+          "error": null
+        },
+        {
+          "url": "https://t9.baidu.com/it/u=3267199266,2679629247&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=D7242CE7574236E0D8A5892B0300F05A",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 147,
+          "request_size": 0,
+          "response_size": 4102,
+          "error": null
+        },
+        {
+          "url": "https://t9.baidu.com/it/u=2889268583,444809498&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=F790398DC2C236F8043501960300E0A3",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 144,
+          "request_size": 0,
+          "response_size": 3888,
+          "error": null
+        },
+        {
+          "url": "https://t7.baidu.com/it/u=3457800047,3657123507&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=F7945D881A5144DC1D9445D20300F0B6",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 163,
+          "request_size": 0,
+          "response_size": 4588,
+          "error": null
+        },
+        {
+          "url": "https://t7.baidu.com/it/u=1672619782,1649315879&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=7B1019884A5179FF60A950C00300F0B0",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 160,
+          "request_size": 0,
+          "response_size": 4554,
+          "error": null
+        },
+        {
+          "url": "https://t7.baidu.com/it/u=1161167430,825701366&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=F34861B9140268E8101458CB0300A0F1",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 143,
+          "request_size": 0,
+          "response_size": 4432,
+          "error": null
+        },
+        {
+          "url": "https://t7.baidu.com/it/u=627608926,466074691&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=5C02659457539D88BC80D0860300B001",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 163,
+          "request_size": 0,
+          "response_size": 2782,
+          "error": null
+        },
+        {
+          "url": "https://t8.baidu.com/it/u=1789403810,1593595654&fm=217&app=126&size=re3,2&q=75&n=0&g=3n&f=JPEG&fmt=auto&maxorilen2heic=2000000?s=2EF7039E5F31659A86D72542030070FB",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 148,
+          "request_size": 0,
+          "response_size": 2924,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/baiduAI_1747382050000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 5646,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/left-arrow-grey_1757059139000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 82,
+          "request_size": 0,
+          "response_size": 451,
+          "error": null
+        },
+        {
+          "url": "https://psstatic.cdn.bcebos.com/basics/aichat/right-arrow-black_1757059120000.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 168,
+          "request_size": 0,
+          "response_size": 459,
+          "error": null
+        },
+        {
+          "url": "https://gips0.baidu.com/it/u=3267701062,2991193837&fm=3030&app=3030&size=r1,1&q=100&n=0&g=4n&f=JPEG&maxorilen2heic=2000000",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 187,
+          "request_size": 0,
+          "response_size": 467,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/global/font/iconfont_13bc846.woff2",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 243,
+          "request_size": 0,
+          "response_size": 21352,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/static/font/cosmic/pc/cos-icon_f8a2aa1.woff2",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 252,
+          "request_size": 0,
+          "response_size": 45036,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/global/font/cosmic-icon/iconfont_728c86e.woff2",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 254,
+          "request_size": 0,
+          "response_size": 38044,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=1483340025,98143596&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=31DB7584081008CE141E2A130300F0DA&sec=1768064400&t=23fc357d8b90c71207c29dbd9d4979fd",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 5832,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=1801503478,3673734328&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=EB04D9081370458A826CA9D0030080B0&sec=1768064400&t=ff576cbce4d52d956463dd560c165316",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 6666,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=127374574,763688988&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=31FB7184085008CE041E2A030300F0DA&sec=1768064400&t=2d298f0669247115bc43ce9d03a75d30",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 5742,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=3084565144,3764756838&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=F980CF18165A55C80ACDC9D6030010A3&sec=1768064400&t=b145c5d33628022f7534c06d0b872bc0",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 213,
+          "request_size": 0,
+          "response_size": 6980,
+          "error": null
+        },
+        {
+          "url": "https://gimg4.baidu.com/poster/src=https%3A%2F%2Fpic.rmb.bdstatic.com%2Fb073a9c792fc3b509989990eea64f680.png&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f64,64&n=0&g=0n&q=100&fmt=auto?sec=1768064400&t=d064741e6ddb706c7d0ef3ba996bee60",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 241,
+          "request_size": 0,
+          "response_size": 2160,
+          "error": null
+        },
+        {
+          "url": "https://gimg4.baidu.com/poster/src=https%3A%2F%2Fpic.rmb.bdstatic.com%2Fbjh%2Fuser%2Fdcc10e8a67951543408f8bb29a6f1950.jpeg&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f64,64&n=0&g=0n&q=100&fmt=auto?sec=1768064400&t=ccf68a104ffaf359457b5fa6fcfec12d",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 247,
+          "request_size": 0,
+          "response_size": 942,
+          "error": null
+        },
+        {
+          "url": "https://gimg4.baidu.com/poster/src=https%3A%2F%2Fpic.rmb.bdstatic.com%2Fa233b876f144e9862d776418ad8e6c08.jpeg&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f64,64&n=0&g=0n&q=100&fmt=auto?sec=1768064400&t=3a5a566aa123061194a8ecfb00c2a3a5",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 245,
+          "request_size": 0,
+          "response_size": 2300,
+          "error": null
+        },
+        {
+          "url": "https://gimg4.baidu.com/poster/src=https%3A%2F%2Fgips2.baidu.com%2Fit%2Fu%3D3635375249%2C1734998927%26fm%3D3028%26app%3D3028%26f%3DPNG%26fmt%3Dauto%26q%3D100%26size%3Df1080_1080&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f64,64&n=0&g=0n&q=100&fmt=auto?sec=1768064400&t=17c7ae1bccd845453bf12150a149d1a1",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 243,
+          "request_size": 0,
+          "response_size": 2092,
+          "error": null
+        },
+        {
+          "url": "https://gimg4.baidu.com/poster/src=https%3A%2F%2Fpic.rmb.bdstatic.com%2Fbjh%2Fuser%2F284bf3dba859027de945da2b4e91374b.jpeg&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f64,64&n=0&g=0n&q=100&fmt=auto?sec=1768064400&t=5fd444013a4233369d57f328d9d90832",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 1214,
+          "error": null
+        },
+        {
+          "url": "https://t13.baidu.com/it/u=1725065628,148522920&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=1941A94CE1040CEF5FEC4D180300C093&sec=1768064400&t=92449064f20658bcc9c5b7f8d69e3acb",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 254,
+          "request_size": 0,
+          "response_size": 5394,
+          "error": null
+        },
+        {
+          "url": "https://t13.baidu.com/it/u=1487574898,1169124407&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=7083C8BE90C30CEB4AA6E5980300109B&sec=1768064400&t=b41576e2772b7406870433fab178479f",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 248,
+          "request_size": 0,
+          "response_size": 9722,
+          "error": null
+        },
+        {
+          "url": "https://t13.baidu.com/it/u=1796520401,1485708115&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=D32A92464E3368151AAA59180300C099&sec=1768064400&t=89c02b9bf8ca8f23f0ebc04d765df781",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 3638,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=18800780,2189667334&fm=225&app=113&size=f256,170&n=0&f=JPEG&fmt=auto?s=17A4F40444A8BB49461C08930300C082&sec=1768064400&t=5206b5562a49d04cf28efb91f8c33edc",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 239,
+          "request_size": 0,
+          "response_size": 8700,
+          "error": null
+        },
+        {
+          "url": "https://t15.baidu.com/it/u=1505232404,3530227258&fm=195&app=88&size=r1,1&q=100&n=0&g=4n&f=JPEG&maxorilen2heic=2000000",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 247,
+          "request_size": 0,
+          "response_size": 23657,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/img/bd_logo1.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 247,
+          "request_size": 0,
+          "response_size": 7877,
+          "error": null
+        },
+        {
+          "url": "https://sp1.baidu.com/5b1ZeDe5KgQFm2e88IuM_a/wb.gif?type=3&fm=flow_monitor&data=%5B%7B%7D%5D&q=%BD%F1%C8%D5%D0%C2%CE%C5&qid=fdfee2880070a9be&rsv_did=f7ea2a918efe09b4bc9a1870c289ee53&rsv_tn=baidu&rsv_sid=66581_66590_66677_66674_66684_66805_66847_66995_67041_67047_67051_67084_67044_67125_67130_67140_67147_67153_67164_67178_67221_67213_67229_67241_67232_67244_67236_67283&t=1767924626904",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 233,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19083%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924626524%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22cardresult%22%2C%22ext%22%3A%7B%22qid%22%3A%220xc4247ece00334eec%22%2C%22rsv_dl%22%3A%22%22%2C%22query%22%3A%22%22%2C%22card_type%22%3A%22ala%22%2C%22valueInfo%22%3A%5B%5D%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 241,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://sp1.baidu.com/-L-Wsjip0QIZ8tyhnq/v.gif?mod=superman%3Aps&submod=sindex&utype=undefined&superver=supernewplus&portrait=undefined&logPortrait=undefined&glogid=2150846188&type=2011&pid=315&isLogin=0&version=PCHome&terminal=PC&qid=0xc4247ece00334eec&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&super_frm=&from_login=&from_reg=&query=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&curcard=2&curcardtab=&_r=0.8611452360229845&m=superman%3Aps_searchBtnClick&logactid=1200200001&opType=click&openMode=current&wd=%25E4%25BB%258A%25E6%2597%25A5%25E6%2596%25B0%25E9%2597%25BB&isSkin=false",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 233,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19134%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924626525%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22cardresult%22%2C%22ext%22%3A%7B%22qid%22%3A%220xc4247ece00334eec%22%2C%22rsv_dl%22%3A%22%22%2C%22query%22%3A%22%22%2C%22card_type%22%3A%22ala%22%2C%22valueInfo%22%3A%5B%5D%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 241,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924626603%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22display%22%2C%22value%22%3A%7B%7D%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22rsv_dl%22%3A%22%22%2C%22search_kuang_status%22%3A%22aisearch%22%2C%22aisou_btn%22%3A%220%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 241,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/plugins/compatible_ipad_input_6f6bbc9.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 2506,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://hectorstatic.baidu.com/cd37ed75a9387c5b.js",
+          "method": "GET",
+          "status": 304,
+          "duration_ms": 2493,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/bundles/ala-util_92a51a6.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 2502,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/@baidu/cosmic/index_be55a432.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 2504,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19134%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924632666%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22subcard%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22rsv_dl%22%3A%22%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%2C%22card_type%22%3A%22ala%22%2C%22valueInfo%22%3A%5B%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632665%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22ow_tag%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fnews.szhk.com%2F%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632665%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22img%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fgips1.baidu.com%2Fit%2Fu%3D995162275%2C1020236518%26fm%3D3030%26app%3D3030%26f%3DJPEG%3Fw%3D200%26h%3D133%26s%3DA923CF1685A16D131450C4D6030040BB%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632665%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22icon%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fnews.szhk.com%2F%22%2C%22icon_type%22%3A%223%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632665%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22link_title%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fwww.szhk.com%2F%22%2C%22pos%22%3A1%2C%22content%22%3A%22%E6%B7%B1%E6%B8%AF%E9%A6%96%E9%A1%B5%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632665%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22%20link_abstract%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fwww.szhk.com%2F%22%2C%22pos%22%3A1%2C%22content%22%3A%22%E6%B7%B1%E5%9C%B3%E9%A6%99%E6%B8%AF%E7%94%9F%E6%B4%BB%E8%B5%84%E8%AE%AF%E9%97%A8%E6%88%B7%E5%8F%91%E5%B8%83%E5%8C%85%E6%8B%AC%E4%BD%8F%E6%88%BF%E3%80%81%E4%BA%A4%E9%80%9A%E3%80%81%E6%95%99%E8%82%B2%E3%80%81%E5%8C%BB%E4%BF%9D%E7%AD%89%E5%A4%9A%E6%96%B9%E9%9D%A2%E7%94%9F%E6%B4%BB%E8%B5%84%E8%AE%AF%E5%8F%8A%E6%8C%87%E5%8D%97%E3%80%82%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%5D%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 83,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19134%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924632669%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22subcard%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22rsv_dl%22%3A%22%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%2C%22card_type%22%3A%22ala%22%2C%22valueInfo%22%3A%5B%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632666%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22link_title%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fyl.szhk.com%2F%22%2C%22pos%22%3A2%2C%22content%22%3A%22%E5%A8%B1%E4%B9%90%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632667%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22%20link_abstract%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fyl.szhk.com%2F%22%2C%22pos%22%3A2%2C%22content%22%3A%22%E5%A4%9A%E4%BD%8D%E6%98%8E%E6%98%9F%E8%BF%91%E6%9C%9F%E6%B4%BB%E5%8A%A8%E4%BA%AE%E7%82%B9%EF%BC%9A%E6%9D%8E%E5%AE%87%E6%98%A5%E5%90%88%E5%94%B1%E3%80%81%E7%BD%97%E7%90%A6%E6%96%B0%E6%AD%8C%E5%8F%91%E5%B8%83%E3%80%81%E7%8E%8B%E9%B9%A4%E6%A3%A3%E6%BC%94%E5%94%B1%E4%BC%9A%E7%AD%89%EF%BC%8C%E5%88%98%E8%AF%97%E8%AF%97%E7%8A%B6%E6%80%81%E7%BB%9D%E4%BD%B3%E3%80%82%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632667%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22link_title%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fnews.szhk.com%2Fshehui%2F%22%2C%22pos%22%3A3%2C%22content%22%3A%22%E7%A4%BE%E4%BC%9A%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632667%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22%20link_abstract%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fnews.szhk.com%2Fshehui%2F%22%2C%22pos%22%3A3%2C%22content%22%3A%22%E5%BC%A0%E5%BA%AD%E6%A1%88%E6%92%A4%E9%94%80%E6%B6%89%E4%BA%8B%E4%BC%81%E4%B8%9A%E4%BB%8D%E5%AD%98%E7%96%91%EF%BC%8C%E5%8A%9F%E5%A4%AB%E5%B7%A8%E6%98%9F%E5%AD%9F%E6%B5%B7%E5%87%BA%E6%AE%A1%E6%B4%AA%E9%87%91%E5%AE%9D%E9%80%81%E5%88%AB%EF%BC%8C%E5%B4%94%E5%BA%B7%E7%86%99%E6%84%9F%E8%B0%A2%E9%98%9F%E5%91%98%E5%A5%8B%E6%96%97%E3%80%82%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%2C%7B%22pn%22%3A0%2C%22srcid%22%3A%221599%22%2C%22page_num%22%3A%221%22%2C%22height%22%3A%22271%22%2C%22abs_pos%22%3A%221%22%2C%22relative_pos%22%3A%221%22%2C%22area%22%3A%22LEFT%22%2C%22show_ts%22%3A%221767924632667%22%2C%22is_ow%22%3A%221_1%22%2C%22temp_type%22%3A%22pictext%22%2C%22sub_valueinfo%22%3A%7B%22area%22%3A%22link_title%22%2C%22ext%22%3A%7B%22url%22%3A%22http%3A%2F%2Fnews.szhk.com%2Fat%2F%22%2C%22pos%22%3A4%2C%22content%22%3A%22%E6%B8%AF%E6%BE%B3%E5%8F%B0%22%2C%22is_ow%22%3A%221_1%22%7D%7D%7D%5D%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 83,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://sp1.baidu.com/5bU_dTmfKgQFm2e88IuM_a/w.gif?q=%BD%F1%C8%D5%D0%C2%CE%C5&fm=se&T=1767924629&y=9FBF93BF&rsv_cache=0&rsv_tpfail=1&rsv_pstg=22&rsv_prw=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&rsv_svoice=0&rsv_pre=0&rsv_reh=271_395_186_124_197_202_124_202_91_202_91|94&rsv_scr=1280_2812_0_0_720_1280&rsv_psid=E39BF69429D0EB73680459CF75359893&rsv_pstm=1767924620&rsv_idc=9&rsv_sid=66581_66590_66677_66674_66684_66805_66847_66995_67041_67047_67051_67084_67044_67125_67130_67140_67147_67153_67164_67178_67221_67213_67229_67241_67232_67244_67236_67283&cid=0&qid=fdfee2880070a9be&t=1767924632840&rsv_pstg=22&rsv_cftime=1&rsv_iorr=0&rsv_tn=baidu&rsv_isid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&rsv_ssl=1&path=https%3A%2F%2Fwww.baidu.com%2Fs%3Fie%3Dutf-8%26f%3D8%26rsv_bp%3D1%26rsv_idx%3D1%26tn%3Dbaidu%26wd%3D%25E4%25BB%258A%25E6%2597%25A5%25E6%2596%25B0%25E9%2597%25BB%26fenlei%3D256%26rsv_pq%3D0xc4247ece00334eec%26rsv_t%3De0985ceAofGdw3F6Oe89dVEOIx78Mx4oCOlN%252BN67Z%252FIBEQkUT9m8d1TWuG%252B%252B%26rqlang%3Den%26rsv_enter%3D1%26rsv_dl%3Dtb_pre&rsv_did=9893ae4383370b2dc999dcdcdfc88e66",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 24,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/ala-util/na/naConfig_ba69773.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 171,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/ala-util/na/utils_d9b4619.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 174,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/ala-util/md5_b17d496.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 188,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/boxx_e2ff8e6.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 192,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@searchfe/user-agent_1bcd8a2.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 192,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@searchfe/underscore_2e8707e.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 191,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@searchfe/promise_33d6467.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 184,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/Boxjs-search_9aa906f.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 194,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/pst-log_8c0dfbd.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 214,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/prefetch-app-data_3352c9f.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 203,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/versions-compare_a4b1c27.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 212,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&sid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A18463%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924632850%2C%22content%22%3A%7B%22page%22%3A%22home%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22click%22%2C%22value%22%3A%22search_kuang%22%2C%22ext%22%3A%7B%22status%22%3A%22input%22%2C%22is_log%22%3A%220%22%2C%22function_type%22%3A%22%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%2C%22is_query_over%22%3A%220%22%2C%22pos%22%3A%22se_btn%22%2C%22is_default_q%22%3A%220%22%7D%7D%7D%7D",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 69,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@searchfe/assert_8f1a1ad.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 61,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/Boxjs-amd_0edb14c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 55,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/protocol/https/amd_modules/@baidu/pc-tts-player_4205f55.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 21,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/search-tag/result_6bed886.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 19,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/head-tab/result_e0fa549.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 25,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/mirror-san/app/ai_accompanies/index_3b11710.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 20,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/search-tool/result_dfaf67a.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 21,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/aladdin-san/app/right_toplist1/result_d8b1f75.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 22,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/mirror-san/app/www_index/index_d4eb0c0.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 21,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/aladdin-san/app/short_video/result_82dcc46.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 27,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/chat-input/result_95ea71d.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 39,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/page/result_76f9b18.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 42,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/aladdin-san/app/tieba_general/result_1f1c623.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 44,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/rs/result_abfd2a1.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 44,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/footer/result_5c79770.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 46,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/molecules/app/hint-float-ball-right/result_7fcda7c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 60,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/aladdin-san/app/recommend_list/result_bd1d926.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 61,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://www.baidu.com/s?ie=utf-8&csq=1&pstg=22&mod=2&isbd=1&cqid=fdfee2880070a9be&istc=6976&ver=QwsdSNYFQuvajeab5quCm39Y1bVqXi7PCom&chk=69606395&isid=E39BF6A716354961&ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&fenlei=256&rsv_pq=0xc4247ece00334eec&rsv_t=e0985ceAofGdw3F6Oe89dVEOIx78Mx4oCOlN%2BN67Z%2FIBEQkUT9m8d1TWuG%2B%2B&rqlang=en&rsv_enter=1&rsv_dl=tb_pre&_ck=111430.0.-1.-1.-1.-1.-1&rsv_isid=63148_66593_66688_66805_66848_67050_67079_67044_67122_67132_67139_67147_67153_67178_67180_67224_67210_67228_67263_67232_67267_67244_67268_67273&isctg=5&rsv_sn=1",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 427,
+          "request_size": 0,
+          "response_size": 57,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633792%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E5%85%A8%E9%83%A8%22%2C%22tag_pos%22%3A%221%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 44,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://b.bdstatic.com/searchbox/icms/searchbox/img/cheng_girl.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 236,
+          "request_size": 0,
+          "response_size": 9337,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633793%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E6%91%98%E8%A6%81%22%2C%22tag_pos%22%3A%222%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 44,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://hpd.baidu.com/v.gif?logFrom=searchlist&ct=2&sid=66581_66590_66677_66674_66684_66805_66847_66995_67041_67047_67051_67084_67044_67125_67130_67140_67147_67153_67164_67178_67221_67213_67229_67241_67232_67244_67236_67283&ssid=&logid=&tid=11545&logInfo=tts_show&cst=1&logExtra=%7B%22type%22%3A%22tts_player_show%22%2C%22value%22%3A%22%22%7D&r=1767924633781&",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 241,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633793%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E6%9C%80%E6%96%B0%E4%BA%8B%E4%BB%B6%22%2C%22tag_pos%22%3A%223%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 52,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633793%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E6%9C%80%E6%96%B010%E6%9D%A1%22%2C%22tag_pos%22%3A%224%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 52,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://b.bdstatic.com/searchbox/icms/searchbox/img/cheng_boy.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 245,
+          "request_size": 0,
+          "response_size": 9196,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/amd_modules/@baidu/search-components/core_52b8b74c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 581,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/search-ui-pc/enhance_f636eb0.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 621,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/search-ui-pc/core_c07bbd6.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 548,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://b.bdstatic.com/searchbox/icms/searchbox/img/ci_boy.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 247,
+          "request_size": 0,
+          "response_size": 8212,
+          "error": null
+        },
+        {
+          "url": "https://chat.baidu.com/aichat/api/follow_card?query=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB&token=0c23b639f3a49143d1c9eab913a7eb56",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 636,
+          "request_size": 0,
+          "response_size": 312,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/search-ui-pc/enhance_c64450c.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 561,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        },
+        {
+          "url": "https://b.bdstatic.com/searchbox/icms/searchbox/img/young_girl.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 268,
+          "request_size": 0,
+          "response_size": 8647,
+          "error": null
+        },
+        {
+          "url": "https://b.bdstatic.com/searchbox/icms/searchbox/img/young_boy.png",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 268,
+          "request_size": 0,
+          "response_size": 7730,
+          "error": null
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633794%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E5%A4%B4%E6%9D%A1%22%2C%22tag_pos%22%3A%225%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633794%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E7%83%AD%E7%82%B9%22%2C%22tag_pos%22%3A%226%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633794%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E6%B1%87%E6%80%BB%22%2C%22tag_pos%22%3A%227%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 118,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633794%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9%22%2C%22tag_pos%22%3A%228%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 121,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633794%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E6%92%AD%E6%8A%A5%22%2C%22tag_pos%22%3A%229%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 121,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633796%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%2219%3A00%E5%9B%9E%E6%94%BE%22%2C%22tag_pos%22%3A%2210%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 122,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A19052%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633796%2C%22content%22%3A%7B%22page%22%3A%22a%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22search%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22tag%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22tag_name%22%3A%22%E5%9B%BD%E9%99%85%22%2C%22tag_pos%22%3A%2211%22%2C%22query%22%3A%22%E4%BB%8A%E6%97%A5%E6%96%B0%E9%97%BB%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 131,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://mbd.baidu.com/ztbox?action=zpblog&appname=pcsearch&v=2.0&data=%7B%22cateid%22%3A%2299%22%2C%22actiondata%22%3A%7B%22id%22%3A%2217132%22%2C%22type%22%3A%220%22%2C%22timestamp%22%3A1767924633798%2C%22content%22%3A%7B%22page%22%3A%22resultpage%22%2C%22source%22%3A%22%22%2C%22from%22%3A%22act%22%2C%22type%22%3A%22show%22%2C%22value%22%3A%22csaitab%22%2C%22ext%22%3A%7B%22qid%22%3A%22fdfee2880070a9be%22%2C%22browser%22%3A%22pc%22%2C%22lid%22%3A%22fdfee2880070a9be%22%2C%22setype%22%3A%22se%22%7D%7D%7D%7D",
+          "method": "GET",
+          "status": null,
+          "duration_ms": 167,
+          "request_size": 0,
+          "response_size": 0,
+          "error": "net::ERR_BLOCKED_BY_ORB"
+        },
+        {
+          "url": "https://ug.baidu.com/mcp/pc/pcsearch",
+          "method": "POST",
+          "status": 200,
+          "duration_ms": 649,
+          "request_size": 0,
+          "response_size": 105,
+          "error": null
+        },
+        {
+          "url": "https://pss.bdstatic.com/r/www/cache/static/amd_modules/@baidu/cosmic-ui-search/index_9d930287.js",
+          "method": "GET",
+          "status": 200,
+          "duration_ms": 365,
+          "request_size": 0,
+          "response_size": 0,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "network_requests": [],
+  "start_time": "2026-01-09T10:10:17.808921",
+  "end_time": "2026-01-09T10:10:36.788949",
+  "total_duration_ms": 15836,
+  "artifact_dir": "artifacts/20260109-101017_5833555d",
+  "video_path": "/home/davou/project/playwright-agent/artifacts/20260109-101017_5833555d/videos/038376f751da8c8d3f7af9f818b435f7.webm"
+}

@@ -1,0 +1,13 @@
+{
+  "goal": "在示例聊天页面新建一条消息，并确认已渲染。",
+  "steps": [
+    {"action": "goto", "url": "samples/sample_page.html"},
+    {"action": "wait_for", "target": "page_title"},
+    {"action": "assert_text", "target": "page_title", "value": "Chat Demo"},
+    {"action": "click", "target": "message_input"},
+    {"action": "type", "target": "message_input", "value": "Hello Playwright"},
+    {"action": "click", "target": "send_button"},
+    {"action": "wait_for", "target": "last_message"},
+    {"action": "assert_text", "target": "last_message", "value": "Hello Playwright"}
+  ]
+}

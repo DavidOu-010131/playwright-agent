@@ -1,0 +1,19 @@
+{
+  "id": "b46bfde3",
+  "name": "Main Page",
+  "project_id": "84d905ab",
+  "elements": {
+    "chat-submit-button": {
+      "primary": "button#chat-submit-button",
+      "fallbacks": [],
+      "description": null
+    },
+    "chat-textarea": {
+      "primary": "textarea#chat-textarea",
+      "fallbacks": [],
+      "description": null
+    }
+  },
+  "created_at": "2026-01-08T23:43:59.551206",
+  "updated_at": "2026-01-09T08:30:45.302996"
+}

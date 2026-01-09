@@ -1,0 +1,40 @@
+{
+  "run_id": "607a4ef3",
+  "status": "completed",
+  "goal": "Scenario: Search Test",
+  "steps": [
+    {
+      "index": 0,
+      "action": "goto",
+      "status": "success",
+      "selector": "https://www.baidu.com/",
+      "screenshot": "artifacts/20260109-092239_607a4ef3/00_goto.png",
+      "error": null,
+      "duration_ms": 8913
+    },
+    {
+      "index": 1,
+      "action": "fill",
+      "status": "success",
+      "selector": "textarea#chat-textarea",
+      "screenshot": "artifacts/20260109-092239_607a4ef3/01_fill.png",
+      "error": null,
+      "duration_ms": 803
+    },
+    {
+      "index": 2,
+      "action": "click",
+      "status": "success",
+      "selector": "button#chat-submit-button",
+      "screenshot": "artifacts/20260109-092239_607a4ef3/02_click.png",
+      "error": null,
+      "duration_ms": 2815
+    }
+  ],
+  "network_requests": [],
+  "start_time": "2026-01-09T09:22:39.580704",
+  "end_time": "2026-01-09T09:22:57.678161",
+  "total_duration_ms": 14858,
+  "artifact_dir": "artifacts/20260109-092239_607a4ef3",
+  "video_path": null
+}

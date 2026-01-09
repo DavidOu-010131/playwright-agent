@@ -1,0 +1,25 @@
+{
+  "id": "11eea9d8",
+  "name": "Search Test",
+  "project_id": "84d905ab",
+  "description": null,
+  "ui_map_id": "b46bfde3",
+  "steps": [
+    {
+      "action": "fill",
+      "target": "Main Page.chat-textarea",
+      "url": null,
+      "value": "今日新闻",
+      "timeout": null
+    },
+    {
+      "action": "click",
+      "target": "Main Page.chat-submit-button",
+      "url": null,
+      "value": null,
+      "timeout": null
+    }
+  ],
+  "created_at": "2026-01-08T23:44:15.668657",
+  "updated_at": "2026-01-09T08:31:58.553386"
+}
