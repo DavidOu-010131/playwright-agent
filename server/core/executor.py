@@ -390,13 +390,10 @@ class ExecutionEngine:
             # Add Chrome args to disable Private Network Access checks if requested
             if disable_private_network_access:
                 launch_options["args"] = [
-                    "--disable-web-security",
-                    "--disable-features=IsolateOrigins,site-per-process,PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults,PrivateNetworkAccessPermissionPrompt,BlockInsecurePrivateNetworkRequests",
-                    "--disable-site-isolation-trials",
-                    "--allow-running-insecure-content",
-                    "--ignore-certificate-errors",
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
+                    "--enable-features=PrivateNetworkAccessNonSecureContextsAllowed",
                 ]
-                self._log("[runner] Private Network Access checks disabled (web security disabled)")
+                self._log("[runner] Private Network Access permission will be auto-granted")
             browser = await p.chromium.launch(**launch_options)
 
             # Configure context with optional video recording
@@ -408,6 +405,24 @@ class ExecutionEngine:
                 context_options["record_video_size"] = {"width": 1280, "height": 720}
 
             context = await browser.new_context(**context_options)
+
+            # Auto-grant local network permission via CDP if requested
+            if disable_private_network_access:
+                try:
+                    cdp = await context.new_cdp_session(await context.new_page())
+                    await cdp.send("Browser.setPermission", {
+                        "permission": {"name": "local-network"},
+                        "setting": "granted"
+                    })
+                    await cdp.detach()
+                    # Close the temporary page
+                    pages = context.pages
+                    if pages:
+                        await pages[0].close()
+                    self._log("[runner] Local network permission granted via CDP")
+                except Exception as e:
+                    self._log(f"[runner] Could not grant permission via CDP: {e}")
+
             page = await context.new_page()
 
             self._setup_network_monitoring(page)
