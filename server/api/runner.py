@@ -206,12 +206,14 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     project_id = scenario.get("project_id")
     ui_maps_by_name = {}
     browser_channel = None
+    browser_args = []
     if project_id:
         ui_maps_by_name = _load_project_ui_maps(project_id)
         # Load project to get browser settings
         project = _load_project(project_id)
         if project:
             browser_channel = project.get("browser_channel")
+            browser_args = project.get("browser_args", [])
 
     steps = scenario.get("steps", [])
 
@@ -227,6 +229,10 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
     browser_user_data_dir = str((DATA_DIR.parent / ".browser-profile").resolve())
 
     engine = ExecutionEngine()
+
+    # Set scenario loader for run_scenario action
+    engine.set_scenario_loader(_load_scenario)
+
     result = await engine.run(
         steps=steps,
         ui_maps_by_name=ui_maps_by_name,
@@ -238,6 +244,7 @@ async def run_scenario(scenario_id: str, request: ScenarioRunRequest):
         scenario_id=scenario_id,
         browser_channel=browser_channel,
         browser_user_data_dir=browser_user_data_dir,
+        browser_args=browser_args,
     )
 
     _save_run(result)
@@ -519,12 +526,14 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
         project_id = scenario.get("project_id")
         ui_maps_by_name = {}
         browser_channel = None
+        browser_args = []
         if project_id:
             ui_maps_by_name = _load_project_ui_maps(project_id)
             # Load project to get browser settings
             project = _load_project(project_id)
             if project:
                 browser_channel = project.get("browser_channel")
+                browser_args = project.get("browser_args", [])
 
         steps = scenario.get("steps", [])
 
@@ -570,6 +579,7 @@ async def websocket_run_scenario(websocket: WebSocket, scenario_id: str):
             scenario_id=scenario_id,
             browser_channel=browser_channel,
             browser_user_data_dir=browser_user_data_dir,
+            browser_args=browser_args,
         )
 
         _save_run(result)

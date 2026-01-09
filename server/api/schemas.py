@@ -35,13 +35,16 @@ class UIMapResponse(BaseModel):
 # Scenario schemas
 class Step(BaseModel):
     name: Optional[str] = Field(None, description="Step name for display purposes")
-    action: str = Field(..., description="Action type: goto, click, dblclick, type, fill, hover, focus, check, uncheck, select, press, scroll, wait_for, assert_text, run_js, screenshot, wait")
+    action: str = Field(..., description="Action type: goto, click, dblclick, type, fill, hover, focus, check, uncheck, select, press, scroll, wait_for, assert_text, run_js, screenshot, wait, extract, run_scenario, upload_file, paste_image")
     target: Optional[str] = Field(None, description="Element name from UI Map or CSS selector")
     url: Optional[str] = Field(None, description="URL for goto action")
     value: Optional[str] = Field(None, description="Value for type/fill/assert_text/run_js/select/press/wait actions")
     timeout: Optional[int] = Field(None, description="Custom timeout in ms")
     continue_on_error: Optional[bool] = Field(None, description="Continue executing if this step fails")
     optional: Optional[bool] = Field(None, description="If fails, don't mark the whole run as failed")
+    save_as: Optional[str] = Field(None, description="Variable name to save extracted value (for extract action)")
+    scenario_id: Optional[str] = Field(None, description="Scenario ID to run (for run_scenario action)")
+    file_path: Optional[str] = Field(None, description="File path for upload_file/paste_image actions")
 
 
 class ScenarioCreate(BaseModel):

@@ -61,6 +61,9 @@ export default {
         chrome: 'Chrome (Local)',
         msedge: 'Edge (Local)',
       },
+      browserArgs: 'Browser Launch Arguments',
+      browserArgsDesc: 'Extra command-line arguments for browser startup (one per line)',
+      browserArgsPlaceholder: '--disable-blink-features=AutomationControlled\n--disable-infobars',
       createDescription: 'Create a new project to organize your tests',
     },
     environments: {
@@ -162,6 +165,16 @@ export default {
       timeout: 'Timeout (ms)',
       timeoutDesc: 'Custom timeout for this step',
     },
+    extract: {
+      saveAs: 'Save As (variable name)',
+      saveAsPlaceholder: 'e.g., order_id',
+      saveAsDesc: 'Use {{variable_name}} in later steps',
+    },
+    runScenario: {
+      scenarioId: 'Scenario ID',
+      scenarioIdPlaceholder: 'e.g., abc12345',
+      scenarioIdDesc: 'Run another scenario as a sub-routine',
+    },
   },
 
   // Runner Page
@@ -260,5 +273,19 @@ export default {
     noDocs: 'No documentation available',
     selectDoc: 'Select a document',
     description: 'Learn how to use Playwright Agent with guides and examples.',
+  },
+
+  // Resources
+  resource: {
+    title: 'Resources',
+    description: 'Upload files and images for use in test scenarios',
+    noResources: 'No resources uploaded',
+    upload: 'Upload File',
+    uploading: 'Uploading...',
+    deleteConfirm: 'Are you sure you want to delete this resource?',
+    selectFile: 'Select a file',
+    filePath: 'File Path',
+    selectResource: 'Select from resources...',
+    noFileSelected: 'No file selected',
   },
 };

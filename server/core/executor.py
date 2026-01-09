@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import re
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -62,6 +63,36 @@ def resolve_local_url(url: str) -> str:
     return abs_path.as_uri()
 
 
+def resolve_resource_path(file_path: str, project_id: Optional[str] = None) -> str:
+    """Resolve resource:xxx paths to actual file paths."""
+    if not file_path.startswith("resource:"):
+        return file_path
+
+    resource_id = file_path.replace("resource:", "")
+    if not project_id:
+        raise ValueError("project_id is required to resolve resource paths")
+
+    # Load resource metadata
+    data_dir = Path(__file__).parent.parent.parent / "data" / "resources" / project_id
+    metadata_path = data_dir / "metadata.json"
+
+    if not metadata_path.exists():
+        raise ValueError(f"Resource metadata not found for project: {project_id}")
+
+    with metadata_path.open("r", encoding="utf-8") as f:
+        metadata = json.load(f)
+
+    resource = next((r for r in metadata if r["id"] == resource_id), None)
+    if not resource:
+        raise ValueError(f"Resource not found: {resource_id}")
+
+    resolved_path = data_dir / resource["filename"]
+    if not resolved_path.exists():
+        raise ValueError(f"Resource file not found: {resolved_path}")
+
+    return str(resolved_path)
+
+
 class ExecutionEngine:
     def __init__(
         self,
@@ -78,9 +109,54 @@ class ExecutionEngine:
         self._pending_requests: dict[str, tuple[float, Request]] = {}
         self._step_network_requests: list[NetworkRequest] = []  # Per-step collection
         self._step_logs: list[str] = []  # Per-step logs
+        self._variables: dict[str, str] = {}  # Variables extracted during execution
+        self._scenario_loader: Optional[Callable[[str], Optional[dict]]] = None  # Callback to load scenarios
 
     def cancel(self):
         self._cancelled = True
+
+    def set_scenario_loader(self, loader: Callable[[str], Optional[dict]]):
+        """Set the callback function to load scenarios by ID."""
+        self._scenario_loader = loader
+
+    def _substitute_variables(self, text: str) -> str:
+        """Replace {{variable}} placeholders with actual values."""
+        if not text or "{{" not in text:
+            return text
+
+        def replace_var(match):
+            var_name = match.group(1).strip()
+            return self._variables.get(var_name, match.group(0))
+
+        return re.sub(r"\{\{(\w+)\}\}", replace_var, text)
+
+    def _resolve_selectors(self, target: str, ui_map: dict, ui_maps_by_name: dict) -> list[str]:
+        """Resolve target to list of CSS selectors."""
+        selectors = []
+        if target:
+            if "." in target and not target.startswith("."):
+                # Parse "uiMapName.elementName" format
+                parts = target.split(".", 1)
+                if len(parts) == 2:
+                    ui_map_name, element_name = parts
+                    if ui_map_name in ui_maps_by_name:
+                        spec = ui_maps_by_name[ui_map_name].get(element_name)
+                        if spec:
+                            if "primary" in spec:
+                                selectors.append(spec["primary"])
+                            selectors.extend(spec.get("fallbacks", []))
+
+            # Fallback: try legacy single ui_map lookup or use as direct selector
+            if not selectors:
+                spec = ui_map.get(target) if ui_map else None
+                if spec:
+                    if "primary" in spec:
+                        selectors.append(spec["primary"])
+                    selectors.extend(spec.get("fallbacks", []))
+                else:
+                    # Treat target as direct CSS selector
+                    selectors.append(target)
+        return selectors
 
     def _log(self, message: str):
         self._step_logs.append(message)
@@ -124,17 +200,184 @@ class ExecutionEngine:
         self._step_network_requests = []
         self._step_logs = []
 
+        # Substitute variables in step values
+        step_url = self._substitute_variables(step.get("url", ""))
+        step_target = self._substitute_variables(step.get("target", ""))
+        step_value = self._substitute_variables(step.get("value", ""))
+
         self._log(f"Executing action: {action}")
 
         try:
             if action == "goto":
-                target_url = resolve_local_url(step["url"])
+                target_url = resolve_local_url(step_url or step["url"])
                 self._log(f"Navigating to: {target_url}")
                 await page.goto(target_url, wait_until="load", timeout=step_timeout)
                 used_selector = target_url
+            elif action == "extract":
+                # Extract text from element and save to variable
+                var_name = step.get("save_as") or step.get("value", "")
+                if not var_name:
+                    raise ValueError("extract action requires 'save_as' or 'value' parameter for variable name")
+                target = step_target or step.get("target", "")
+                if not target:
+                    raise ValueError("extract action requires 'target' parameter")
+
+                # Resolve selector
+                selectors = self._resolve_selectors(target, ui_map, ui_maps_by_name)
+                extracted_text = ""
+                for sel in selectors:
+                    try:
+                        extracted_text = await page.locator(sel).inner_text(timeout=step_timeout)
+                        self._log(f"Extracted '{extracted_text}' from '{sel}' -> {{{{var_name}}}}")
+                        break
+                    except Exception:
+                        continue
+
+                self._variables[var_name] = extracted_text.strip()
+                used_selector = f"extract:{var_name}={extracted_text[:50]}"
+            elif action == "run_scenario":
+                # Run another scenario by ID
+                scenario_id = step.get("scenario_id") or step_value
+                if not scenario_id:
+                    raise ValueError("run_scenario action requires 'scenario_id' or 'value' parameter")
+                if not self._scenario_loader:
+                    raise ValueError("Scenario loader not configured")
+
+                scenario_data = self._scenario_loader(scenario_id)
+                if not scenario_data:
+                    raise ValueError(f"Scenario '{scenario_id}' not found")
+
+                self._log(f"Running sub-scenario: {scenario_data.get('name', scenario_id)}")
+
+                # Execute sub-scenario steps
+                sub_steps = scenario_data.get("steps", [])
+                for sub_idx, sub_step in enumerate(sub_steps):
+                    if self._cancelled:
+                        break
+                    sub_result = await self._run_step(
+                        page, sub_step, ui_map, ui_maps_by_name, artifact_dir,
+                        index * 100 + sub_idx, step_timeout
+                    )
+                    if sub_result.status == "failed" and not sub_step.get("optional"):
+                        if not sub_step.get("continue_on_error"):
+                            raise RuntimeError(f"Sub-scenario step failed: {sub_result.error}")
+
+                used_selector = f"run_scenario:{scenario_id}"
+            elif action == "upload_file":
+                # Upload file to a file input element
+                # Supports both direct input[type=file] and click-triggered file choosers
+                target = step_target or step.get("target", "")
+                file_path = step.get("file_path") or step_value
+                if not target:
+                    raise ValueError("upload_file action requires 'target' parameter")
+                if not file_path:
+                    raise ValueError("upload_file action requires 'file_path' or 'value' parameter")
+
+                # Resolve resource:xxx paths
+                file_path = resolve_resource_path(file_path, project_id)
+
+                # Resolve selector
+                selectors = self._resolve_selectors(target, ui_map, ui_maps_by_name)
+                if not selectors:
+                    selectors = [target]
+
+                # Verify file exists
+                file_path_obj = Path(file_path)
+                if not file_path_obj.exists():
+                    raise ValueError(f"File not found: {file_path}")
+
+                self._log(f"Uploading file: {file_path}")
+
+                uploaded = False
+                # Try each selector
+                for sel in selectors:
+                    try:
+                        locator = page.locator(sel)
+                        tag_name = await locator.evaluate("el => el.tagName.toLowerCase()")
+
+                        if tag_name == "input":
+                            # Direct file input - use set_input_files (works in headless)
+                            await locator.set_input_files(str(file_path_obj), timeout=step_timeout)
+                            self._log(f"File uploaded via set_input_files using selector: {sel}")
+                        else:
+                            # Non-input element (button, div, etc.) - use filechooser event
+                            # This handles cases where clicking triggers a file dialog
+                            async with page.expect_file_chooser(timeout=step_timeout) as fc_info:
+                                await locator.click(timeout=step_timeout)
+                            file_chooser = await fc_info.value
+                            await file_chooser.set_files(str(file_path_obj))
+                            self._log(f"File uploaded via file_chooser using selector: {sel}")
+
+                        uploaded = True
+                        break
+                    except Exception as e:
+                        self._log(f"Failed with selector {sel}: {e}")
+                        continue
+
+                if not uploaded:
+                    raise RuntimeError(f"Failed to upload file with any selector")
+
+                used_selector = f"upload:{file_path_obj.name}"
+            elif action == "paste_image":
+                # Paste image from clipboard (simulates Ctrl+V with image)
+                file_path = step.get("file_path") or step_value
+                if not file_path:
+                    raise ValueError("paste_image action requires 'file_path' or 'value' parameter")
+
+                # Resolve resource:xxx paths
+                file_path = resolve_resource_path(file_path, project_id)
+
+                file_path_obj = Path(file_path)
+                if not file_path_obj.exists():
+                    raise ValueError(f"Image file not found: {file_path}")
+
+                self._log(f"Pasting image: {file_path}")
+
+                # Read image file and create data transfer
+                import base64
+                with open(file_path_obj, "rb") as f:
+                    image_data = base64.b64encode(f.read()).decode()
+
+                # Determine MIME type
+                ext = file_path_obj.suffix.lower()
+                mime_types = {
+                    ".png": "image/png",
+                    ".jpg": "image/jpeg",
+                    ".jpeg": "image/jpeg",
+                    ".gif": "image/gif",
+                    ".webp": "image/webp",
+                }
+                mime_type = mime_types.get(ext, "image/png")
+
+                # Use JavaScript to simulate paste event with image
+                await page.evaluate(f"""
+                    async () => {{
+                        const base64Data = "{image_data}";
+                        const binaryString = atob(base64Data);
+                        const bytes = new Uint8Array(binaryString.length);
+                        for (let i = 0; i < binaryString.length; i++) {{
+                            bytes[i] = binaryString.charCodeAt(i);
+                        }}
+                        const blob = new Blob([bytes], {{ type: "{mime_type}" }});
+                        const file = new File([blob], "{file_path_obj.name}", {{ type: "{mime_type}" }});
+
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+
+                        const pasteEvent = new ClipboardEvent("paste", {{
+                            bubbles: true,
+                            cancelable: true,
+                            clipboardData: dataTransfer
+                        }});
+
+                        document.activeElement.dispatchEvent(pasteEvent);
+                    }}
+                """)
+
+                used_selector = f"paste:{file_path_obj.name}"
             elif action == "run_js":
                 # Execute JavaScript code
-                js_code = step.get("value", "")
+                js_code = step_value or step.get("value", "")
                 self._log(f"Executing JavaScript: {js_code[:100]}{'...' if len(js_code) > 100 else ''}")
                 await page.evaluate(js_code)
                 used_selector = "javascript"
@@ -144,65 +387,41 @@ class ExecutionEngine:
                 used_selector = "screenshot"
             elif action == "wait":
                 # Wait for specified time in ms
-                wait_ms = int(step.get("value", 1000))
+                wait_ms = int(step_value or step.get("value", 1000))
                 self._log(f"Waiting for {wait_ms}ms")
                 await asyncio.sleep(wait_ms / 1000)
                 used_selector = f"wait:{wait_ms}ms"
             else:
-                target = step.get("target")
+                target = step_target or step.get("target")
 
-                # Get selectors from ui_maps_by_name or use target as direct selector
-                # Target format can be: "uiMapName.elementName" or direct CSS selector
-                selectors = []
-                if target:
-                    if "." in target and not target.startswith("."):
-                        # Parse "uiMapName.elementName" format
-                        parts = target.split(".", 1)
-                        if len(parts) == 2:
-                            ui_map_name, element_name = parts
-                            if ui_map_name in ui_maps_by_name:
-                                spec = ui_maps_by_name[ui_map_name].get(element_name)
-                                if spec:
-                                    if "primary" in spec:
-                                        selectors.append(spec["primary"])
-                                    selectors.extend(spec.get("fallbacks", []))
-                                    self._log(f"Resolved target '{target}' to selectors: {selectors}")
-
-                    # Fallback: try legacy single ui_map lookup or use as direct selector
-                    if not selectors:
-                        spec = ui_map.get(target) if ui_map else None
-                        if spec:
-                            if "primary" in spec:
-                                selectors.append(spec["primary"])
-                            selectors.extend(spec.get("fallbacks", []))
-                            self._log(f"Resolved target '{target}' from legacy UI Map: {selectors}")
-                        else:
-                            # Treat target as direct CSS selector
-                            selectors.append(target)
-                            self._log(f"Using direct selector: {target}")
+                # Use _resolve_selectors helper
+                selectors = self._resolve_selectors(target, ui_map, ui_maps_by_name)
+                if selectors:
+                    self._log(f"Resolved target '{target}' to selectors: {selectors}")
 
                 if not selectors and action not in ("run_js", "screenshot", "wait"):
                     raise ValueError(f"Target '{target}' not found and no selectors available")
+
+                # Use substituted value for action handlers
+                action_value = step_value or step.get("value", "")
 
                 async def click_fn(sel: str, to: int):
                     await page.locator(sel).click(timeout=to)
 
                 async def type_fn(sel: str, to: int):
-                    value = step.get("value", "")
                     locator = page.locator(sel)
                     await locator.fill("", timeout=to)
-                    await locator.type(value, timeout=to)
+                    await locator.type(action_value, timeout=to)
 
                 async def fill_fn(sel: str, to: int):
-                    value = step.get("value", "")
-                    await page.locator(sel).fill(value, timeout=to)
+                    await page.locator(sel).fill(action_value, timeout=to)
 
                 async def wait_fn(sel: str, to: int):
                     await page.locator(sel).wait_for(state="visible", timeout=to)
 
                 async def assert_fn(sel: str, to: int):
                     locator = page.locator(sel)
-                    await expect(locator).to_contain_text(step["value"], timeout=to)
+                    await expect(locator).to_contain_text(action_value, timeout=to)
 
                 async def hover_fn(sel: str, to: int):
                     await page.locator(sel).hover(timeout=to)
@@ -220,11 +439,10 @@ class ExecutionEngine:
                     await page.locator(sel).uncheck(timeout=to)
 
                 async def select_fn(sel: str, to: int):
-                    value = step.get("value", "")
-                    await page.locator(sel).select_option(value, timeout=to)
+                    await page.locator(sel).select_option(action_value, timeout=to)
 
                 async def press_fn(sel: str, to: int):
-                    key = step.get("value", "Enter")
+                    key = action_value or "Enter"
                     await page.locator(sel).press(key, timeout=to)
 
                 async def scroll_fn(sel: str, to: int):
@@ -374,6 +592,7 @@ class ExecutionEngine:
         scenario_id: Optional[str] = None,
         browser_channel: Optional[str] = None,
         browser_user_data_dir: Optional[str] = None,
+        browser_args: Optional[list[str]] = None,
     ) -> RunResult:
         ui_map = ui_map or {}
         ui_maps_by_name = ui_maps_by_name or {}
@@ -408,8 +627,8 @@ class ExecutionEngine:
                 context_options["record_video_dir"] = str(video_dir)
                 context_options["record_video_size"] = {"width": 1280, "height": 720}
 
-            # Build launch args
-            launch_args = []
+            # Build launch args from project configuration
+            launch_args = list(browser_args) if browser_args else []
 
             # Use persistent context if user_data_dir is specified
             if browser_user_data_dir:

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Trash2, ChevronLeft, Pencil, Check, X } from 'lucide-react';
+import { Plus, Trash2, ChevronLeft, Pencil, X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useUIMap, useUpdateUIMap, useAddElement, useDeleteElement } from '../hooks/useUIMap';
 import type { ElementLocator } from '../api';
@@ -39,12 +39,9 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
   const [editFallbacks, setEditFallbacks] = useState('');
   const [editDescription, setEditDescription] = useState('');
 
-  // UI Map name editing
-  const [isEditingName, setIsEditingName] = useState(false);
+  // UI Map name and description editing (combined)
+  const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState('');
-
-  // UI Map description editing
-  const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [editDesc, setEditDesc] = useState('');
 
   if (isLoading) {
@@ -94,52 +91,35 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
 
   const startEditName = () => {
     setEditName(uiMap.name);
-    setIsEditingName(true);
-  };
-
-  const saveEditName = () => {
-    if (!editName.trim() || editName.trim() === uiMap.name) {
-      setIsEditingName(false);
-      return;
-    }
-    updateUIMap.mutate(
-      { id: uiMapId, data: { name: editName.trim() } },
-      {
-        onSuccess: () => {
-          setIsEditingName(false);
-        },
-      }
-    );
-  };
-
-  const cancelEditName = () => {
-    setIsEditingName(false);
-    setEditName('');
-  };
-
-  const startEditDesc = () => {
     setEditDesc(uiMap.description || '');
-    setIsEditingDesc(true);
+    setIsEditing(true);
   };
 
-  const saveEditDesc = () => {
+  const saveEdit = () => {
+    const newName = editName.trim();
     const newDesc = editDesc.trim();
-    if (newDesc === (uiMap.description || '')) {
-      setIsEditingDesc(false);
+    if (!newName) {
+      setIsEditing(false);
+      return;
+    }
+    // Only update if something changed
+    if (newName === uiMap.name && newDesc === (uiMap.description || '')) {
+      setIsEditing(false);
       return;
     }
     updateUIMap.mutate(
-      { id: uiMapId, data: { description: newDesc || undefined } },
+      { id: uiMapId, data: { name: newName, description: newDesc || undefined } },
       {
         onSuccess: () => {
-          setIsEditingDesc(false);
+          setIsEditing(false);
         },
       }
     );
   };
 
-  const cancelEditDesc = () => {
-    setIsEditingDesc(false);
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditName('');
     setEditDesc('');
   };
 
@@ -179,68 +159,46 @@ export default function UIMapEditor({ uiMapId, onClose }: UIMapEditorProps) {
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <div className="flex-1">
-          {isEditingName ? (
-            <div className="flex items-center gap-2">
+        {isEditing ? (
+          <div className="flex-1 flex items-center gap-4">
+            <div className="flex-1 space-y-2 max-w-md">
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
-                className="h-8 text-lg font-semibold max-w-xs"
+                className="text-lg font-semibold"
+                placeholder={t.uiMap.form.namePlaceholder}
                 autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') saveEditName();
-                  if (e.key === 'Escape') cancelEditName();
-                }}
               />
-              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={saveEditName}>
-                <Check className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={cancelEditName}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">{uiMap.name}</h1>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={startEditName}>
-                <Pencil className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-          )}
-          {isEditingDesc ? (
-            <div className="flex items-center gap-2 mt-1">
               <Input
                 value={editDesc}
                 onChange={(e) => setEditDesc(e.target.value)}
-                className="h-7 text-sm max-w-md"
                 placeholder={t.common.description}
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') saveEditDesc();
-                  if (e.key === 'Escape') cancelEditDesc();
-                }}
               />
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={saveEditDesc}>
-                <Check className="h-3.5 w-3.5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={cancelEditDesc}>
-                <X className="h-3.5 w-3.5" />
-              </Button>
             </div>
-          ) : (
-            <div className="flex items-center gap-2 mt-1">
-              <p className="text-sm text-muted-foreground">
-                {uiMap.description || t.common.noData}
+            <Button size="sm" onClick={saveEdit}>
+              {t.common.save}
+            </Button>
+            <Button size="sm" variant="ghost" onClick={cancelEdit}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-semibold">{uiMap.name}</h1>
+              {uiMap.description && (
+                <p className="text-sm text-muted-foreground mt-1">{uiMap.description}</p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                {elements.length} {t.uiMap.elements.title.toLowerCase()}
               </p>
-              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={startEditDesc}>
-                <Pencil className="h-3 w-3" />
-              </Button>
             </div>
-          )}
-          <p className="text-xs text-muted-foreground mt-1">
-            {elements.length} {t.uiMap.elements.title.toLowerCase()}
-          </p>
-        </div>
+            <Button size="sm" variant="ghost" onClick={startEditName}>
+              <Pencil className="h-4 w-4 mr-1" />
+              {t.common.edit}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Content */}

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Map, PlayCircle, FileText, Settings, Plus, Trash2, Edit2, Save, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Map, PlayCircle, FileText, Settings, Plus, Trash2, Edit2, Save, X, Upload, File } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useProject, useUpdateProject, useAddEnvironment, useDeleteEnvironment } from '../hooks/useProject';
-import type { Environment } from '../api';
+import type { Environment, Resource } from '../api';
+import { resourceApi } from '../api';
 import { useUIMaps, useCreateUIMap, useDeleteUIMap } from '../hooks/useUIMap';
 import { useScenarios, useCreateScenario, useDeleteScenario } from '../hooks/useScenario';
 import UIMapEditor from '../components/UIMapEditor';
@@ -62,10 +63,23 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [editDescription, setEditDescription] = useState('');
   const [editTimeout, setEditTimeout] = useState<number>(5000);
   const [editBrowserChannel, setEditBrowserChannel] = useState<string>('');
+  const [editBrowserArgs, setEditBrowserArgs] = useState<string>('');
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
   const [editingScenarioId, setEditingScenarioId] = useState<string | null>(null);
+
+  // Resource states
+  const [resources, setResources] = useState<Resource[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load resources
+  useEffect(() => {
+    if (projectId) {
+      resourceApi.list(projectId).then(setResources).catch(() => setResources([]));
+    }
+  }, [projectId]);
 
   // Sync edit states with project data
   useEffect(() => {
@@ -75,7 +89,10 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
     if (project?.browser_channel !== undefined) {
       setEditBrowserChannel(project.browser_channel || '');
     }
-  }, [project?.default_timeout, project?.browser_channel]);
+    if (project?.browser_args !== undefined) {
+      setEditBrowserArgs((project.browser_args || []).join('\n'));
+    }
+  }, [project?.default_timeout, project?.browser_channel, project?.browser_args]);
 
   if (projectLoading) {
     return (
@@ -170,6 +187,34 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         onSuccess: () => setEditingProject(false),
       }
     );
+  };
+
+  const handleUploadResource = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const newResource = await resourceApi.upload(projectId, file);
+      setResources((prev) => [...prev, newResource]);
+    } catch (err) {
+      console.error('Upload failed:', err);
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleDeleteResource = async (resourceId: string) => {
+    if (!confirm((t as any).resource?.deleteConfirm || t.common.deleteConfirm)) return;
+    try {
+      await resourceApi.delete(projectId, resourceId);
+      setResources((prev) => prev.filter((r) => r.id !== resourceId));
+    } catch (err) {
+      console.error('Delete failed:', err);
+    }
   };
 
   // If editing a UI Map, show the editor
@@ -470,6 +515,38 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                   </div>
                 </div>
 
+                {/* Browser Launch Arguments */}
+                <div className="space-y-2">
+                  <Label>{t.project.form.browserArgs}</Label>
+                  <p className="text-sm text-muted-foreground">{t.project.form.browserArgsDesc}</p>
+                  <div className="flex items-start gap-2">
+                    <textarea
+                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[400px] font-mono"
+                      placeholder={t.project.form.browserArgsPlaceholder}
+                      value={editBrowserArgs}
+                      onChange={(e) => setEditBrowserArgs(e.target.value)}
+                      rows={4}
+                    />
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        const args = editBrowserArgs
+                          .split('\n')
+                          .map((s) => s.trim())
+                          .filter((s) => s.length > 0);
+                        updateProject.mutate({
+                          id: projectId,
+                          data: { browser_args: args }
+                        });
+                      }}
+                      disabled={editBrowserArgs === (project.browser_args || []).join('\n')}
+                    >
+                      <Save className="h-4 w-4 mr-1" />
+                      {t.common.save}
+                    </Button>
+                  </div>
+                </div>
+
                 {/* Environments */}
                 <div className="space-y-2">
                   <Label>{t.project.environments.title}</Label>
@@ -498,6 +575,60 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                   <Button variant="outline" size="sm" onClick={() => setShowAddEnvModal(true)}>
                     <Plus className="h-4 w-4 mr-1" />
                     {t.project.environments.add}
+                  </Button>
+                </div>
+
+                {/* Resources */}
+                <div className="space-y-2">
+                  <Label>{(t as any).resource?.title || 'Resources'}</Label>
+                  <p className="text-sm text-muted-foreground">
+                    {(t as any).resource?.description || 'Upload files and images for use in test scenarios'}
+                  </p>
+                  {resources.length > 0 ? (
+                    <div className="space-y-2">
+                      {resources.map((res) => (
+                        <div key={res.id} className="flex items-center justify-between gap-2 p-3 border rounded group">
+                          <div className="flex items-center gap-2">
+                            <File className="h-4 w-4 text-muted-foreground" />
+                            <div>
+                              <span className="font-medium">{res.original_name}</span>
+                              <span className="text-muted-foreground text-sm ml-2">
+                                ({(res.size / 1024).toFixed(1)} KB)
+                              </span>
+                            </div>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 opacity-0 group-hover:opacity-100 text-destructive hover:text-destructive"
+                            onClick={() => handleDeleteResource(res.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {(t as any).resource?.noResources || 'No resources uploaded'}
+                    </p>
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleUploadResource}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploading}
+                  >
+                    <Upload className="h-4 w-4 mr-1" />
+                    {isUploading
+                      ? (t as any).resource?.uploading || 'Uploading...'
+                      : (t as any).resource?.upload || 'Upload File'}
                   </Button>
                 </div>
               </CardContent>

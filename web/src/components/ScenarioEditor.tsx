@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { Plus, Trash2, ChevronLeft, ChevronUp, ChevronDown, AlertCircle, SkipForward, Pencil, Check, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Trash2, ChevronLeft, ChevronUp, ChevronDown, AlertCircle, SkipForward, Pencil, X, Upload } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useScenario, useUpdateScenario } from '../hooks/useScenario';
 import { useUIMaps } from '../hooks/useUIMap';
-import type { Step } from '../api';
+import type { Step, Resource } from '../api';
+import { resourceApi } from '../api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -48,6 +49,10 @@ const ACTIONS = [
   { value: 'scroll', label: 'scroll', needsTarget: true },
   { value: 'wait_for', label: 'wait_for', needsTarget: true },
   { value: 'assert_text', label: 'assert_text', needsTarget: true, needsValue: true },
+  { value: 'extract', label: 'extract', needsTarget: true, needsSaveAs: true },
+  { value: 'run_scenario', label: 'run_scenario', needsScenarioId: true },
+  { value: 'upload_file', label: 'upload_file', needsTarget: true, needsFilePath: true },
+  { value: 'paste_image', label: 'paste_image', needsTarget: true, needsFilePath: true },
   { value: 'run_js', label: 'run_js', needsValue: true },
   { value: 'screenshot', label: 'screenshot' },
   { value: 'wait', label: 'wait', needsValue: true },
@@ -75,6 +80,9 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [newOptional, setNewOptional] = useState(false);
   const [newTimeout, setNewTimeout] = useState('');
   const [showNewOptions, setShowNewOptions] = useState(false);
+  const [newSaveAs, setNewSaveAs] = useState('');
+  const [newScenarioId, setNewScenarioId] = useState('');
+  const [newFilePath, setNewFilePath] = useState('');
 
   const [editingStep, setEditingStep] = useState<number | null>(null);
   const [editStepName, setEditStepName] = useState('');
@@ -86,14 +94,22 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [editOptional, setEditOptional] = useState(false);
   const [editTimeout, setEditTimeout] = useState('');
   const [showEditOptions, setShowEditOptions] = useState(false);
+  const [editSaveAs, setEditSaveAs] = useState('');
+  const [editScenarioId, setEditScenarioId] = useState('');
+  const [editFilePath, setEditFilePath] = useState('');
 
-  // Scenario name editing
-  const [isEditingName, setIsEditingName] = useState(false);
+  // Scenario name and description editing (combined)
+  const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState('');
-
-  // Scenario description editing
-  const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [editDesc, setEditDesc] = useState('');
+
+  // Resources for file upload/paste actions
+  const [resources, setResources] = useState<Resource[]>([]);
+
+  // Load resources for the project
+  useEffect(() => {
+    resourceApi.list(projectId).then(setResources).catch(() => setResources([]));
+  }, [projectId]);
 
   if (isLoading) {
     return (
@@ -131,6 +147,9 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if (actionConfig.needsTarget && newTarget) step.target = newTarget;
     if (actionConfig.needsUrl && newUrl) step.url = newUrl;
     if (actionConfig.needsValue && newValue) step.value = newValue;
+    if ((actionConfig as any).needsSaveAs && newSaveAs) step.save_as = newSaveAs;
+    if ((actionConfig as any).needsScenarioId && newScenarioId) step.scenario_id = newScenarioId;
+    if ((actionConfig as any).needsFilePath && newFilePath) step.file_path = newFilePath;
     if (newContinueOnError) step.continue_on_error = true;
     if (newOptional) step.optional = true;
     if (newTimeout) step.timeout = parseInt(newTimeout, 10);
@@ -146,6 +165,9 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
           setNewTarget('');
           setNewUrl('');
           setNewValue('');
+          setNewSaveAs('');
+          setNewScenarioId('');
+          setNewFilePath('');
           setNewContinueOnError(false);
           setNewOptional(false);
           setNewTimeout('');
@@ -161,54 +183,37 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     updateScenario.mutate({ id: scenarioId, data: { steps: newSteps } });
   };
 
-  const startEditName = () => {
+  const startEdit = () => {
     setEditName(scenario.name);
-    setIsEditingName(true);
-  };
-
-  const saveEditName = () => {
-    if (!editName.trim() || editName.trim() === scenario.name) {
-      setIsEditingName(false);
-      return;
-    }
-    updateScenario.mutate(
-      { id: scenarioId, data: { name: editName.trim() } },
-      {
-        onSuccess: () => {
-          setIsEditingName(false);
-        },
-      }
-    );
-  };
-
-  const cancelEditName = () => {
-    setIsEditingName(false);
-    setEditName('');
-  };
-
-  const startEditDesc = () => {
     setEditDesc(scenario.description || '');
-    setIsEditingDesc(true);
+    setIsEditing(true);
   };
 
-  const saveEditDesc = () => {
+  const saveEdit = () => {
+    const newName = editName.trim();
     const newDesc = editDesc.trim();
-    if (newDesc === (scenario.description || '')) {
-      setIsEditingDesc(false);
+    if (!newName) {
+      setIsEditing(false);
+      return;
+    }
+    // Only update if something changed
+    if (newName === scenario.name && newDesc === (scenario.description || '')) {
+      setIsEditing(false);
       return;
     }
     updateScenario.mutate(
-      { id: scenarioId, data: { description: newDesc || undefined } },
+      { id: scenarioId, data: { name: newName, description: newDesc || undefined } },
       {
         onSuccess: () => {
-          setIsEditingDesc(false);
+          setIsEditing(false);
         },
       }
     );
   };
 
-  const cancelEditDesc = () => {
-    setIsEditingDesc(false);
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditName('');
     setEditDesc('');
   };
 
@@ -219,6 +224,9 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     setEditTarget(step.target || '');
     setEditUrl(step.url || '');
     setEditValue(step.value || '');
+    setEditSaveAs(step.save_as || '');
+    setEditScenarioId(step.scenario_id || '');
+    setEditFilePath(step.file_path || '');
     setEditContinueOnError(step.continue_on_error || false);
     setEditOptional(step.optional || false);
     setEditTimeout(step.timeout?.toString() || '');
@@ -235,6 +243,9 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if (actionConfig.needsTarget && editTarget) step.target = editTarget;
     if (actionConfig.needsUrl && editUrl) step.url = editUrl;
     if (actionConfig.needsValue && editValue) step.value = editValue;
+    if ((actionConfig as any).needsSaveAs && editSaveAs) step.save_as = editSaveAs;
+    if ((actionConfig as any).needsScenarioId && editScenarioId) step.scenario_id = editScenarioId;
+    if ((actionConfig as any).needsFilePath && editFilePath) step.file_path = editFilePath;
     if (editContinueOnError) step.continue_on_error = true;
     if (editOptional) step.optional = true;
     if (editTimeout) step.timeout = parseInt(editTimeout, 10);
@@ -299,68 +310,46 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <div className="flex-1">
-          {isEditingName ? (
-            <div className="flex items-center gap-2">
+        {isEditing ? (
+          <div className="flex-1 flex items-center gap-4">
+            <div className="flex-1 space-y-2 max-w-md">
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
-                className="h-8 text-lg font-semibold max-w-xs"
+                className="text-lg font-semibold"
+                placeholder={t.scenario.form.namePlaceholder}
                 autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') saveEditName();
-                  if (e.key === 'Escape') cancelEditName();
-                }}
               />
-              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={saveEditName}>
-                <Check className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={cancelEditName}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">{scenario.name}</h1>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={startEditName}>
-                <Pencil className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-          )}
-          {isEditingDesc ? (
-            <div className="flex items-center gap-2 mt-1">
               <Input
                 value={editDesc}
                 onChange={(e) => setEditDesc(e.target.value)}
-                className="h-7 text-sm max-w-md"
                 placeholder={t.common.description}
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') saveEditDesc();
-                  if (e.key === 'Escape') cancelEditDesc();
-                }}
               />
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={saveEditDesc}>
-                <Check className="h-3.5 w-3.5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={cancelEditDesc}>
-                <X className="h-3.5 w-3.5" />
-              </Button>
             </div>
-          ) : (
-            <div className="flex items-center gap-2 mt-1">
-              <p className="text-sm text-muted-foreground">
-                {scenario.description || t.common.noData}
+            <Button size="sm" onClick={saveEdit}>
+              {t.common.save}
+            </Button>
+            <Button size="sm" variant="ghost" onClick={cancelEdit}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-semibold">{scenario.name}</h1>
+              {scenario.description && (
+                <p className="text-sm text-muted-foreground mt-1">{scenario.description}</p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                {scenario.steps?.length || 0} steps
               </p>
-              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={startEditDesc}>
-                <Pencil className="h-3 w-3" />
-              </Button>
             </div>
-          )}
-          <p className="text-xs text-muted-foreground mt-1">
-            {scenario.steps?.length || 0} steps
-          </p>
-        </div>
+            <Button size="sm" variant="ghost" onClick={startEdit}>
+              <Pencil className="h-4 w-4 mr-1" />
+              {t.common.edit}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -427,6 +416,47 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                               onChange={(e) => setEditValue(e.target.value)}
                               placeholder="value"
                             />
+                          </div>
+                        )}
+                        {(getActionConfig(editAction) as any)?.needsSaveAs && (
+                          <div className="space-y-1">
+                            <Label className="text-xs">Save As</Label>
+                            <Input
+                              value={editSaveAs}
+                              onChange={(e) => setEditSaveAs(e.target.value)}
+                              placeholder="variable_name"
+                            />
+                          </div>
+                        )}
+                        {(getActionConfig(editAction) as any)?.needsScenarioId && (
+                          <div className="space-y-1">
+                            <Label className="text-xs">Scenario ID</Label>
+                            <Input
+                              value={editScenarioId}
+                              onChange={(e) => setEditScenarioId(e.target.value)}
+                              placeholder="scenario_id"
+                            />
+                          </div>
+                        )}
+                        {(getActionConfig(editAction) as any)?.needsFilePath && (
+                          <div className="space-y-1">
+                            <Label className="text-xs">{(t as any).resource?.filePath || 'File Path'}</Label>
+                            <Select value={editFilePath || '__none__'} onValueChange={(v) => setEditFilePath(v === '__none__' ? '' : v)}>
+                              <SelectTrigger>
+                                <SelectValue placeholder={(t as any).resource?.selectResource || 'Select from resources...'} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="__none__">{(t as any).resource?.noFileSelected || 'No file selected'}</SelectItem>
+                                {resources.map((res) => (
+                                  <SelectItem key={res.id} value={`resource:${res.id}`}>
+                                    <div className="flex items-center gap-2">
+                                      <Upload className="h-3 w-3" />
+                                      {res.original_name}
+                                    </div>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </div>
                         )}
                       </div>
@@ -519,6 +549,14 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                         {step.url && <span className="text-muted-foreground">{step.url}</span>}
                         {step.target && <code className="bg-muted px-1 rounded">{step.target}</code>}
                         {step.value && <span className="text-muted-foreground">= "{step.value}"</span>}
+                        {step.file_path && (
+                          <Badge variant="secondary" className="gap-1 text-xs">
+                            <Upload className="h-3 w-3" />
+                            {step.file_path.startsWith('resource:')
+                              ? resources.find(r => r.id === step.file_path?.replace('resource:', ''))?.original_name || step.file_path
+                              : step.file_path}
+                          </Badge>
+                        )}
                         {step.continue_on_error && (
                           <Badge variant="secondary" className="gap-1 text-xs">
                             <AlertCircle className="h-3 w-3" />
@@ -619,6 +657,54 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                   onChange={(e) => setNewValue(e.target.value)}
                   placeholder="value"
                 />
+              </div>
+            )}
+            {(getActionConfig(newAction) as any)?.needsSaveAs && (
+              <div className="space-y-2">
+                <Label>Save As (variable name) *</Label>
+                <Input
+                  value={newSaveAs}
+                  onChange={(e) => setNewSaveAs(e.target.value)}
+                  placeholder="e.g., order_id"
+                />
+                <p className="text-xs text-muted-foreground">Use {"{{variable_name}}"} in later steps</p>
+              </div>
+            )}
+            {(getActionConfig(newAction) as any)?.needsScenarioId && (
+              <div className="space-y-2">
+                <Label>Scenario ID *</Label>
+                <Input
+                  value={newScenarioId}
+                  onChange={(e) => setNewScenarioId(e.target.value)}
+                  placeholder="e.g., abc12345"
+                />
+                <p className="text-xs text-muted-foreground">Run another scenario as a sub-routine</p>
+              </div>
+            )}
+            {(getActionConfig(newAction) as any)?.needsFilePath && (
+              <div className="space-y-2">
+                <Label>{(t as any).resource?.filePath || 'File Path'} *</Label>
+                <Select value={newFilePath || '__none__'} onValueChange={(v) => setNewFilePath(v === '__none__' ? '' : v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={(t as any).resource?.selectResource || 'Select from resources...'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">{(t as any).resource?.noFileSelected || 'No file selected'}</SelectItem>
+                    {resources.map((res) => (
+                      <SelectItem key={res.id} value={`resource:${res.id}`}>
+                        <div className="flex items-center gap-2">
+                          <Upload className="h-3 w-3" />
+                          {res.original_name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  {resources.length === 0
+                    ? 'No resources uploaded. Go to Project Settings to upload files.'
+                    : 'Select a file from project resources'}
+                </p>
               </div>
             )}
             {/* Step Options */}

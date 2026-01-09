@@ -17,6 +17,7 @@ export interface Project {
   description?: string;
   default_timeout: number;
   browser_channel?: string;
+  browser_args?: string[];
   environments: Environment[];
   created_at: string;
   updated_at: string;
@@ -27,6 +28,7 @@ export interface ProjectCreate {
   description?: string;
   default_timeout?: number;
   browser_channel?: string;
+  browser_args?: string[];
   environments?: Environment[];
 }
 
@@ -104,6 +106,12 @@ export interface Step {
   // Step options
   continue_on_error?: boolean;  // Continue executing remaining steps if this step fails
   optional?: boolean;           // If fails, don't mark the whole run as failed
+  // Extract action
+  save_as?: string;             // Variable name to save extracted value
+  // Run scenario action
+  scenario_id?: string;         // Scenario ID to run
+  // File upload/paste actions
+  file_path?: string;           // File path for upload_file/paste_image
 }
 
 export interface Scenario {
@@ -237,4 +245,35 @@ export const docsApi = {
   list: () => api.get<DocFile[]>('/docs').then((res) => res.data),
 
   get: (name: string) => api.get<DocContent>(`/docs/${name}`).then((res) => res.data),
+};
+
+// Resource types
+export interface Resource {
+  id: string;
+  project_id: string;
+  filename: string;
+  original_name: string;
+  content_type: string;
+  size: number;
+  created_at: string;
+}
+
+// Resource API
+export const resourceApi = {
+  list: (projectId: string) =>
+    api.get<Resource[]>(`/resources/${projectId}`).then((res) => res.data),
+
+  upload: (projectId: string, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post<Resource>(`/resources/${projectId}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }).then((res) => res.data);
+  },
+
+  getPath: (projectId: string, resourceId: string) =>
+    api.get<{ path: string }>(`/resources/${projectId}/${resourceId}/path`).then((res) => res.data),
+
+  delete: (projectId: string, resourceId: string) =>
+    api.delete(`/resources/${projectId}/${resourceId}`).then((res) => res.data),
 };

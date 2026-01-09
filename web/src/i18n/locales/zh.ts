@@ -61,6 +61,9 @@ export default {
         chrome: 'Chrome (本机安装)',
         msedge: 'Edge (本机安装)',
       },
+      browserArgs: '浏览器启动参数',
+      browserArgsDesc: '浏览器启动时的额外命令行参数（每行一个）',
+      browserArgsPlaceholder: '--disable-blink-features=AutomationControlled\n--disable-infobars',
       createDescription: '创建新项目来组织您的测试',
     },
     environments: {
@@ -162,6 +165,16 @@ export default {
       timeout: '超时时间 (ms)',
       timeoutDesc: '该步骤的自定义超时时间',
     },
+    extract: {
+      saveAs: '保存为变量',
+      saveAsPlaceholder: '如: order_id',
+      saveAsDesc: '在后续步骤中使用 {{变量名}}',
+    },
+    runScenario: {
+      scenarioId: '场景 ID',
+      scenarioIdPlaceholder: '如: abc12345',
+      scenarioIdDesc: '作为子流程运行另一个场景',
+    },
   },
 
   // Runner Page
@@ -260,5 +273,19 @@ export default {
     noDocs: '暂无文档',
     selectDoc: '选择一个文档',
     description: '通过指南和示例学习如何使用 Playwright Agent。',
+  },
+
+  // Resources
+  resource: {
+    title: '资源文件',
+    description: '上传文件和图片用于测试场景',
+    noResources: '暂无资源文件',
+    upload: '上传文件',
+    uploading: '上传中...',
+    deleteConfirm: '确定删除此资源文件？',
+    selectFile: '选择文件',
+    filePath: '文件路径',
+    selectResource: '从资源中选择...',
+    noFileSelected: '未选择文件',
   },
 };
