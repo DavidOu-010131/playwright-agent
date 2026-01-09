@@ -556,7 +556,8 @@ class ExecutionEngine:
                     self._log(f"[runner] Failed to get video path: {e}")
 
             await context.close()
-            await browser.close()
+            if browser:
+                await browser.close()
 
         result.end_time = datetime.now().isoformat()
         result.total_duration_ms = int((asyncio.get_event_loop().time() - start_time) * 1000)
