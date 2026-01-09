@@ -463,18 +463,11 @@ class ExecutionEngine:
             launch_args = []
             if disable_private_network_access:
                 launch_args.extend([
-                    # Completely disable web security (most aggressive approach)
-                    "--disable-web-security",
-                    # Disable all Private Network Access related features
-                    "--disable-features=IsolateOrigins,site-per-process,PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults,BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessPermissionPrompt",
+                    # Disable Private Network Access preflight checks (CORS level)
+                    "--disable-features=PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults",
                     "--enable-features=PrivateNetworkAccessNonSecureContextsAllowed",
-                    # Additional flags to prevent permission prompts
-                    "--disable-site-isolation-trials",
-                    "--allow-running-insecure-content",
-                    # Disable all permission prompts
-                    "--disable-permissions-api",
                 ])
-                self._log("[runner] Private Network Access checks disabled (web security disabled)")
+                self._log("[runner] Private Network Access preflight checks disabled")
 
             # Use persistent context if user_data_dir is specified
             if browser_user_data_dir:
