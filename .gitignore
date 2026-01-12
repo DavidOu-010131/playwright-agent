@@ -42,7 +42,7 @@ browser_data/
 .env
 .env.local
 data/
- 
+temp/
 
 
 # Logs
