@@ -16,6 +16,7 @@ export default {
     status: '状态',
     settings: '设置',
     deleteConfirm: '确定删除此项？',
+    back: '返回',
   },
 
   // Navigation
@@ -42,7 +43,8 @@ export default {
     deleteConfirm: '确定删除此项目？',
     noProjects: '暂无项目',
     createFirst: '创建你的第一个项目开始使用',
-    selectProject: '选择项目',
+    selectProject: '选择项目以管理测试和场景',
+    clickToEnter: '点击进入',
     selectProjectDescription: '从侧边栏选择一个项目，查看其 UI Map、场景和运行测试。',
     settings: {
       title: '项目设置',

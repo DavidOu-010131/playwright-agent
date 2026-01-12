@@ -16,6 +16,7 @@ export default {
     status: 'Status',
     settings: 'Settings',
     deleteConfirm: 'Are you sure you want to delete this item?',
+    back: 'Back',
   },
 
   // Navigation
@@ -42,7 +43,8 @@ export default {
     deleteConfirm: 'Are you sure you want to delete this project?',
     noProjects: 'No projects yet',
     createFirst: 'Create your first project to get started',
-    selectProject: 'Select a Project',
+    selectProject: 'Select a project to manage tests and scenarios',
+    clickToEnter: 'Click to enter',
     selectProjectDescription: 'Select a project from the sidebar to view its UI Maps, Scenarios, and run tests.',
     settings: {
       title: 'Project Settings',
