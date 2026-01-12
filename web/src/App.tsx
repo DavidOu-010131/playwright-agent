@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { I18nProvider } from './i18n';
 import { ThemeProvider } from './theme';
+import { Toaster } from '@/components/ui/sonner';
 import AppLayout from './components/AppLayout';
 import ProjectsHomePage from './pages/ProjectsHomePage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
@@ -66,6 +67,7 @@ function App() {
       <ThemeProvider>
         <I18nProvider>
           <AppContent />
+          <Toaster position="top-right" richColors />
         </I18nProvider>
       </ThemeProvider>
     </QueryClientProvider>

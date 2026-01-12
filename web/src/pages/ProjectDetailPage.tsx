@@ -1,28 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
-import { Map, PlayCircle, FileText, Settings, Plus, Trash2, Edit2, Save, X, Upload, File } from 'lucide-react';
+import { useState } from 'react';
+import { Map, PlayCircle, FileText, Settings, Plus, Trash2, Edit2, Save, X } from 'lucide-react';
 import { useI18n } from '../i18n';
-import { useProject, useUpdateProject, useAddEnvironment, useDeleteEnvironment } from '../hooks/useProject';
-import type { Environment, Resource } from '../api';
-import { resourceApi } from '../api';
+import { useProject, useUpdateProject } from '../hooks/useProject';
 import { useUIMaps, useCreateUIMap, useDeleteUIMap } from '../hooks/useUIMap';
 import { useScenarios, useCreateScenario, useDeleteScenario } from '../hooks/useScenario';
 import UIMapEditor from '../components/UIMapEditor';
 import ScenarioEditor from '../components/ScenarioEditor';
 import RunnerPanel from '../components/RunnerPanel';
+import SettingsPanel from '../components/SettingsPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -36,13 +27,6 @@ interface ProjectDetailPageProps {
   projectId: string;
 }
 
-// Common browser arguments that can be toggled
-const COMMON_BROWSER_ARGS = {
-  startMaximized: '--start-maximized',
-  disableAutomation: '--disable-blink-features=AutomationControlled',
-  disableInfobars: '--disable-infobars',
-} as const;
-
 export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   const { t } = useI18n();
   const { data: project, isLoading: projectLoading } = useProject(projectId);
@@ -50,8 +34,6 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const { data: scenarios, isLoading: scenariosLoading } = useScenarios(projectId);
 
   const updateProject = useUpdateProject();
-  const addEnvironment = useAddEnvironment();
-  const deleteEnvironment = useDeleteEnvironment();
   const createUIMap = useCreateUIMap();
   const deleteUIMap = useDeleteUIMap();
   const createScenario = useCreateScenario();
@@ -60,63 +42,15 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
   const [activeTab, setActiveTab] = useState('uimaps');
   const [showCreateUIMapModal, setShowCreateUIMapModal] = useState(false);
   const [showCreateScenarioModal, setShowCreateScenarioModal] = useState(false);
-  const [showAddEnvModal, setShowAddEnvModal] = useState(false);
   const [newUIMapName, setNewUIMapName] = useState('');
   const [newScenarioName, setNewScenarioName] = useState('');
-  const [newEnvName, setNewEnvName] = useState('');
-  const [newEnvBaseUrl, setNewEnvBaseUrl] = useState('');
-  const [newEnvDescription, setNewEnvDescription] = useState('');
   const [editingProject, setEditingProject] = useState(false);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
-  const [editTimeout, setEditTimeout] = useState<number>(5000);
-  const [editBrowserChannel, setEditBrowserChannel] = useState<string>('');
-  const [editBrowserArgs, setEditBrowserArgs] = useState<string>('');
-  const [browserArgOptions, setBrowserArgOptions] = useState({
-    startMaximized: false,
-    disableAutomation: false,
-    disableInfobars: false,
-  });
 
   // Editor states
   const [editingUIMapId, setEditingUIMapId] = useState<string | null>(null);
   const [editingScenarioId, setEditingScenarioId] = useState<string | null>(null);
-
-  // Resource states
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Load resources
-  useEffect(() => {
-    if (projectId) {
-      resourceApi.list(projectId).then(setResources).catch(() => setResources([]));
-    }
-  }, [projectId]);
-
-  // Sync edit states with project data
-  useEffect(() => {
-    if (project?.default_timeout !== undefined) {
-      setEditTimeout(project.default_timeout);
-    }
-    if (project?.browser_channel !== undefined) {
-      setEditBrowserChannel(project.browser_channel || '');
-    }
-    if (project?.browser_args !== undefined) {
-      const args = project.browser_args || [];
-      // Parse common args from the list
-      const options = {
-        startMaximized: args.includes(COMMON_BROWSER_ARGS.startMaximized),
-        disableAutomation: args.includes(COMMON_BROWSER_ARGS.disableAutomation),
-        disableInfobars: args.includes(COMMON_BROWSER_ARGS.disableInfobars),
-      };
-      setBrowserArgOptions(options);
-      // Filter out common args to get custom args only
-      const commonArgsValues = Object.values(COMMON_BROWSER_ARGS);
-      const customArgs = args.filter((arg: string) => !commonArgsValues.includes(arg as any));
-      setEditBrowserArgs(customArgs.join('\n'));
-    }
-  }, [project?.default_timeout, project?.browser_channel, project?.browser_args]);
 
   if (projectLoading) {
     return (
@@ -172,32 +106,6 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
     }
   };
 
-  const handleAddEnvironment = () => {
-    if (!newEnvName.trim() || !newEnvBaseUrl.trim()) return;
-    const env: Environment = {
-      name: newEnvName.trim(),
-      base_url: newEnvBaseUrl.trim(),
-      description: newEnvDescription.trim() || undefined,
-    };
-    addEnvironment.mutate(
-      { projectId, env },
-      {
-        onSuccess: () => {
-          setShowAddEnvModal(false);
-          setNewEnvName('');
-          setNewEnvBaseUrl('');
-          setNewEnvDescription('');
-        },
-      }
-    );
-  };
-
-  const handleDeleteEnvironment = (envName: string) => {
-    if (confirm(t.common.deleteConfirm)) {
-      deleteEnvironment.mutate({ projectId, envName });
-    }
-  };
-
   const startEditProject = () => {
     setEditName(project.name);
     setEditDescription(project.description || '');
@@ -211,34 +119,6 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         onSuccess: () => setEditingProject(false),
       }
     );
-  };
-
-  const handleUploadResource = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploading(true);
-    try {
-      const newResource = await resourceApi.upload(projectId, file);
-      setResources((prev) => [...prev, newResource]);
-    } catch (err) {
-      console.error('Upload failed:', err);
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  const handleDeleteResource = async (resourceId: string) => {
-    if (!confirm((t as any).resource?.deleteConfirm || t.common.deleteConfirm)) return;
-    try {
-      await resourceApi.delete(projectId, resourceId);
-      setResources((prev) => prev.filter((r) => r.id !== resourceId));
-    } catch (err) {
-      console.error('Delete failed:', err);
-    }
   };
 
   // If editing a UI Map, show the editor
@@ -297,33 +177,67 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
         <div className="border-b px-6">
-          <TabsList className="h-12 bg-transparent p-0 gap-4">
+          <TabsList className="h-12 bg-transparent p-0 gap-1">
             <TabsTrigger
               value="uimaps"
-              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-1"
+              className="relative px-4 py-2 rounded-lg text-muted-foreground transition-all duration-200
+                data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
+                hover:bg-muted hover:text-foreground
+                data-[state=active]:hover:bg-primary/10
+                [&_svg]:transition-colors [&_svg]:duration-200
+                data-[state=active]:[&_svg]:text-primary"
             >
               <Map className="h-4 w-4 mr-2" />
               {t.nav.uiMap}
-              {uiMaps && <Badge variant="secondary" className="ml-2">{uiMaps.length}</Badge>}
+              {uiMaps && uiMaps.length > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="ml-2 h-5 min-w-5 px-1.5 text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"
+                >
+                  {uiMaps.length}
+                </Badge>
+              )}
             </TabsTrigger>
             <TabsTrigger
               value="scenarios"
-              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-1"
+              className="relative px-4 py-2 rounded-lg text-muted-foreground transition-all duration-200
+                data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
+                hover:bg-muted hover:text-foreground
+                data-[state=active]:hover:bg-primary/10
+                [&_svg]:transition-colors [&_svg]:duration-200
+                data-[state=active]:[&_svg]:text-primary"
             >
               <FileText className="h-4 w-4 mr-2" />
               {t.nav.scenarios || 'Scenarios'}
-              {scenarios && <Badge variant="secondary" className="ml-2">{scenarios.length}</Badge>}
+              {scenarios && scenarios.length > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="ml-2 h-5 min-w-5 px-1.5 text-xs"
+                >
+                  {scenarios.length}
+                </Badge>
+              )}
             </TabsTrigger>
             <TabsTrigger
               value="runner"
-              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-1"
+              className="relative px-4 py-2 rounded-lg text-muted-foreground transition-all duration-200
+                data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
+                hover:bg-muted hover:text-foreground
+                data-[state=active]:hover:bg-primary/10
+                [&_svg]:transition-colors [&_svg]:duration-200
+                data-[state=active]:[&_svg]:text-primary"
             >
               <PlayCircle className="h-4 w-4 mr-2" />
               {t.nav.runner}
             </TabsTrigger>
             <TabsTrigger
               value="settings"
-              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-1"
+              className="relative px-4 py-2 rounded-lg text-muted-foreground transition-all duration-200
+                data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
+                hover:bg-muted hover:text-foreground
+                data-[state=active]:hover:bg-primary/10
+                [&_svg]:transition-colors [&_svg]:duration-200
+                data-[state=active]:[&_svg]:text-primary"
             >
               <Settings className="h-4 w-4 mr-2" />
               {t.nav.settings}
@@ -470,271 +384,7 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
 
           {/* Settings Tab */}
           <TabsContent value="settings" className="mt-0 h-full">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-medium">{t.nav.settings}</h2>
-            </div>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t.project.settings.title}</CardTitle>
-                <CardDescription>{t.project.settings.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Default Timeout */}
-                <div className="space-y-2">
-                  <Label>{t.project.form.defaultTimeout}</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={editTimeout}
-                      onChange={(e) => setEditTimeout(Number(e.target.value))}
-                      className="max-w-[200px]"
-                    />
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        updateProject.mutate({
-                          id: projectId,
-                          data: { default_timeout: editTimeout }
-                        });
-                      }}
-                      disabled={editTimeout === project.default_timeout}
-                    >
-                      <Save className="h-4 w-4 mr-1" />
-                      {t.common.save}
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Browser Channel */}
-                <div className="space-y-2">
-                  <Label>{t.project.form.browserChannel}</Label>
-                  <p className="text-sm text-muted-foreground">{t.project.form.browserChannelDesc}</p>
-                  <div className="flex items-center gap-2">
-                    <Select
-                      value={editBrowserChannel || 'chromium'}
-                      onValueChange={(value) => setEditBrowserChannel(value === 'chromium' ? '' : value)}
-                    >
-                      <SelectTrigger className="w-[280px]">
-                        <SelectValue placeholder={t.project.form.browserOptions.chromium} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="chromium">{t.project.form.browserOptions.chromium}</SelectItem>
-                        <SelectItem value="chrome">{t.project.form.browserOptions.chrome}</SelectItem>
-                        <SelectItem value="msedge">{t.project.form.browserOptions.msedge}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        updateProject.mutate({
-                          id: projectId,
-                          data: { browser_channel: editBrowserChannel }
-                        });
-                      }}
-                      disabled={editBrowserChannel === (project.browser_channel || '')}
-                    >
-                      <Save className="h-4 w-4 mr-1" />
-                      {t.common.save}
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Browser Launch Arguments */}
-                <div className="space-y-4">
-                  <div>
-                    <Label>{t.project.form.browserArgs}</Label>
-                    <p className="text-sm text-muted-foreground">{t.project.form.browserArgsDesc}</p>
-                  </div>
-
-                  {/* Common Options */}
-                  <div className="space-y-3">
-                    <Label className="text-sm font-medium">{(t.project.form as any).browserArgsOptions?.title || 'Common Options'}</Label>
-
-                    {/* Start Maximized */}
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="startMaximized"
-                        checked={browserArgOptions.startMaximized}
-                        onCheckedChange={(checked) =>
-                          setBrowserArgOptions((prev) => ({ ...prev, startMaximized: !!checked }))
-                        }
-                      />
-                      <div className="grid gap-1.5 leading-none">
-                        <label htmlFor="startMaximized" className="text-sm font-medium cursor-pointer">
-                          {(t.project.form as any).browserArgsOptions?.startMaximized || 'Start Maximized'}
-                        </label>
-                        <p className="text-xs text-muted-foreground">
-                          {(t.project.form as any).browserArgsOptions?.startMaximizedDesc || 'Open browser window maximized'}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Hide Automation */}
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="disableAutomation"
-                        checked={browserArgOptions.disableAutomation}
-                        onCheckedChange={(checked) =>
-                          setBrowserArgOptions((prev) => ({ ...prev, disableAutomation: !!checked }))
-                        }
-                      />
-                      <div className="grid gap-1.5 leading-none">
-                        <label htmlFor="disableAutomation" className="text-sm font-medium cursor-pointer">
-                          {(t.project.form as any).browserArgsOptions?.disableAutomation || 'Hide Automation'}
-                        </label>
-                        <p className="text-xs text-muted-foreground">
-                          {(t.project.form as any).browserArgsOptions?.disableAutomationDesc || 'Hide browser automation detection flags'}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Disable Infobars */}
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="disableInfobars"
-                        checked={browserArgOptions.disableInfobars}
-                        onCheckedChange={(checked) =>
-                          setBrowserArgOptions((prev) => ({ ...prev, disableInfobars: !!checked }))
-                        }
-                      />
-                      <div className="grid gap-1.5 leading-none">
-                        <label htmlFor="disableInfobars" className="text-sm font-medium cursor-pointer">
-                          {(t.project.form as any).browserArgsOptions?.disableInfobars || 'Disable Infobars'}
-                        </label>
-                        <p className="text-xs text-muted-foreground">
-                          {(t.project.form as any).browserArgsOptions?.disableInfobarsDesc || 'Disable Chrome infobars'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Custom Arguments */}
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium">{(t.project.form as any).browserArgsOptions?.customArgs || 'Custom Arguments'}</Label>
-                    <p className="text-xs text-muted-foreground">
-                      {(t.project.form as any).browserArgsOptions?.customArgsDesc || 'Additional arguments (one per line)'}
-                    </p>
-                    <textarea
-                      className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[400px] font-mono"
-                      placeholder={t.project.form.browserArgsPlaceholder}
-                      value={editBrowserArgs}
-                      onChange={(e) => setEditBrowserArgs(e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-
-                  {/* Save Button */}
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      // Combine common args and custom args
-                      const args: string[] = [];
-                      if (browserArgOptions.startMaximized) args.push(COMMON_BROWSER_ARGS.startMaximized);
-                      if (browserArgOptions.disableAutomation) args.push(COMMON_BROWSER_ARGS.disableAutomation);
-                      if (browserArgOptions.disableInfobars) args.push(COMMON_BROWSER_ARGS.disableInfobars);
-                      // Add custom args
-                      const customArgs = editBrowserArgs
-                        .split('\n')
-                        .map((s) => s.trim())
-                        .filter((s) => s.length > 0);
-                      args.push(...customArgs);
-                      updateProject.mutate({
-                        id: projectId,
-                        data: { browser_args: args }
-                      });
-                    }}
-                  >
-                    <Save className="h-4 w-4 mr-1" />
-                    {t.common.save}
-                  </Button>
-                </div>
-
-                {/* Environments */}
-                <div className="space-y-2">
-                  <Label>{t.project.environments.title}</Label>
-                  {project.environments && project.environments.length > 0 ? (
-                    <div className="space-y-2">
-                      {project.environments.map((env, idx) => (
-                        <div key={idx} className="flex items-center justify-between gap-2 p-3 border rounded group">
-                          <div>
-                            <span className="font-medium">{env.name}</span>
-                            <span className="text-muted-foreground text-sm ml-2">{env.base_url}</span>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 opacity-0 group-hover:opacity-100 text-destructive hover:text-destructive"
-                            onClick={() => handleDeleteEnvironment(env.name)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">{t.project.environments.noEnvs}</p>
-                  )}
-                  <Button variant="outline" size="sm" onClick={() => setShowAddEnvModal(true)}>
-                    <Plus className="h-4 w-4 mr-1" />
-                    {t.project.environments.add}
-                  </Button>
-                </div>
-
-                {/* Resources */}
-                <div className="space-y-2">
-                  <Label>{(t as any).resource?.title || 'Resources'}</Label>
-                  <p className="text-sm text-muted-foreground">
-                    {(t as any).resource?.description || 'Upload files and images for use in test scenarios'}
-                  </p>
-                  {resources.length > 0 ? (
-                    <div className="space-y-2">
-                      {resources.map((res) => (
-                        <div key={res.id} className="flex items-center justify-between gap-2 p-3 border rounded group">
-                          <div className="flex items-center gap-2">
-                            <File className="h-4 w-4 text-muted-foreground" />
-                            <div>
-                              <span className="font-medium">{res.original_name}</span>
-                              <span className="text-muted-foreground text-sm ml-2">
-                                ({(res.size / 1024).toFixed(1)} KB)
-                              </span>
-                            </div>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 opacity-0 group-hover:opacity-100 text-destructive hover:text-destructive"
-                            onClick={() => handleDeleteResource(res.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      {(t as any).resource?.noResources || 'No resources uploaded'}
-                    </p>
-                  )}
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleUploadResource}
-                    className="hidden"
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isUploading}
-                  >
-                    <Upload className="h-4 w-4 mr-1" />
-                    {isUploading
-                      ? (t as any).resource?.uploading || 'Uploading...'
-                      : (t as any).resource?.upload || 'Upload File'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <SettingsPanel project={project} projectId={projectId} />
           </TabsContent>
         </div>
       </Tabs>
@@ -794,51 +444,6 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
             </Button>
             <Button onClick={handleCreateScenario} disabled={!newScenarioName.trim()}>
               {t.common.create}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Add Environment Dialog */}
-      <Dialog open={showAddEnvModal} onOpenChange={setShowAddEnvModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t.project.environments.add}</DialogTitle>
-            <DialogDescription>{t.project.settings.description}</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label>{t.project.environments.name} *</Label>
-              <Input
-                placeholder={t.project.environments.namePlaceholder}
-                value={newEnvName}
-                onChange={(e) => setNewEnvName(e.target.value)}
-                autoFocus
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>{t.project.environments.baseUrl} *</Label>
-              <Input
-                placeholder={t.project.environments.baseUrlPlaceholder}
-                value={newEnvBaseUrl}
-                onChange={(e) => setNewEnvBaseUrl(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>{t.common.description}</Label>
-              <Input
-                placeholder={t.project.form.descriptionPlaceholder}
-                value={newEnvDescription}
-                onChange={(e) => setNewEnvDescription(e.target.value)}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowAddEnvModal(false)}>
-              {t.common.cancel}
-            </Button>
-            <Button onClick={handleAddEnvironment} disabled={!newEnvName.trim() || !newEnvBaseUrl.trim()}>
-              {t.common.add}
             </Button>
           </DialogFooter>
         </DialogContent>
