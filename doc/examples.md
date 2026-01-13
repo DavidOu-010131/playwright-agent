@@ -259,3 +259,220 @@ A scenario using custom JavaScript for advanced interactions.
 3. **Use `optional` for dynamic content** - Handles varying app states
 4. **Set appropriate timeouts** - Adjust for slow operations
 5. **Take screenshots at key points** - Helps with debugging
+
+---
+
+## Authentication State Management
+
+### Basic: Save and Load Auth State
+
+Save authentication after login and reuse in other scenarios.
+
+#### Login Scenario (run once to create auth state)
+
+```json
+[
+  {
+    "action": "goto",
+    "url": "https://example.com/login"
+  },
+  {
+    "action": "fill",
+    "target": "login_page.username_input",
+    "value": "testuser@example.com"
+  },
+  {
+    "action": "fill",
+    "target": "login_page.password_input",
+    "value": "password123"
+  },
+  {
+    "action": "click",
+    "target": "login_page.login_button"
+  },
+  {
+    "action": "wait_for",
+    "target": "login_page.dashboard_header"
+  },
+  {
+    "action": "save_auth_state",
+    "state_name": "default"
+  }
+]
+```
+
+#### Test Scenario (reuse saved auth)
+
+```json
+[
+  {
+    "action": "load_auth_state",
+    "state_name": "default"
+  },
+  {
+    "action": "goto",
+    "url": "https://example.com/dashboard"
+  },
+  {
+    "action": "wait_for",
+    "target": "dashboard.user_menu"
+  }
+]
+```
+
+---
+
+### Advanced: Smart Auth with ensure_auth
+
+Use `ensure_auth` to automatically handle login only when needed.
+
+#### Prerequisites
+
+1. Create a "Login" scenario with your login steps (without save_auth_state)
+2. Note the scenario ID
+
+#### Main Test Scenario
+
+```json
+[
+  {
+    "name": "Ensure logged in",
+    "action": "ensure_auth",
+    "check_url": "/dashboard",
+    "login_scenario_id": "abc123-login-scenario-id",
+    "state_name": "okta_session",
+    "logged_in_selector": ".user-avatar",
+    "login_url_pattern": "/login"
+  },
+  {
+    "action": "click",
+    "target": "dashboard.settings_button"
+  },
+  {
+    "action": "assert_text",
+    "target": "settings.page_title",
+    "value": "Settings"
+  }
+]
+```
+
+**How it works:**
+
+1. First run: No saved state exists
+   - Navigates to `/dashboard`
+   - Gets redirected to `/login` (detected by URL pattern)
+   - Runs the login scenario
+   - Saves auth state as "okta_session"
+   - Returns to `/dashboard`
+
+2. Subsequent runs: Saved state exists
+   - Loads "okta_session" auth state
+   - Navigates to `/dashboard`
+   - Checks if `.user-avatar` is visible
+   - If visible → already logged in, continues
+   - If not visible → runs login again
+
+---
+
+### Multi-User Authentication
+
+Test with different user accounts by using different state names.
+
+```json
+[
+  {
+    "name": "Login as admin",
+    "action": "ensure_auth",
+    "check_url": "/admin/dashboard",
+    "login_scenario_id": "admin-login-scenario",
+    "state_name": "admin_user"
+  },
+  {
+    "action": "assert_text",
+    "target": "admin.role_badge",
+    "value": "Administrator"
+  }
+]
+```
+
+```json
+[
+  {
+    "name": "Login as regular user",
+    "action": "ensure_auth",
+    "check_url": "/dashboard",
+    "login_scenario_id": "user-login-scenario",
+    "state_name": "regular_user"
+  },
+  {
+    "action": "assert_text",
+    "target": "dashboard.role_badge",
+    "value": "User"
+  }
+]
+```
+
+---
+
+### SSO/Okta Authentication Pattern
+
+For enterprise SSO flows where login redirects to an external identity provider.
+
+#### Login Scenario for Okta
+
+```json
+[
+  {
+    "action": "goto",
+    "url": "https://myapp.example.com/login"
+  },
+  {
+    "name": "Wait for Okta redirect",
+    "action": "wait_for",
+    "target": "#okta-sign-in",
+    "timeout": 10000
+  },
+  {
+    "action": "fill",
+    "target": "#okta-signin-username",
+    "value": "user@company.com"
+  },
+  {
+    "action": "fill",
+    "target": "#okta-signin-password",
+    "value": "password123"
+  },
+  {
+    "action": "click",
+    "target": "#okta-signin-submit"
+  },
+  {
+    "name": "Wait for redirect back to app",
+    "action": "wait_for",
+    "target": ".app-dashboard",
+    "timeout": 30000
+  }
+]
+```
+
+#### Test Scenario Using SSO
+
+```json
+[
+  {
+    "name": "Ensure Okta SSO auth",
+    "action": "ensure_auth",
+    "check_url": "/dashboard",
+    "login_scenario_id": "okta-login-scenario-id",
+    "state_name": "okta_sso",
+    "logged_in_selector": ".app-dashboard",
+    "login_url_pattern": "okta.com"
+  },
+  {
+    "action": "click",
+    "target": "dashboard.reports_link"
+  }
+]
+```
+
+**Note:** The `login_url_pattern` is set to "okta.com" to detect when redirected to the Okta login page.

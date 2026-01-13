@@ -19,6 +19,7 @@ export interface Project {
   browser_channel?: string;
   browser_args?: string[];
   environments: Environment[];
+  logo?: string;
   created_at: string;
   updated_at: string;
 }
@@ -30,6 +31,7 @@ export interface ProjectCreate {
   browser_channel?: string;
   browser_args?: string[];
   environments?: Environment[];
+  logo?: string;
 }
 
 // UI Map types
@@ -112,6 +114,13 @@ export interface Step {
   scenario_id?: string;         // Scenario ID to run
   // File upload/paste actions
   file_path?: string;           // File path for upload_file/paste_image
+  // Auth state actions
+  state_name?: string;          // Auth state name for save_auth_state/load_auth_state/ensure_auth
+  // ensure_auth specific parameters
+  check_url?: string;           // URL to check if logged in
+  login_scenario_id?: string;   // Scenario ID for login
+  logged_in_selector?: string;  // Selector to verify logged in state
+  login_url_pattern?: string;   // URL pattern that indicates login page
 }
 
 export interface Scenario {
@@ -152,6 +161,17 @@ export const projectApi = {
 
   deleteEnvironment: (projectId: string, envName: string) =>
     api.delete<Project>(`/projects/${projectId}/environments/${envName}`).then((res) => res.data),
+
+  uploadLogo: (projectId: string, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post<Project>(`/projects/${projectId}/logo`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }).then((res) => res.data);
+  },
+
+  deleteLogo: (projectId: string) =>
+    api.delete<Project>(`/projects/${projectId}/logo`).then((res) => res.data),
 };
 
 // UI Map API

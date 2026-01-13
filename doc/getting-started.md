@@ -59,3 +59,17 @@ Scenarios are sequences of test steps. Each step has an action (click, type, etc
 
 ### Runner
 The Runner executes scenarios in real-time, showing progress, screenshots, and network requests.
+
+### Authentication State
+Auth State management allows you to save and reuse browser sessions, avoiding repeated logins:
+
+- **save_auth_state**: Save cookies and localStorage after login
+- **load_auth_state**: Restore a saved session before running tests
+- **ensure_auth**: Smart login that checks if already authenticated
+
+This is especially useful for:
+- SSO/Okta authentication flows
+- Long-running test suites that would otherwise require multiple logins
+- Testing with multiple user accounts
+
+See [Examples](examples.md#authentication-state-management) for detailed usage patterns.

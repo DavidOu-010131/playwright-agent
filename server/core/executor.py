@@ -93,6 +93,18 @@ def resolve_resource_path(file_path: str, project_id: Optional[str] = None) -> s
     return str(resolved_path)
 
 
+# Auth states directory
+AUTH_STATES_DIR = Path(__file__).parent.parent.parent / "data" / "auth_states"
+AUTH_STATES_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def get_auth_state_path(project_id: str, state_name: str) -> Path:
+    """Get the path for an auth state file."""
+    project_dir = AUTH_STATES_DIR / project_id
+    project_dir.mkdir(parents=True, exist_ok=True)
+    return project_dir / f"{state_name}.json"
+
+
 class ExecutionEngine:
     def __init__(
         self,
@@ -111,6 +123,8 @@ class ExecutionEngine:
         self._step_logs: list[str] = []  # Per-step logs
         self._variables: dict[str, str] = {}  # Variables extracted during execution
         self._scenario_loader: Optional[Callable[[str], Optional[dict]]] = None  # Callback to load scenarios
+        self._project_id: Optional[str] = None  # Current project ID for auth state storage
+        self._context = None  # Browser context reference for auth state operations
 
     def cancel(self):
         self._cancelled = True
@@ -391,6 +405,161 @@ class ExecutionEngine:
                 self._log(f"Waiting for {wait_ms}ms")
                 await asyncio.sleep(wait_ms / 1000)
                 used_selector = f"wait:{wait_ms}ms"
+            elif action == "save_auth_state":
+                # Save browser auth state (cookies, localStorage, sessionStorage)
+                state_name = step.get("state_name") or step_value or "default"
+                if not self._project_id:
+                    raise ValueError("project_id is required for save_auth_state")
+                if not self._context:
+                    raise ValueError("Browser context not available for save_auth_state")
+
+                state_path = get_auth_state_path(self._project_id, state_name)
+                storage_state = await self._context.storage_state()
+                with state_path.open("w", encoding="utf-8") as f:
+                    json.dump(storage_state, f, ensure_ascii=False, indent=2)
+
+                self._log(f"Auth state saved to: {state_path}")
+                used_selector = f"save_auth_state:{state_name}"
+            elif action == "load_auth_state":
+                # Load browser auth state (cookies, localStorage, sessionStorage)
+                state_name = step.get("state_name") or step_value or "default"
+                if not self._project_id:
+                    raise ValueError("project_id is required for load_auth_state")
+                if not self._context:
+                    raise ValueError("Browser context not available for load_auth_state")
+
+                state_path = get_auth_state_path(self._project_id, state_name)
+                if not state_path.exists():
+                    raise ValueError(f"Auth state not found: {state_name}. Please run save_auth_state first.")
+
+                with state_path.open("r", encoding="utf-8") as f:
+                    storage_state = json.load(f)
+
+                # Apply cookies
+                if storage_state.get("cookies"):
+                    await self._context.add_cookies(storage_state["cookies"])
+                    self._log(f"Loaded {len(storage_state['cookies'])} cookies")
+
+                # Apply localStorage and sessionStorage via JavaScript
+                for origin_state in storage_state.get("origins", []):
+                    origin = origin_state.get("origin", "")
+                    local_storage = origin_state.get("localStorage", [])
+
+                    if local_storage and page.url.startswith(origin):
+                        # If we're on the same origin, inject localStorage directly
+                        for item in local_storage:
+                            await page.evaluate(
+                                f"localStorage.setItem({json.dumps(item['name'])}, {json.dumps(item['value'])})"
+                            )
+                        self._log(f"Loaded {len(local_storage)} localStorage items for {origin}")
+
+                self._log(f"Auth state loaded from: {state_path}")
+                used_selector = f"load_auth_state:{state_name}"
+            elif action == "ensure_auth":
+                # Smart auth action: check if logged in, if not run login scenario
+                state_name = step.get("state_name") or "default"
+                check_url = step.get("check_url") or step.get("url") or ""
+                login_scenario_id = step.get("login_scenario_id") or step.get("scenario_id") or ""
+                logged_in_selector = step.get("logged_in_selector") or step.get("target") or ""
+                login_url_pattern = step.get("login_url_pattern") or "/login"
+
+                if not self._project_id:
+                    raise ValueError("project_id is required for ensure_auth")
+                if not self._context:
+                    raise ValueError("Browser context not available for ensure_auth")
+                if not check_url:
+                    raise ValueError("ensure_auth requires 'check_url' parameter")
+                if not login_scenario_id:
+                    raise ValueError("ensure_auth requires 'login_scenario_id' parameter")
+
+                self._log(f"Ensuring auth with state: {state_name}")
+
+                # Step 1: Try to load existing auth state
+                state_path = get_auth_state_path(self._project_id, state_name)
+                if state_path.exists():
+                    self._log(f"Found existing auth state: {state_name}")
+                    with state_path.open("r", encoding="utf-8") as f:
+                        storage_state = json.load(f)
+                    if storage_state.get("cookies"):
+                        await self._context.add_cookies(storage_state["cookies"])
+                        self._log(f"Loaded {len(storage_state['cookies'])} cookies")
+                else:
+                    self._log(f"No existing auth state found: {state_name}")
+
+                # Step 2: Navigate to check_url
+                target_url = resolve_local_url(check_url)
+                self._log(f"Navigating to check URL: {target_url}")
+                await page.goto(target_url, wait_until="load", timeout=step_timeout)
+
+                # Step 3: Check if logged in
+                is_logged_in = False
+                current_url = page.url
+
+                # Check 1: URL should not contain login pattern
+                if login_url_pattern and login_url_pattern not in current_url:
+                    self._log(f"URL check passed: {current_url} does not contain '{login_url_pattern}'")
+                    is_logged_in = True
+                else:
+                    self._log(f"URL check failed: {current_url} contains '{login_url_pattern}'")
+
+                # Check 2: If selector provided, verify element exists
+                if is_logged_in and logged_in_selector:
+                    try:
+                        selectors = self._resolve_selectors(logged_in_selector, ui_map, ui_maps_by_name)
+                        if not selectors:
+                            selectors = [logged_in_selector]
+                        for sel in selectors:
+                            try:
+                                await page.locator(sel).wait_for(state="visible", timeout=3000)
+                                self._log(f"Logged-in selector found: {sel}")
+                                is_logged_in = True
+                                break
+                            except Exception:
+                                continue
+                        else:
+                            self._log(f"Logged-in selector not found: {logged_in_selector}")
+                            is_logged_in = False
+                    except Exception as e:
+                        self._log(f"Error checking logged-in selector: {e}")
+                        is_logged_in = False
+
+                # Step 4: If not logged in, run login scenario
+                if not is_logged_in:
+                    self._log(f"Not logged in, running login scenario: {login_scenario_id}")
+
+                    if not self._scenario_loader:
+                        raise ValueError("Scenario loader not configured")
+
+                    scenario_data = self._scenario_loader(login_scenario_id)
+                    if not scenario_data:
+                        raise ValueError(f"Login scenario '{login_scenario_id}' not found")
+
+                    # Execute login scenario steps
+                    sub_steps = scenario_data.get("steps", [])
+                    for sub_idx, sub_step in enumerate(sub_steps):
+                        if self._cancelled:
+                            break
+                        sub_result = await self._run_step(
+                            page, sub_step, ui_map, ui_maps_by_name, artifact_dir,
+                            index * 100 + sub_idx, step_timeout
+                        )
+                        if sub_result.status == "failed" and not sub_step.get("optional"):
+                            if not sub_step.get("continue_on_error"):
+                                raise RuntimeError(f"Login scenario step failed: {sub_result.error}")
+
+                    # Step 5: Save new auth state
+                    self._log(f"Login completed, saving auth state: {state_name}")
+                    storage_state = await self._context.storage_state()
+                    with state_path.open("w", encoding="utf-8") as f:
+                        json.dump(storage_state, f, ensure_ascii=False, indent=2)
+
+                    # Navigate back to check_url after login
+                    self._log(f"Navigating back to: {target_url}")
+                    await page.goto(target_url, wait_until="load", timeout=step_timeout)
+                else:
+                    self._log(f"Already logged in, skipping login scenario")
+
+                used_selector = f"ensure_auth:{state_name}:{'skipped' if is_logged_in else 'logged_in'}"
             else:
                 target = step_target or step.get("target")
 
@@ -662,6 +831,10 @@ class ExecutionEngine:
                 browser = await p.chromium.launch(**launch_options)
                 context = await browser.new_context(**{k: v for k, v in context_options.items() if k != "headless"})
                 page = await context.new_page()
+
+            # Store context and project_id for auth state operations
+            self._context = context
+            self._project_id = project_id
 
             self._setup_network_monitoring(page)
 

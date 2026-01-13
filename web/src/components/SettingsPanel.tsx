@@ -10,11 +10,13 @@ import {
   Upload,
   File,
   FolderCog,
+  ImageIcon,
+  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useI18n } from '../i18n';
 import { useUpdateProject, useAddEnvironment, useDeleteEnvironment } from '../hooks/useProject';
-import { resourceApi } from '../api';
+import { resourceApi, projectApi } from '../api';
 import type { Project, Environment, Resource } from '../api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -81,6 +83,10 @@ export default function SettingsPanel({ project, projectId }: SettingsPanelProps
   const [resources, setResources] = useState<Resource[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Logo
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   // Load resources
   useEffect(() => {
@@ -207,6 +213,36 @@ export default function SettingsPanel({ project, projectId }: SettingsPanelProps
     }
   };
 
+  const handleUploadLogo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingLogo(true);
+    try {
+      await projectApi.uploadLogo(projectId, file);
+      toast.success((t as any).settings?.logoUploaded || 'Logo uploaded');
+      // Trigger project refetch by updating
+      updateProject.mutate({ id: projectId, data: {} });
+    } catch {
+      toast.error((t as any).settings?.logoUploadError || 'Logo upload failed');
+    } finally {
+      setIsUploadingLogo(false);
+      if (logoInputRef.current) logoInputRef.current.value = '';
+    }
+  };
+
+  const handleDeleteLogo = async () => {
+    if (!confirm(t.common.deleteConfirm)) return;
+    try {
+      await projectApi.deleteLogo(projectId);
+      toast.success((t as any).settings?.logoDeleted || 'Logo deleted');
+      // Trigger project refetch
+      updateProject.mutate({ id: projectId, data: {} });
+    } catch {
+      toast.error((t as any).settings?.logoDeleteError || 'Logo delete failed');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -232,6 +268,65 @@ export default function SettingsPanel({ project, projectId }: SettingsPanelProps
           </AccordionTrigger>
           <AccordionContent className="pb-4">
             <div className="space-y-4 pt-2">
+              {/* Project Logo */}
+              <div className="p-4 rounded-lg border bg-muted/30 space-y-3">
+                <div className="flex items-center gap-3">
+                  <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">{(t as any).settings?.projectLogo || 'Project Logo'}</p>
+                    <p className="text-xs text-muted-foreground">{(t as any).settings?.projectLogoDesc || 'Custom logo for this project'}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  {/* Logo Preview */}
+                  <div className="flex h-16 w-16 items-center justify-center rounded-lg border-2 border-dashed bg-background overflow-hidden">
+                    {project.logo ? (
+                      <img
+                        src={`http://localhost:8000${project.logo}`}
+                        alt="Project Logo"
+                        className="h-full w-full object-contain"
+                      />
+                    ) : (
+                      <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <input
+                      type="file"
+                      ref={logoInputRef}
+                      onChange={handleUploadLogo}
+                      accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp"
+                      className="hidden"
+                    />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => logoInputRef.current?.click()}
+                      disabled={isUploadingLogo}
+                    >
+                      <Upload className="h-3.5 w-3.5 mr-1" />
+                      {isUploadingLogo
+                        ? (t as any).settings?.uploading || 'Uploading...'
+                        : (t as any).settings?.uploadLogo || 'Upload Logo'}
+                    </Button>
+                    {project.logo && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-destructive hover:text-destructive"
+                        onClick={handleDeleteLogo}
+                      >
+                        <X className="h-3.5 w-3.5 mr-1" />
+                        {(t as any).settings?.removeLogo || 'Remove'}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {(t as any).settings?.logoFormats || 'Supports: PNG, JPG, SVG, WebP. Max size: 1MB'}
+                </p>
+              </div>
+
               {/* Default Timeout */}
               <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
                 <div className="flex items-center gap-3">

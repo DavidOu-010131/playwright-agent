@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, ChevronLeft, ChevronUp, ChevronDown, AlertCircle, SkipForward, Pencil, X, Upload } from 'lucide-react';
 import { useI18n } from '../i18n';
-import { useScenario, useUpdateScenario } from '../hooks/useScenario';
+import { useScenario, useScenarios, useUpdateScenario } from '../hooks/useScenario';
 import { useUIMaps } from '../hooks/useUIMap';
 import type { Step, Resource } from '../api';
 import { resourceApi } from '../api';
@@ -56,6 +56,9 @@ const ACTIONS = [
   { value: 'run_js', label: 'run_js', needsValue: true },
   { value: 'screenshot', label: 'screenshot' },
   { value: 'wait', label: 'wait', needsValue: true },
+  { value: 'save_auth_state', label: 'save_auth_state', needsStateName: true },
+  { value: 'load_auth_state', label: 'load_auth_state', needsStateName: true },
+  { value: 'ensure_auth', label: 'ensure_auth', needsEnsureAuth: true },
 ];
 
 interface ScenarioEditorProps {
@@ -68,6 +71,7 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const { t } = useI18n();
   const { data: scenario, isLoading } = useScenario(scenarioId);
   const { data: uiMaps } = useUIMaps(projectId);
+  const { data: scenarios } = useScenarios(projectId);
   const updateScenario = useUpdateScenario();
 
   const [showAddStep, setShowAddStep] = useState(false);
@@ -83,6 +87,12 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [newSaveAs, setNewSaveAs] = useState('');
   const [newScenarioId, setNewScenarioId] = useState('');
   const [newFilePath, setNewFilePath] = useState('');
+  const [newStateName, setNewStateName] = useState('');
+  // ensure_auth fields
+  const [newCheckUrl, setNewCheckUrl] = useState('');
+  const [newLoginScenarioId, setNewLoginScenarioId] = useState('');
+  const [newLoggedInSelector, setNewLoggedInSelector] = useState('');
+  const [newLoginUrlPattern, setNewLoginUrlPattern] = useState('');
 
   const [editingStep, setEditingStep] = useState<number | null>(null);
   const [editStepName, setEditStepName] = useState('');
@@ -97,6 +107,12 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
   const [editSaveAs, setEditSaveAs] = useState('');
   const [editScenarioId, setEditScenarioId] = useState('');
   const [editFilePath, setEditFilePath] = useState('');
+  const [editStateName, setEditStateName] = useState('');
+  // ensure_auth fields for edit
+  const [editCheckUrl, setEditCheckUrl] = useState('');
+  const [editLoginScenarioId, setEditLoginScenarioId] = useState('');
+  const [editLoggedInSelector, setEditLoggedInSelector] = useState('');
+  const [editLoginUrlPattern, setEditLoginUrlPattern] = useState('');
 
   // Scenario name and description editing (combined)
   const [isEditing, setIsEditing] = useState(false);
@@ -150,6 +166,14 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if ((actionConfig as any).needsSaveAs && newSaveAs) step.save_as = newSaveAs;
     if ((actionConfig as any).needsScenarioId && newScenarioId) step.scenario_id = newScenarioId;
     if ((actionConfig as any).needsFilePath && newFilePath) step.file_path = newFilePath;
+    if ((actionConfig as any).needsStateName && newStateName) step.state_name = newStateName;
+    if ((actionConfig as any).needsEnsureAuth) {
+      if (newStateName) step.state_name = newStateName;
+      if (newCheckUrl) step.check_url = newCheckUrl;
+      if (newLoginScenarioId) step.login_scenario_id = newLoginScenarioId;
+      if (newLoggedInSelector) step.logged_in_selector = newLoggedInSelector;
+      if (newLoginUrlPattern) step.login_url_pattern = newLoginUrlPattern;
+    }
     if (newContinueOnError) step.continue_on_error = true;
     if (newOptional) step.optional = true;
     if (newTimeout) step.timeout = parseInt(newTimeout, 10);
@@ -168,6 +192,11 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
           setNewSaveAs('');
           setNewScenarioId('');
           setNewFilePath('');
+          setNewStateName('');
+          setNewCheckUrl('');
+          setNewLoginScenarioId('');
+          setNewLoggedInSelector('');
+          setNewLoginUrlPattern('');
           setNewContinueOnError(false);
           setNewOptional(false);
           setNewTimeout('');
@@ -227,6 +256,11 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     setEditSaveAs(step.save_as || '');
     setEditScenarioId(step.scenario_id || '');
     setEditFilePath(step.file_path || '');
+    setEditStateName(step.state_name || '');
+    setEditCheckUrl(step.check_url || '');
+    setEditLoginScenarioId(step.login_scenario_id || '');
+    setEditLoggedInSelector(step.logged_in_selector || '');
+    setEditLoginUrlPattern(step.login_url_pattern || '');
     setEditContinueOnError(step.continue_on_error || false);
     setEditOptional(step.optional || false);
     setEditTimeout(step.timeout?.toString() || '');
@@ -246,6 +280,14 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
     if ((actionConfig as any).needsSaveAs && editSaveAs) step.save_as = editSaveAs;
     if ((actionConfig as any).needsScenarioId && editScenarioId) step.scenario_id = editScenarioId;
     if ((actionConfig as any).needsFilePath && editFilePath) step.file_path = editFilePath;
+    if ((actionConfig as any).needsStateName && editStateName) step.state_name = editStateName;
+    if ((actionConfig as any).needsEnsureAuth) {
+      if (editStateName) step.state_name = editStateName;
+      if (editCheckUrl) step.check_url = editCheckUrl;
+      if (editLoginScenarioId) step.login_scenario_id = editLoginScenarioId;
+      if (editLoggedInSelector) step.logged_in_selector = editLoggedInSelector;
+      if (editLoginUrlPattern) step.login_url_pattern = editLoginUrlPattern;
+    }
     if (editContinueOnError) step.continue_on_error = true;
     if (editOptional) step.optional = true;
     if (editTimeout) step.timeout = parseInt(editTimeout, 10);
@@ -457,6 +499,69 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                                 ))}
                               </SelectContent>
                             </Select>
+                          </div>
+                        )}
+                        {(getActionConfig(editAction) as any)?.needsStateName && (
+                          <div className="space-y-1">
+                            <Label className="text-xs">{(t as any).scenario?.stateName || 'State Name'}</Label>
+                            <Input
+                              placeholder={(t as any).scenario?.stateNamePlaceholder || 'default'}
+                              value={editStateName}
+                              onChange={(e) => setEditStateName(e.target.value)}
+                            />
+                          </div>
+                        )}
+                        {(getActionConfig(editAction) as any)?.needsEnsureAuth && (
+                          <div className="col-span-2 space-y-3 p-3 border rounded-lg bg-muted/30">
+                            <p className="text-sm font-medium">{(t as any).scenario?.ensureAuthTitle || 'Smart Auth Configuration'}</p>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="space-y-1">
+                                <Label className="text-xs">{(t as any).scenario?.checkUrl || 'Check URL'} *</Label>
+                                <Input
+                                  placeholder={(t as any).scenario?.checkUrlPlaceholder || '/dashboard'}
+                                  value={editCheckUrl}
+                                  onChange={(e) => setEditCheckUrl(e.target.value)}
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">{(t as any).scenario?.loginScenario || 'Login Scenario'} *</Label>
+                                <Select value={editLoginScenarioId || '__none__'} onValueChange={(v) => setEditLoginScenarioId(v === '__none__' ? '' : v)}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={(t as any).scenario?.selectLoginScenario || 'Select login scenario...'} />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="__none__">{(t as any).scenario?.noScenarioSelected || 'No scenario selected'}</SelectItem>
+                                    {scenarios?.filter(s => s.id !== scenarioId).map((s) => (
+                                      <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">{(t as any).scenario?.stateName || 'State Name'}</Label>
+                                <Input
+                                  placeholder={(t as any).scenario?.stateNamePlaceholder || 'default'}
+                                  value={editStateName}
+                                  onChange={(e) => setEditStateName(e.target.value)}
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">{(t as any).scenario?.loggedInSelector || 'Logged-in Selector'}</Label>
+                                <Input
+                                  placeholder={(t as any).scenario?.loggedInSelectorPlaceholder || '.user-menu, .avatar'}
+                                  value={editLoggedInSelector}
+                                  onChange={(e) => setEditLoggedInSelector(e.target.value)}
+                                />
+                              </div>
+                              <div className="col-span-2 space-y-1">
+                                <Label className="text-xs">{(t as any).scenario?.loginUrlPattern || 'Login URL Pattern'}</Label>
+                                <Input
+                                  placeholder="/login"
+                                  value={editLoginUrlPattern}
+                                  onChange={(e) => setEditLoginUrlPattern(e.target.value)}
+                                />
+                              </div>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -705,6 +810,79 @@ export default function ScenarioEditor({ scenarioId, projectId, onClose }: Scena
                     ? 'No resources uploaded. Go to Project Settings to upload files.'
                     : 'Select a file from project resources'}
                 </p>
+              </div>
+            )}
+            {(getActionConfig(newAction) as any)?.needsStateName && (
+              <div className="space-y-2">
+                <Label>{(t as any).scenario?.stateName || 'State Name'}</Label>
+                <Input
+                  placeholder={(t as any).scenario?.stateNamePlaceholder || 'default'}
+                  value={newStateName}
+                  onChange={(e) => setNewStateName(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {(t as any).scenario?.stateNameDesc || 'Name of the auth state to save/load. Leave empty for "default".'}
+                </p>
+              </div>
+            )}
+            {(getActionConfig(newAction) as any)?.needsEnsureAuth && (
+              <div className="space-y-3 p-3 border rounded-lg bg-muted/30">
+                <p className="text-sm font-medium">{(t as any).scenario?.ensureAuthTitle || 'Smart Auth Configuration'}</p>
+                <div className="space-y-2">
+                  <Label>{(t as any).scenario?.checkUrl || 'Check URL'} *</Label>
+                  <Input
+                    placeholder={(t as any).scenario?.checkUrlPlaceholder || '/dashboard'}
+                    value={newCheckUrl}
+                    onChange={(e) => setNewCheckUrl(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {(t as any).scenario?.checkUrlDesc || 'URL that requires login to access'}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label>{(t as any).scenario?.loginScenario || 'Login Scenario'} *</Label>
+                  <Select value={newLoginScenarioId || '__none__'} onValueChange={(v) => setNewLoginScenarioId(v === '__none__' ? '' : v)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={(t as any).scenario?.selectLoginScenario || 'Select login scenario...'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">{(t as any).scenario?.noScenarioSelected || 'No scenario selected'}</SelectItem>
+                      {scenarios?.filter(s => s.id !== scenarioId).map((s) => (
+                        <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>{(t as any).scenario?.stateName || 'State Name'}</Label>
+                  <Input
+                    placeholder={(t as any).scenario?.stateNamePlaceholder || 'default'}
+                    value={newStateName}
+                    onChange={(e) => setNewStateName(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>{(t as any).scenario?.loggedInSelector || 'Logged-in Selector'}</Label>
+                  <Input
+                    placeholder={(t as any).scenario?.loggedInSelectorPlaceholder || '.user-menu, .avatar'}
+                    value={newLoggedInSelector}
+                    onChange={(e) => setNewLoggedInSelector(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {(t as any).scenario?.loggedInSelectorDesc || 'Element visible only when logged in (optional)'}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label>{(t as any).scenario?.loginUrlPattern || 'Login URL Pattern'}</Label>
+                  <Input
+                    placeholder="/login"
+                    value={newLoginUrlPattern}
+                    onChange={(e) => setNewLoginUrlPattern(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {(t as any).scenario?.loginUrlPatternDesc || 'URL pattern indicating login page (default: /login)'}
+                  </p>
+                </div>
               </div>
             )}
             {/* Step Options */}

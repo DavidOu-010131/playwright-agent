@@ -35,7 +35,7 @@ class UIMapResponse(BaseModel):
 # Scenario schemas
 class Step(BaseModel):
     name: Optional[str] = Field(None, description="Step name for display purposes")
-    action: str = Field(..., description="Action type: goto, click, dblclick, type, fill, hover, focus, check, uncheck, select, press, scroll, wait_for, assert_text, run_js, screenshot, wait, extract, run_scenario, upload_file, paste_image")
+    action: str = Field(..., description="Action type: goto, click, dblclick, type, fill, hover, focus, check, uncheck, select, press, scroll, wait_for, assert_text, run_js, screenshot, wait, extract, run_scenario, upload_file, paste_image, save_auth_state, load_auth_state, ensure_auth")
     target: Optional[str] = Field(None, description="Element name from UI Map or CSS selector")
     url: Optional[str] = Field(None, description="URL for goto action")
     value: Optional[str] = Field(None, description="Value for type/fill/assert_text/run_js/select/press/wait actions")
@@ -45,6 +45,12 @@ class Step(BaseModel):
     save_as: Optional[str] = Field(None, description="Variable name to save extracted value (for extract action)")
     scenario_id: Optional[str] = Field(None, description="Scenario ID to run (for run_scenario action)")
     file_path: Optional[str] = Field(None, description="File path for upload_file/paste_image actions")
+    state_name: Optional[str] = Field(None, description="Auth state name for save_auth_state/load_auth_state/ensure_auth actions")
+    # ensure_auth specific parameters
+    check_url: Optional[str] = Field(None, description="URL to check if logged in (for ensure_auth)")
+    login_scenario_id: Optional[str] = Field(None, description="Scenario ID for login (for ensure_auth)")
+    logged_in_selector: Optional[str] = Field(None, description="Selector to verify logged in state (for ensure_auth)")
+    login_url_pattern: Optional[str] = Field(None, description="URL pattern that indicates login page (for ensure_auth, default: /login)")
 
 
 class ScenarioCreate(BaseModel):

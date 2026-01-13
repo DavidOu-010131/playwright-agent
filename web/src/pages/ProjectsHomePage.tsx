@@ -203,8 +203,16 @@ function ProjectCard({ project, onSelect, onDelete, t }: ProjectCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-              <FolderKanban className="h-5 w-5" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors overflow-hidden">
+              {project.logo ? (
+                <img
+                  src={`http://localhost:8000${project.logo}`}
+                  alt={project.name}
+                  className="h-full w-full object-contain"
+                />
+              ) : (
+                <FolderKanban className="h-5 w-5" />
+              )}
             </div>
             <div className="min-w-0">
               <CardTitle className="text-base truncate">{project.name}</CardTitle>
